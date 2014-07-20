@@ -6,10 +6,12 @@ def lua(args,nick,chan)
 			begin
 				returnval = @luastate.eval(args)
 				if returnval!=nil then
-					@bot.msg(chan,"> "+ returnval.inspect)
+					#@bot.msg(chan,"> "+ returnval.inspect)
+					return returnval.inspect
 				end
 			rescue => detail
-				@bot.msg(chan,detail.message())
+				#@bot.msg(chan,detail.message())
+				return detail.message
 			end
 		end
 		Process.detach(job_lua)

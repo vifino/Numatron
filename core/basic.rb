@@ -1,10 +1,11 @@
 # Core Commands here.
 # Made by vifino
-def say(args,nick,chan)
+def echo(args,nick,chan)
 	#@bot.msg(chan,"> "+args)
 	return args
 end
-@commands["say"] = "say"
+@commands["echo"] = "echo"
+@commands["say"] = "echo"
 def rb(args,nick,chan)
 	if (isPrivileged nick) and args != nil then
 		job_rb = fork do
