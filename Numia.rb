@@ -22,21 +22,23 @@ class IRC
 		initialised = false
 		until initialised
 			msg = @socket.gets
-			if msg.match(/^PING :(.*)$/)
-				@socket.puts "PONG #{$~[1]}"
-			end
-			if msg.include? ":End of /MOTD command."
-				puts "Initialized"
-				initialised=true
-				break
+			if msg then
+				if msg.match(/^PING :(.*)$/)
+					@socket.puts "PONG #{$~[1]}"
+				end
+				if msg.include? ":End of /MOTD command."
+					puts "Initialized"
+					initialised=true
+					break
+				end
 			end
 		end
 	end
 	def send(msg)
-		@socket.puts msg
+		@socket.puts msg+ "\r\n"
 	end
 	def msg(chan,msg)
-		send "PRIVMSG #{chan} :#{msg}"
+		send "PRIVMSG #{chan} :"+msg
 	end
 	def join(chan)
 			send "JOIN #{chan}"
@@ -57,7 +59,7 @@ class IRC
 	def msgtype(msg)
 		if match = msg.match(/^:(.*)!(.*)@(.*) PRIVMSG (.*) :(.*)/) then
 			#return "msg","#{$~[1]}","#{$~[4]}","#{$~[5]}"
-			return "msg", match[1], match[4], match[5]
+			return "msg", match[1], match[4], match[5].gsub("\:","\:")
 		else
 			return "other",msg
 		end
@@ -133,7 +135,7 @@ end
 def logic(raw)
 	type,nick,to,msg = @bot.msgtype(raw)
 	if type == "msg" then
-		puts "#{nick} -> #{to}: #{msg}"
+		puts "#{nick} -> #{to}: "+msg
 		if msg.match(/\?(.*)/) then
 			begin
 				commandParser "#{$~[1]}",nick,to
