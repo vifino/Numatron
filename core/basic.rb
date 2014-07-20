@@ -21,6 +21,8 @@ def rb(args,nick,chan)
 end
 @commands["rb"] = "rb"
 def raw(args,nick,chan)
-	return true if nick == "vifino"
+	if isPrivileged(nick) then
+		@bot.send(args)
+	end
 end
 @commands["raw"] = "raw"

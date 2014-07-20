@@ -26,7 +26,7 @@ end
 loadSettings
 runDir "core"
 def isPrivileged(nick)
-	return true if @admins.include? nick
+	return true if @admins.include? nick.downcase
 	return false
 end
 # spacer! \o/
