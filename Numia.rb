@@ -43,6 +43,12 @@ class IRC
 	def join(chan)
 			send "JOIN #{chan}"
 	end
+	def notice(chan,msg)
+		send "NOTICE #{chan} :#{msg}"
+	end
+	def mode(chan,nick,mode)
+		send "MODE #{chan} #{mode} #{nick}"
+	end
 	def receive
 		msg = @socket.gets
 		if msg.match(/^PING :(.*)$/)
@@ -64,6 +70,9 @@ class IRC
 			return "other",msg
 		end
 	end
+end
+def runDir(dir)
+	Dir["#{dir}/**/*.rb"].each{|s| load s }
 end
 def loadSettings(file = "settings.rb")
 	#file = APP_ROOT+file
@@ -159,6 +168,7 @@ def setup
 	loadSettings
 	@bot = IRC.new(@server,@port,@nick,@username,@realname,@password)
 	trap("INT"){ @bot.quit }
+	runDir "modules"
 	@channels.each { |chan| @bot.join(chan)}
 end
 setup
