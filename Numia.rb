@@ -57,7 +57,7 @@ class IRC
 		send "PASS :#{pass}"
 	end
 	def msgtype(msg)
-		if match = msg.match(/^:(.*)!(.*)@(.*) PRIVMSG (.*) :(.*)/) then
+		if match = msg.match(/^:(.*)!(.*)@(.*) PRIVMSG (.*?) :(.*)/) then
 			#return "msg","#{$~[1]}","#{$~[4]}","#{$~[5]}"
 			return "msg", match[1], match[4], match[5].gsub("\:","\:")
 		else
