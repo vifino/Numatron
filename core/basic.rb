@@ -8,19 +8,15 @@ end
 @commands["say"] = "echo"
 def rb(args,nick,chan)
 	if (isPrivileged nick) and args != nil then
-		job_rb = fork do
-			begin
-				returnval = eval args
-				if returnval!=nil then
-					#@bot.msg(chan,"=> "+ returnval.inspect)
-					return returnval
-				end
-			rescue Exception => detail
-				@bot.msg(chan,detail.message())
+		begin
+			returnval = eval args
+			if returnval!=nil then
+				#@bot.msg(chan,"=> "+ returnval.inspect)
+				return returnval
 			end
+		rescue Exception => detail
+			@bot.msg(chan,detail.message())
 		end
-		Process.detach(job_rb)
-		return nil
 	end
 end
 @commands["rb"] = "rb"
