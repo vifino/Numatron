@@ -30,27 +30,55 @@ def isPrivileged(nick)
 	return false
 end
 # spacer! \o/
-def commandParser(cmd,nick,chan)
-	func, args = cmd.split(' ', 2)
-	if @commands[func] then
-		job_parser = fork do
-			begin
-				ret=self.send(@commands[func],args,nick,chan)
-				if ret then
-					@bot.msg(chan,"> "+ret.to_s)
-				end
-			rescue => detail
-				@bot.msg(chan,detail.message())
+def commandRunner(cmd,nick,chan)
+	retFinal=""
+	retLast=""
+	rnd= ('a'..'z').to_a.shuffle[0,8].join
+	retLast=rnd
+	cmdarray = cmd.scan(/(?:[^|\\]|\\.)+/) or [cmd]
+	#func, args = cmd.lstrip().split(' ', 2)
+	cmdarray.each {|cmd|
+		puts cmd
+		func, args = cmd.lstrip().split(' ', 2)
+		p func
+		p args
+		if @commands[func] then
+			if retLast==rnd then
+				retLast = ""
+				retLast=self.send(@commands[func],args,nick,chan) or ""
+			else
+				retLast=self.send(@commands[func],(args or "")+retLast,nick,chan) or ""
 			end
+		else
+			retLast = "No such function: '#{func}'"
+			break
 		end
-		Process.detach(job_parser)
+		p retLast
+	}
+	#call func
+	#if @commands[func] then
+	#	retLast=self.send(@commands[func],args,nick,chan)
+		return retLast if not retLast==rnd
+	#end
+end
+def commandParser(cmd,nick,chan)
+	job_parser = fork do
+		begin
+			ret=commandRunner(cmd, nick, chan)
+			if ret then
+				@bot.msg(chan,"> "+ret.to_s)
+			end
+		rescue => detail
+			@bot.msg(chan,detail.message())
+		end
 	end
+	Process.detach(job_parser)
 end
 def logic(raw)
 	type,nick,to,msg = @bot.msgtype(raw)
 	if type == "msg" then
 		puts "#{nick} -> #{to}: "+msg
-		if msg.match(/\?(.*)/) then
+		if msg.match(/^\?(.*)/) then
 			begin
 				commandParser "#{$~[1]}",nick,to
 			rescue Exception => detail
