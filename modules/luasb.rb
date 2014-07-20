@@ -1,6 +1,6 @@
 # LuaSB
 # Made by Sorroko and vifino
-def luasb_reset
+def luasb_reset(args="",nick="",chan="")
 	@output = ""
 	@luasb = Rufus::Lua::State.new
 	@luasb.function 'print' do |string|
@@ -27,7 +27,8 @@ def luasb(args, nick, chan)
 		end
 					#$bot.irc.msg(chan, detail.message())
 		if returnval != nil or not @output.empty? then
-			if returnval != nil then
+			if returnval != nil and returnval!= "" then
+				p returnval
 				return returnval
 			end
 			if not @output.empty? then
