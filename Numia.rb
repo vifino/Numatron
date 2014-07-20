@@ -72,6 +72,7 @@ def loadSettings(file = "settings.rb")
 	@username = @settings["username"]
 	@realname = @settings["realname"]
 	@channels = @settings["channels"]
+	@admins = @settings["admins"]
 	begin
 		@password = @settings["password"]
 	rescue Exception => detail
@@ -80,10 +81,12 @@ def loadSettings(file = "settings.rb")
 end
 @commands = Hash.new()
 def isPrivileged(nick)
-	if nick == "vifino" then
-		return true
-	end
+	#if nick == "vifino" then
+	#	return true
+	#end
+	return true if @admins.include? nick
 	return false
+	#return false
 end
 # Commands here.
 def say(args,nick,chan)

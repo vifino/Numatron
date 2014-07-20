@@ -5,5 +5,6 @@
 	'username'=> 'MyBot',
 	'realname'=> 'MyBot',
 	'password'=> 'MyPass'
+	'admins'  => ["vifino"],
 	'channels'=> ["#Bots","#mybot"]
 }
