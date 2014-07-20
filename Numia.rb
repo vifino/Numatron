@@ -35,7 +35,7 @@ def commandParser(cmd,nick,chan)
 	if @commands[func] then
 		job_parser = fork do
 			begin
-				_,ret=self.send(@commands[func],args,nick,chan)
+				ret=self.send(@commands[func],args,nick,chan)
 				if ret then
 					@bot.msg(chan,"> "+ret.to_s)
 				end

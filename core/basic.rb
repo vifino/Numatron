@@ -1,7 +1,8 @@
 # Core Commands here.
 # Made by vifino
 def say(args,nick,chan)
-	@bot.msg(chan,"> "+args)
+	#@bot.msg(chan,"> "+args)
+	return args
 end
 @commands["say"] = "say"
 def rb(args,nick,chan)
@@ -17,6 +18,7 @@ def rb(args,nick,chan)
 			end
 		end
 		Process.detach(job_rb)
+		return nil
 	end
 end
 @commands["rb"] = "rb"
