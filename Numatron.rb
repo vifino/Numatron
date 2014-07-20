@@ -22,7 +22,7 @@ def loadSettings(file = "settings.rb")
 		@password = nil
 	end
 end
-@commands = Hash.new()
+$commands = Hash.new()
 loadSettings
 runDir "core"
 def isPrivileged(nick)
@@ -38,22 +38,31 @@ def commandRunner(cmd,nick,chan)
 	cmdarray = cmd.scan(/(?:[^|\\]|\\.)+/) or [cmd]
 	#func, args = cmd.lstrip().split(' ', 2)
 	cmdarray.each {|cmd|
-		puts cmd
 		func, args = cmd.lstrip().split(' ', 2)
-		p func
-		p args
-		if @commands[func] then
+		if $commands[func] then
 			if retLast==rnd then
 				retLast = ""
-				retLast=self.send(@commands[func],args,nick,chan) or ""
+				if $commands[func].is_a?(Method) then
+					retLast = $commands[func].call(args, nick, chan)
+					retLast = retLast or ""
+				else
+					retLast = self.send($commands[func], args, nick, chan)
+					retLast = retLast or ""
+				end
 			else
-				retLast=self.send(@commands[func],(args or "")+retLast,nick,chan) or ""
+				if $commands[func].is_a?(Method) then
+					retLast = $commands[func].call(args, (args or "")+retLast, chan)
+					retLast = retLast or ""
+				else
+					retLast = self.send($commands[func], (args or "")+retLast, nick, chan)
+					retLast = retLast or ""
+				end
+				#retLast=self.send(@commands[func],(args or "")+retLast,nick,chan) or ""
 			end
 		else
 			retLast = "No such function: '#{func}'"
 			break
 		end
-		p retLast
 	}
 	#call func
 	#if @commands[func] then

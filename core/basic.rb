@@ -4,8 +4,8 @@ def echo(args,nick,chan)
 	#@bot.msg(chan,"> "+args)
 	return args
 end
-@commands["echo"] = "echo"
-@commands["say"] = "echo"
+$commands["echo"] = "echo"
+$commands["say"] = "echo"
 def rb(args,nick,chan)
 	if (isPrivileged nick) and args != nil then
 		begin
@@ -19,10 +19,10 @@ def rb(args,nick,chan)
 		end
 	end
 end
-@commands["rb"] = "rb"
+$commands["rb"] = "rb"
 def raw(args,nick,chan)
 	if isPrivileged(nick) then
 		@bot.send(args)
 	end
 end
-@commands["raw"] = "raw"
+$commands["raw"] = "raw"

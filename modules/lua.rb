@@ -11,7 +11,7 @@ def lua(args,nick,chan)
 		rescue => detail
 			#@bot.msg(chan,detail.message())
 			return detail.message
-		end		
+		end
 	end
 end
-@commands["lua"] = :lua
+$commands["lua"] = "lua"

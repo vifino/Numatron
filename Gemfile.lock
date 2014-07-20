@@ -1,0 +1,12 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    ffi (1.9.3)
+    rufus-lua (1.1.1)
+      ffi (~> 1.9)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  rufus-lua (~> 1.1.1)
