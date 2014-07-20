@@ -40,4 +40,4 @@ def luasb(args, nick, chan)
 	end
 end
 $commands["luasb"] = "luasb"
-$commands["resetlua"] = "resetlua"
+$commands["resetlua"] = "luasb_reset"
