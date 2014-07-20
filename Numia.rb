@@ -86,7 +86,7 @@ def loadSettings(file = "settings.rb")
 	@admins = @settings["admins"]
 	begin
 		@password = @settings["password"]
-	rescue Exception => detail
+	rescue => detail
 		@password = nil
 	end
 end
@@ -134,7 +134,7 @@ def commandParser(cmd,nick,chan)
 				if ret then
 					@bot.msg(chan,"> "+ret.to_s)
 				end
-			rescue Exception => detail
+			rescue => detail
 				@bot.msg(chan,detail.message())
 			end
 		end
