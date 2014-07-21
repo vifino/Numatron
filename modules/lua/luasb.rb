@@ -28,7 +28,7 @@ def luasb(args, nick, chan)
 					#$bot.irc.msg(chan, detail.message())
 		if returnval != nil or not @output.empty? then
 			if returnval != nil and returnval!= "" then
-				if not returnval.class == "Array" then
+				if returnval.class == "Array" then
 					return "[table]"
 				end
 				return returnval

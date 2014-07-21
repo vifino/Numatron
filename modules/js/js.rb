@@ -9,7 +9,7 @@ def js(args,nick,chan) # Considered safe? I hope so.
 			js = V8::Context.new timeout: 700
 			returnval = js.eval(args)
 			if returnval!=nil then
-				if not returnval.class == "Array" then
+				if returnval.class == "Array" then
 					return "[object Object]"
 				end
 				return returnval.inspect
