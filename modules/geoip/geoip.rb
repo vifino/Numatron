@@ -18,9 +18,9 @@ def geoip_country(args,nick,channel)
 		#addr=args
 		begin
 			res = @geoipdb.country(addr)
-			return "Country: "+res.country_name+", '"+res.country_code3+"'"
+			return "Country: "+(res.country_name or "Unknown")+", '"+(res.country_code3 or "Unknown")+"'"
 		rescue => exception
-			return "Invalid URL or URL not found!"
+			return "Invalid URL or URL not found in Database!"
 		end
 	end
 end
@@ -29,9 +29,15 @@ def geoip_city(args,nick,channel)
 		addr = (args+" ").split(" ")[0]
 		begin
 			res = @geocitydb.city(addr)
-			return ""+res.city_name+", "+res.country_name
+			p res.city_name
+			if not res.city_name =="" then
+				city = res.city_name
+			else
+				city = "Unknown"
+			end
+			return city+", "+(res.country_name or "Unknown")
 		rescue => exception
-			return "Invalid URL or URL not found!"
+			return "Invalid URL or URL not found in Database!"
 		end
 	end
 end
