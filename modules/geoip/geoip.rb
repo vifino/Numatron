@@ -10,7 +10,7 @@ else
 	@geocitydb = GeoIP.new(geocitydb)
 	$commands["geoip_country"] = :geoip_country
 	$commands["geoip_city"] = :geoip_city
-	$commands["geoip"] = :geoip_country
+	$commands["geoip"] = :geoip_city
 end
 def geoip_country(args,nick,channel)
 	if args then
@@ -27,11 +27,8 @@ end
 def geoip_city(args,nick,channel)
 	if args then
 		addr = (args+" ").split(" ")[0]
-		puts addr
-		#addr=args
 		begin
 			res = @geocitydb.city(addr)
-			p res
 			return ""+res.city_name+", "+res.country_name
 		rescue => exception
 			return "Invalid URL or URL not found!"
