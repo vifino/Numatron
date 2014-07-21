@@ -4,7 +4,7 @@ def luasb_reset(args="",nick="",chan="")
 	@output = ""
 	@luasb = Rufus::Lua::State.new
 	@luasb.function 'print' do |string|
-		@output << string
+		@output << string.to_s
 	end
 	@luasb.eval(
 		"(function() local e = error;" +
@@ -28,7 +28,9 @@ def luasb(args, nick, chan)
 					#$bot.irc.msg(chan, detail.message())
 		if returnval != nil or not @output.empty? then
 			if returnval != nil and returnval!= "" then
-				p returnval
+				if not returnval.class == "Array" then
+					return "[table]"
+				end
 				return returnval
 			end
 			if not @output.empty? then

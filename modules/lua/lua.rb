@@ -6,6 +6,9 @@ def lua(args,nick,chan)
 			returnval = @luastate.eval(args)
 			if returnval!=nil then
 				#@bot.msg(chan,"> "+ returnval.inspect)
+				if not returnval.class == "Array" then
+					return "[table]"
+				end
 				return returnval.inspect
 			end
 		rescue => detail

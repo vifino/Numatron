@@ -80,6 +80,7 @@ def commandParser(cmd,nick,chan)
 		rescue => detail
 			@bot.msg(chan,detail.message())
 		end
+		exit
 	end
 	Process.detach(job_parser)
 end
