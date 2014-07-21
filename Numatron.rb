@@ -25,7 +25,7 @@ end
 $commands = Hash.new()
 loadSettings
 runDir "core"
-def isPrivileged(nick)
+def isPrivileged? nick
 	return true if @admins.include? nick.downcase
 	return false
 end
@@ -86,6 +86,7 @@ end
 def logic(raw)
 	type,nick,to,msg = @bot.msgtype(raw)
 	if type == "msg" then
+		if to==@bot.nick then to=nick end
 		puts "#{nick} -> #{to}: "+msg
 		if msg.match(/^\?(.*)/) then
 			begin

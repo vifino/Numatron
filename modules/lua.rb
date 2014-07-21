@@ -1,7 +1,7 @@
 require 'rufus-lua'
 @luastate = Rufus::Lua::State.new
 def lua(args,nick,chan)
-	if (isPrivileged nick) and args != nil then
+	if isPrivileged? nick and args != nil then
 		begin
 			returnval = @luastate.eval(args)
 			if returnval!=nil then

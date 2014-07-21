@@ -41,6 +41,9 @@ class IRC
 	def join(chan)
 			send "JOIN #{chan}"
 	end
+	def part(chan)
+			send "PART #{chan}"
+	end
 	def notice(chan,msg)
 		send "NOTICE #{chan} :#{msg}"
 	end
