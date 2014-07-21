@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     ffi (1.9.3)
+    geoip (1.4.0)
     libv8 (3.16.14.3)
     ref (1.0.5)
     rufus-lua (1.1.1)
@@ -9,10 +10,13 @@ GEM
     therubyracer (0.12.1)
       libv8 (~> 3.16.14.0)
       ref
+    whatlanguage (1.0.5)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  geoip
   rufus-lua (~> 1.1.1)
   therubyracer
+  whatlanguage
