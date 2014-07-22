@@ -38,7 +38,13 @@ class IRC
 		@socket.puts msg+ "\r\n"
 	end
 	def msg(chan,msg)
-		send "PRIVMSG #{chan} :"+msg
+		msg=msg.gsub("\r\n","\n")
+		msg=msg.gsub("\r","\n")
+		a=msg.split("\n")
+		a.each {|m|
+			length = 512-("PRIVMSG #{chan} :").length
+			send "PRIVMSG #{chan} :"+m
+		}
 	end
 	def join(chan)
 			send "JOIN #{chan}"

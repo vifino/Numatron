@@ -39,6 +39,7 @@ def commandRunner(cmd,nick,chan)
 	#func, args = cmd.lstrip().split(' ', 2)
 	cmdarray.each {|cmd|
 		func, args = cmd.lstrip().split(' ', 2)
+		func=func.downcase()
 		if $commands[func] then
 			if retLast==rnd then
 				retLast = ""
@@ -75,7 +76,11 @@ def commandParser(cmd,nick,chan)
 		begin
 			ret=commandRunner(cmd, nick, chan)
 			if ret then
-				@bot.msg(chan,"> "+ret.to_s)
+				if ret.length > 200 then
+					@bot.msg(chan,"> Output: "+putHB(ret.to_s))
+				else
+					@bot.msg(chan,"> "+ret.to_s)
+				end
 			end
 		rescue => detail
 			@bot.msg(chan,detail.message())
