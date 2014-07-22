@@ -21,7 +21,7 @@ def putHB(code)
 	end
 end
 def getHB(id)
-	if id.empty? then
+	if not id.empty? then
 		if id.is_valid_url? then
 			url = id
 		else
