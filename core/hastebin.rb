@@ -2,8 +2,8 @@
 # Made by vifino
 require "net/http"
 require 'json'
-def putHB(code)
-	if code then
+def putHB(code="")
+	if not code.empty? then
 		uri = URI.parse("http://hastebin.com/documents")
 		http = Net::HTTP.new(uri.host, uri.port)
 		request = Net::HTTP::Post.new(uri.request_uri)
@@ -20,7 +20,7 @@ def putHB(code)
 		return "No content given."
 	end
 end
-def getHB(id)
+def getHB(id="")
 	if not id.empty? then
 		if id.is_valid_url? then
 			url = id
