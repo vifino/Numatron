@@ -2,7 +2,6 @@
 # Made by vifino
 require "net/http"
 require 'json'
-require 'faraday'
 def putHB(code)
 	if code then
 		uri = URI.parse("http://hastebin.com/documents")
