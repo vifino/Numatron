@@ -2,7 +2,7 @@
 # Made by vifino
 require 'v8'
 #@jsstate = V8::Context.new
-def js(args,nick,chan) # Considered safe? I hope so.
+def js(args,nick,chan,rawargs="",pipeargs="") # Considered safe? I hope so.
 	#if isPrivileged? nick and args != nil then
 		begin
 			#returnval = @jsstate.eval(args)
@@ -19,4 +19,4 @@ def js(args,nick,chan) # Considered safe? I hope so.
 		end
 	#end
 end
-$commands["js"] = "js"
+$commands["js"] = :js

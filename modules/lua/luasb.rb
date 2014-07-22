@@ -1,6 +1,6 @@
 # LuaSB
 # Made by Sorroko and vifino
-def luasb_reset(args="",nick="",chan="")
+def luasb_reset(args="",nick="",chan="",rawargs="",pipeargs="")
 	@output = ""
 	@luasb = Rufus::Lua::State.new
 	@luasb.function 'print' do |string|
@@ -14,7 +14,7 @@ def luasb_reset(args="",nick="",chan="")
 	@luasb[:to_ruby] = false
 end
 luasb_reset
-def luasb(args, nick, chan)
+def luasb(args, nick, chan,rawargs="",pipeargs="")
 	if args != nil then
 		begin
 			returnval = @luastate.eval(args)
@@ -42,5 +42,5 @@ def luasb(args, nick, chan)
 		@output = ""
 	end
 end
-$commands["luasb"] = "luasb"
-$commands["resetlua"] = "luasb_reset"
+$commands["luasb"] = :luasb
+$commands["resetlua"] = :luasb_reset

@@ -1,6 +1,8 @@
+# Admin Lua
+# Made by vifino
 require 'rufus-lua'
 @luastate = Rufus::Lua::State.new
-def lua(args,nick,chan)
+def lua(args,nick,chan,rawargs="",pipeargs="")
 	if isPrivileged? nick and args != nil then
 		begin
 			returnval = @luastate.eval(args)
@@ -17,4 +19,4 @@ def lua(args,nick,chan)
 		end
 	end
 end
-$commands["lua"] = "lua"
+$commands["lua"] = :lua

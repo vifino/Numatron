@@ -12,7 +12,7 @@ else
 	$commands["geoip_city"] = :geoip_city
 	$commands["geoip"] = :geoip_city
 end
-def geoip_country(args,nick,channel)
+def geoip_country(args,nick,channel,rawargs="",pipeargs="")
 	if args then
 		addr = (args+" ").split(" ")[0]
 		#addr=args
@@ -24,7 +24,7 @@ def geoip_country(args,nick,channel)
 		end
 	end
 end
-def geoip_city(args,nick,channel)
+def geoip_city(args,nick,channel,rawargs="",pipeargs="")
 	if args then
 		addr = (args+" ").split(" ")[0]
 		begin

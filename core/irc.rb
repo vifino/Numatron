@@ -6,11 +6,13 @@ class IRC
 	attr_reader :username
 	attr_reader :realname
 	attr_reader :socket
+	attr_reader :lastline
 	def initialize(server, port, nick,user=nick,realname = nick,pass = nil)
 		@nick = nick
 		@username = user
 		@realname = realname
 		@socket = TCPSocket.open(server, port)
+		@lastline = nil
 		send "NICK #{@nick}"
 		send "USER #{@nick} ~ ~ :#{@realname}"
 		if pass then
@@ -55,6 +57,7 @@ class IRC
 		if msg.match(/^PING :(.*)$/)
 			send "PONG #{$~[1]}"
 		end
+		@lastline = msg.delete("\r\n")
 		return msg.delete("\r\n")
 	end
 	def quit
