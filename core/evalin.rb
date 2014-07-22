@@ -22,9 +22,13 @@ class EvalIn
         body = Nokogiri(Net::HTTP.get(location))
         if output_title = body.at_xpath("*//h2[text()='Program Output']")
           output = output_title.next_element.text
-          first_line = output.each_line.first.chomp
-          needs_ellipsis = output.each_line.count > 1 || first_line.length > MaxLength
-          out = "#{first_line[0, MaxLength]}#{'...' if needs_ellipsis} (#{location})"
+					begin
+          	first_line = output.each_line.first.chomp
+          	needs_ellipsis = output.each_line.count > 1 || first_line.length > MaxLength
+          	out = "#{first_line[0, MaxLength]}#{'...' if needs_ellipsis} (#{location})"
+					rescue => e # no output
+						out = "No output (#{location})"
+					end
 					#if out.match("^\/tmp\/(.*):(\d*):in") then
 					#	return out.gsub("^\/tmp\/(.*):(\d*):","")
 					#else

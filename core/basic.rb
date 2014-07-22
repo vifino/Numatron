@@ -18,7 +18,7 @@ def rb(args,nick,chan,rawargs="",pipeargs="")
 		end
 	end
 end
-$commands["rb"] = :rb
+$commands[">>"] = :rb
 def cmd_append(args,nick,chan,rawargs="",pipeargs="")
 	return (pipeargs or "")+(rawargs or "")
 end
