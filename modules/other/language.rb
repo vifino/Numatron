@@ -5,4 +5,5 @@ require 'whatlanguage'
 def lang(args,nick,channel,rawargs="",pipeargs="")
 	return @wl.language(args)
 end
-$commands["lang"] = :lang
+# $commands["lang"] = :lang
+# Disabled because of trolls.
