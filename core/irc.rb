@@ -13,6 +13,7 @@ class IRC
 		@realname = realname
 		@socket = TCPSocket.open(server, port)
 		@lastline = nil
+		@hookRaw = Array.new
 		send "NICK #{@nick}"
 		send "USER #{@nick} ~ ~ :#{@realname}"
 		if pass then
@@ -76,6 +77,8 @@ class IRC
 		if match = msg.match(/^:(.*)!(.*)@(.*) PRIVMSG (.*?) :(.*)/) then
 			#return "msg","#{$~[1]}","#{$~[4]}","#{$~[5]}"
 			return "msg", match[1], match[4], match[5].gsub("\:","\:")
+		elsif match = msg.match(/^:(.*)!(.*)@(.*) NOTICE (.*?) :(.*)/) then
+			return "notice", match[1], match[4], match[5]
 		else
 			return "other",msg
 		end

@@ -25,10 +25,6 @@ end
 $commands = Hash.new()
 loadSettings
 runDir "core"
-def isPrivileged? nick
-	return true if @admins.include? nick.downcase
-	return false
-end
 # spacer! \o/
 def commandRunner(cmd,nick,chan)
 	retFinal=""
@@ -101,6 +97,8 @@ def logic(raw)
 				@bot.msg(to,detail.message())
 			end
 		end
+	else
+		puts raw
 	end
 end
 def run
