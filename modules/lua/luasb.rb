@@ -42,5 +42,5 @@ def luasb(args, nick, chan,rawargs="",pipeargs="")
 		@output = ""
 	end
 end
-$commands["luasb"] = :luasb
-$commands["resetlua"] = :luasb_reset
+#$commands["luasb"] = :luasb
+#$commands["resetlua"] = :luasb_reset
