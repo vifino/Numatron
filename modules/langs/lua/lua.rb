@@ -19,4 +19,4 @@ def lua(args,nick,chan,rawargs="",pipeargs="")
 		end
 	end
 end
-$commands["lua"] = :lua
+$commands["alua"] = :lua

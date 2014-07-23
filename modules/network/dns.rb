@@ -17,7 +17,7 @@ def rdns(args="",nick="",chan="",rawargs="",pipeargs="")
 	rs = Dnsruby::DNS.new
 	begin
 		res = rs.getnames addr
-		return "No results!" if res.empty?
+		return "No results!" if (res.empty? or res==nil)
 		return (res.map {|r| r.to_s }).join(", ")
 	rescue => e
 		return e.to_s

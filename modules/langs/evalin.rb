@@ -23,3 +23,12 @@ def evalin_php(args,nick,channel,rawargs="",pipeargs="") # php
 end
 $commands["evalphp"] = :evalin_php
 $commands["php"] = :evalin_php
+def evalin_lua52(args,nick,channel,rawargs="",pipeargs="") # php
+	@evalin.eval("lua/lua-5.2.3",args)
+end
+$commands["lua52"] = :evalin_lua52
+def evalin_lua51(args,nick,channel,rawargs="",pipeargs="") # php
+	@evalin.eval("lua/lua-5.1.5",args)
+end
+$commands["lua"] = :evalin_lua51
+$commands["lua51"] = :evalin_lua51
