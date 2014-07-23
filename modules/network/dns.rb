@@ -1,7 +1,7 @@
 # Perform DNS lookups
 # Made by vifino
 require "dnsruby"
-def dns(args,nick="",chan="",rawargs="",pipeargs="")
+def dns(args="",nick="",chan="",rawargs="",pipeargs="")
 	addr = args.split.first
 	rs = Dnsruby::DNS.new
 	begin
@@ -12,7 +12,7 @@ def dns(args,nick="",chan="",rawargs="",pipeargs="")
 		return e.to_s
 	end
 end
-def rdns(args,nick="",chan="",rawargs="",pipeargs="")
+def rdns(args="",nick="",chan="",rawargs="",pipeargs="")
 	addr = args.split.first
 	rs = Dnsruby::DNS.new
 	begin
