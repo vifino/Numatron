@@ -92,7 +92,7 @@ def logic(raw)
 	if type == "msg" then
 		if to==@bot.nick then to=nick end
 		puts "#{nick} -> #{to}: "+msg
-		if msg.match(/^\#{@prefix}(.*)/) then
+		if msg.match(/^\#{(@prefix or "?")}(.*)/) then
 			begin
 				commandParser "#{$~[1]}",nick,to
 			rescue Exception => detail
