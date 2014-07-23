@@ -2,7 +2,7 @@
 # Made by vifino
 require "dnsruby"
 def dns(args,nick="",chan="",rawargs="",pipeargs="")
-	arr = args.first.split
+	arr = args.split.first
 	rs = Dnsruby::DNS.new
 	begin
 		res = rs.getresources(addr, "ANY")
@@ -13,7 +13,7 @@ def dns(args,nick="",chan="",rawargs="",pipeargs="")
 	end
 end
 def rdns(args,nick="",chan="",rawargs="",pipeargs="")
-	arr = args.first.split
+	arr = args.split.first
 	rs = Dnsruby::DNS.new
 	begin
 		res = rs.getnames addr.first
