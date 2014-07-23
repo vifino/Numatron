@@ -34,6 +34,7 @@ def commandRunner(cmd,nick,chan)
 	cmdarray = cmd.scan(/(?:[^|\\]|\\.)+/) or [cmd]
 	#func, args = cmd.lstrip().split(' ', 2)
 	cmdarray.each {|cmd|
+		cmd = cmd.gsub("\\|","|")
 		func, args = cmd.lstrip().split(' ', 2)
 		func=func.downcase()
 		if $commands[func] then
