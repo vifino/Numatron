@@ -18,6 +18,7 @@ gunzip GeoLiteCity.dat.gz
 cd ../..
 echo "Done downloading."
 echo "Making Named Pipes..."
+mkdir pipes
 cd pipes
 mkfifo raw
 cd ..
