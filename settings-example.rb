@@ -7,5 +7,6 @@
 	'password'=> 'MyPass',			 # Password
 	'admins'  => ["vifino"],		 # The admins that have complete control, use with caution, lowercase
 	'channels'=> ["#mybot"],		 # Channels to join
+	'notFoundmsg' => false,			 # Wether to say that a command doesnt exist, or nit 
 	'prefix' => "#"							 # Prefix for the commands, can be long, and is regex
 }

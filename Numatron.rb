@@ -17,6 +17,7 @@ def loadSettings(file = "settings.rb")
 	@channels = @settings["channels"]
 	@admins = @settings["admins"]
 	@prefix = @settings["prefix"] or "#"
+	@cmdnotfound = @settings["notFoundmsg"]
 	begin
 		@password = @settings["password"]
 	rescue => detail
@@ -59,7 +60,9 @@ def commandRunner(cmd,nick,chan)
 				#retLast=self.send(@commands[func],(args or "")+retLast,nick,chan) or ""
 			end
 		else
-			retLast = "No such function: '#{func}'"
+			if @cmdnotfound then
+				retLast = "No such function: '#{func}'"
+			end
 			break
 		end
 	}
