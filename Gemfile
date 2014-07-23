@@ -7,3 +7,4 @@ gem 'whatlanguage' # For other/language.rb
 gem 'geoip' # For geoIP
 gem 'nokogiri' # For eval.in
 gem 'json' # For multiple things
+gem 'dnsruby' # for dns.rb
