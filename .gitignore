@@ -2,3 +2,4 @@ settings.rb
 bundle*
 *.dat
 *.lock
+pipes/*

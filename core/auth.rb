@@ -5,20 +5,26 @@ def isPrivileged? nick
 	return false
 end
 def getNSAcc(nick) # do not use
+	if not @fifoNS then
+		@fifoNS = Fifo.new
+		@fifoNS.openMode("pipes/raw","r")
+		#@fifoNS.flush
+	end
 	runcount = 0
 	account = nil
-	if nick and @bot.lastline then
+	if nick then
 		gotInfo = false
 		@bot.msg("NickServ","info "+nick)
 		until gotInfo do
+			#sleep 0.5
 			runcount += 1
-			if runcount > 100000 then break; return nil; end
-			type,from,to,msg = @bot.msgtype(@bot.receive())
+			if runcount > 20 then break; return "Not found anything."; end
+			type,from,to,msg = @bot.msgtype(@fifoNS.gets)
 			#type,from,to,msg = @bot.msgtype @bot.lastline
 			if type=="notice" and from == "NickServ" then
 				ret = msg.match(/\(account (.*?)\)/)
 				if ret = msg.match(/\(account (.*?)\)/) then
-					return ret
+					return ret #((ret.gsub(/\(account /," ") or ret).gsub(/\)/) or ret)
 					break
 				end
 			end

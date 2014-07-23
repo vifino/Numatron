@@ -15,6 +15,12 @@ wget -N http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.
 gunzip GeoIP.dat.gz
 wget -N http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz
 gunzip GeoLiteCity.dat.gz
+cd ../..
+echo "Done downloading."
+echo "Making Named Pipes..."
+cd pipes
+mkfifo raw
+cd ..
 # End
 echo "Done! You should be good to go now!"
 echo "Remember: Tweak the settings in settings.lua to fit your needs!"

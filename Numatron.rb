@@ -105,13 +105,21 @@ def run
 	until @bot.socket.eof? do
 		raw = @bot.receive
 		if raw then
+			@fiforaw.puts raw
 			logic raw
+			@fiforaw.flush
 		end
 	end
 end
 def setup
 	#@bot.join("#ocbots")
 	#@bot.join("#tkbots")
+	@fiforawRead = Fifo.new
+	@fiforawRead.openRead("pipes/raw")
+	@fiforaw = Fifo.new
+	@fiforaw.openWrite("pipes/raw")
+	@fiforaw.flush
+	#@fiforaw = open("pipes/raw","w+")
 	@bot = IRC.new(@server,@port,@nick,@username,@realname,@password)
 	trap("INT"){ @bot.quit }
 	runDir "modules"

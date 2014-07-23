@@ -36,7 +36,9 @@ class IRC
 		end
 	end
 	def send(msg)
-		@socket.puts msg+ "\r\n"
+		if msg then
+			@socket.puts(msg+ "\r\n")
+		end
 	end
 	def msg(chan,msg)
 		msg=msg.gsub("\r\n","\n")

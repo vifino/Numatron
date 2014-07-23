@@ -14,7 +14,7 @@ def rb(args,nick,chan,rawargs="",pipeargs="")
 				return returnval
 			end
 		rescue Exception => detail
-			@bot.msg(chan,detail.message())
+			#@bot.msg(chan,detail.message())
 		end
 	end
 end
