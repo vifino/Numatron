@@ -6,7 +6,7 @@ def dns(args,nick="",chan="",rawargs="",pipeargs="")
 	rs = Dnsruby::DNS.new
 	begin
 		res = rs.getresources(addr, "ANY")
-		return "No results!" if results.empty?
+		return "No results!" if res.empty?
 		return (res.map {|r| r.rdata_to_string.gsub(/[[:cntrl:]]/, '') }).join(", ")
 	rescue => e
 		return e.to_s
@@ -17,8 +17,8 @@ def rdns(args,nick="",chan="",rawargs="",pipeargs="")
 	rs = Dnsruby::DNS.new
 	begin
 		res = rs.getnames addr.first
-		return "No results!" if results.empty?
-		return (results.map {|r| r.to_s }).join(", ")
+		return "No results!" if res.empty?
+		return (res.map {|r| r.to_s }).join(", ")
 	rescue => e
 		return e.to_s
 	end
