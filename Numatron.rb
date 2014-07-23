@@ -16,6 +16,7 @@ def loadSettings(file = "settings.rb")
 	@realname = @settings["realname"]
 	@channels = @settings["channels"]
 	@admins = @settings["admins"]
+	@prefix = @settings["prefix"] or "#"
 	begin
 		@password = @settings["password"]
 	rescue => detail
@@ -91,7 +92,7 @@ def logic(raw)
 	if type == "msg" then
 		if to==@bot.nick then to=nick end
 		puts "#{nick} -> #{to}: "+msg
-		if msg.match(/^\?(.*)/) then
+		if msg.match("^\"+@prefix+"(.*)") then
 			begin
 				commandParser "#{$~[1]}",nick,to
 			rescue Exception => detail
