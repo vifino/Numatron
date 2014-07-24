@@ -20,15 +20,22 @@ def putHB(code="")
 		return "No content given."
 	end
 end
-def getHB(id="")
+
+def getWeb(id="")
 	if not id.empty? then
-		if id.is_valid_url? then
-			url = id
-		else
-			if id.length == 10 then
+		url2 = "http://"+(id.gsub(/http:\/\//,""))
+		puts url2
+		if url2.is_valid_url? then
+			url = url2
+		elsif id.length == 10 then
+			url2 = "http://"+(id.delete("http://"))
+			if url2.is_valid_url? then
+				url = url2
+			else
 				url = "http://hastebin.com/raw/"+id
-				return "URL or Hastebin ID is wrong."
 			end
+		else
+			return "Hastebin ID is wrong."
 		end
 		uri = URI.parse(url)
 		#Net::HTTP.get_print(uri)
@@ -37,7 +44,38 @@ def getHB(id="")
 		begin
 			if dat=JSON.parse(response.body) then
 				if dat["message"] then
-					return "Document not found"
+					return dat["message"]
+				end
+			end
+		rescue => e
+			begin
+				http = Net::HTTP.new(uri.host, uri.port)
+				response = http.request(Net::HTTP::Get.new(uri.request_uri))
+				return response.body
+			rescue => e2
+				return e2
+			end
+		end
+		return data
+	end
+	return "Can't get nothing!"
+end
+
+def getHB(id="")
+	if not id.empty? then
+		if id.length == 10 then
+			url = "http://hastebin.com/raw/"+id
+		else
+			return "Hastebin ID is wrong."
+		end
+		uri = URI.parse(url)
+		#Net::HTTP.get_print(uri)
+		http = Net::HTTP.new(uri.host, uri.port)
+		response = http.request(Net::HTTP::Get.new(uri.request_uri))
+		begin
+			if dat=JSON.parse(response.body) then
+				if dat["message"] then
+					return dat["message"]
 				end
 			end
 		rescue => e

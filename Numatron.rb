@@ -44,18 +44,18 @@ def commandRunner(cmd,nick,chan)
 				retLast = ""
 				if $commands[func].is_a?(Method) then
 					retLast = $commands[func].call(args, nick, chan, args, nil)
-					retLast = retLast or ""
+					retLast = retLast.to_s or ""
 				else
 					retLast = self.send($commands[func], args, nick, chan, args, nil)
-					retLast = retLast or ""
+					retLast = retLast.to_s or ""
 				end
 			else
 				if $commands[func].is_a?(Method) then
 					retLast = $commands[func].call(args, (args or "")+retLast, chan, args, retLast)
-					retLast = retLast or ""
+					retLast = retLast.to_s or ""
 				else
 					retLast = self.send($commands[func], (args or "")+retLast, nick, chan, args, retLast)
-					retLast = retLast or ""
+					retLast = retLast.to_s or ""
 				end
 				#retLast=self.send(@commands[func],(args or "")+retLast,nick,chan) or ""
 			end
@@ -69,7 +69,7 @@ def commandRunner(cmd,nick,chan)
 	#call func
 	#if @commands[func] then
 	#	retLast=self.send(@commands[func],args,nick,chan)
-		return retLast if not retLast==rnd
+		return retLast if not (retLast==rnd or (retLast.to_s or "").empty?)
 	#end
 end
 def commandParser(cmd,nick,chan)

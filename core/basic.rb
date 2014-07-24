@@ -11,7 +11,7 @@ def rb(args,nick,chan,rawargs="",pipeargs="")
 			returnval = eval args
 			if returnval!=nil then
 				#@bot.msg(chan,"=> "+ returnval.inspect)
-				return returnval
+				return returnval.inspect
 			end
 		rescue Exception => detail
 			#@bot.msg(chan,detail.message())
