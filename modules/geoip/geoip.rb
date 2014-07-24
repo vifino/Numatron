@@ -8,14 +8,12 @@ if not (File.exists?(geoipdb) and File.exists?(geoipdb))
 else
 	@geoipdb = GeoIP.new(geoipdb)
 	@geocitydb = GeoIP.new(geocitydb)
-	$commands["geoip_country"] = :geoip_country
-	$commands["geoip_city"] = :geoip_city
-	$commands["geoip"] = :geoip_city
+	$commands["geoip_country"] = :geoip_countryWrapper
+	$commands["geoip_city"] = :geoip_cityWrapper
+	$commands["geoip"] = :geoip_cityWrapper
 end
-def geoip_country(args,nick,channel,rawargs="",pipeargs="")
-	if args then
-		addr = (args+" ").split(" ")[0]
-		#addr=args
+def geoip_country(addr)
+	if addr then
 		begin
 			res = @geoipdb.country(addr)
 			return "Country: "+(res.country_name or "Unknown")+", '"+(res.country_code3 or "Unknown")+"'"
@@ -24,9 +22,8 @@ def geoip_country(args,nick,channel,rawargs="",pipeargs="")
 		end
 	end
 end
-def geoip_city(args,nick,channel,rawargs="",pipeargs="")
-	if args then
-		addr = (args+" ").split(" ")[0]
+def geoip_city(addr)
+	if addr then
 		begin
 			res = @geocitydb.city(addr)
 			p res.city_name
@@ -40,4 +37,22 @@ def geoip_city(args,nick,channel,rawargs="",pipeargs="")
 			return "Invalid URL or URL not found in Database!"
 		end
 	end
+end
+def geoip_countryWrapper(addresses,nick,chan,rawargs="",pipeargs="")
+	res = ""
+	addrs = addresses.split(",")
+	addrs.each {|addr|
+	addr = addr.lstrip().rstrip()
+	res += geoip_country(addr)+"; "
+	}
+	return res
+end
+def geoip_cityWrapper(addresses,nick,chan,rawargs="",pipeargs="")
+	res = ""
+	addrs = addresses.split(",")
+	addrs.each {|addr|
+	addr = addr.lstrip().rstrip()
+	res += geoip_city(addr)+"; "
+	}
+	return res
 end

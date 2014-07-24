@@ -37,7 +37,7 @@ def commandRunner(cmd,nick,chan)
 	#func, args = cmd.lstrip().split(' ', 2)
 	cmdarray.each {|cmd|
 		cmd = cmd.gsub("\\|","|")
-		func, args = cmd.lstrip().split(' ', 2)
+		func, args = cmd.lstrip().rstrip().split(' ', 2)
 		func=func.downcase()
 		if $commands[func] then
 			if retLast==rnd then

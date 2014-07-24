@@ -21,17 +21,32 @@ def rdns(addr)
 		return e.to_s
 	end
 end
+def dnsWrapper(addresses,type=nil)
+	res = ""
+	addrs = addresses.split(",")
+	addrs.each {|addr|
+	addr = addr.lstrip().rstrip()
+	res += dns(addr,type)
+	}
+	return res
+end
+def rdnsWrapper(addresses)
+	res = ""
+	addrs = addresses.split(",")
+	addrs.each {|addr|
+	addr = addr.lstrip().rstrip()
+	res += rdns(addr)
+	}
+	return res
+end
 def cmd_dnsall(args,nick,chan,rawargs="",pipeargs="")
-	return dns(args.split.first)
+	return dnsWrapper(args)
 end
 def cmd_dnsa(args,nick,chan,rawargs="",pipeargs="")
-	return dns(args.split.first,"A")
-end
-def cmd_dnst(args,nick,chan,rawargs="",pipeargs="")
-	return dns(args.split.last,args.split.first)
+	return dnsWrapper(args,"A")
 end
 def cmd_rdns(args,nick,chan,rawargs="",pipeargs="")
-	return rdns(args.split.first)
+	return rdnsWrapper(args)
 end
 $commands["dns_all"] = :cmd_dnsall
 # $commands["dns_type"] = :cmd_dnst doesnt work :/
