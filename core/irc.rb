@@ -41,10 +41,7 @@ class IRC
 		end
 	end
 	def msg(chan,msg)
-		msg=msg.gsub("\r\n","\n")
-		msg=msg.gsub("\r","\n")
-		a=msg.split("\n")
-		a.each {|m|
+		msg.each_line {|m|
 			length = 512-("PRIVMSG #{chan} :").length
 			send "PRIVMSG #{chan} :"+m
 		}

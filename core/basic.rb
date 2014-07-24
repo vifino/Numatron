@@ -11,10 +11,11 @@ def rb(args,nick,chan,rawargs="",pipeargs="")
 			returnval = eval args
 			if returnval!=nil then
 				#@bot.msg(chan,"=> "+ returnval.inspect)
-				return returnval.inspect
+				return (returnval.inspect or "nil")
 			end
-		rescue Exception => detail
+		rescue => detail
 			#@bot.msg(chan,detail.message())
+			return detail.message()
 		end
 	end
 end

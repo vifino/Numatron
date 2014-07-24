@@ -51,9 +51,12 @@ def getWeb(id="")
 			begin
 				http = Net::HTTP.new(uri.host, uri.port)
 				response = http.request(Net::HTTP::Get.new(uri.request_uri))
-				return response.body
+				if response.body then
+					return response.body
+				end
+				return "No Content."
 			rescue => e2
-				return e2
+				return e2.to_s
 			end
 		end
 		return data
