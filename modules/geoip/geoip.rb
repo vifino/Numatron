@@ -26,7 +26,6 @@ def geoip_city(addr)
 	if addr then
 		begin
 			res = @geocitydb.city(addr)
-			p res.city_name
 			if not res.city_name =="" then
 				city = res.city_name
 			else
