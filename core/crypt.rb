@@ -2,10 +2,10 @@
 # Made by vifino
 require "base64"
 def base64(args,nick,chan,rawargs="",pipeargs="")
-	Base64.encode(args)
+	Base64.encode64(args)
 end
 def debase64(args,nick,chan,rawargs="",pipeargs="")
-	Base64.decode(args)
+	Base64.decode64(args)
 end
 $commands["b64"] = :base64
 $commands["base64"] = :base64
