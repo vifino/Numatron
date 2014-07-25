@@ -25,7 +25,7 @@ def cmd_append(args,nick,chan,rawargs="",pipeargs="")
 end
 $commands["append"] = :cmd_append
 def raw(args,nick,chan,rawargs="",pipeargs="")
-	if isPrivileged(nick) then
+	if isPrivileged? nick then
 		@bot.send(args)
 	end
 end
