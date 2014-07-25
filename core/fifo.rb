@@ -27,3 +27,7 @@ class Fifo # Whole thing completly unnecissary~~
 		@fifo.flush
 	end
 end
+#@fifos = Hash.new
+#def fifo_add(group)
+#
+#end

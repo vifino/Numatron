@@ -28,12 +28,12 @@ class IRC
 					@socket.puts "PONG #{$~[1]}"
 				end
 				if msg.include? ":End of /MOTD command."
-					puts "Initialized"
-					initialised=true
 					break
+					initialised=true
 				end
 			end
 		end
+		puts "Initialized"
 	end
 	def send(msg)
 		if msg then
@@ -74,10 +74,17 @@ class IRC
 	end
 	def msgtype(msg)
 		if match = msg.match(/^:(.*)!(.*)@(.*) PRIVMSG (.*?) :(.*)/) then
-			#return "msg","#{$~[1]}","#{$~[4]}","#{$~[5]}"
-			return "msg", match[1], match[4], match[5].gsub("\:","\:")
+			return "msg", match[1], match[4], match[5],match[2],match[3]
 		elsif match = msg.match(/^:(.*)!(.*)@(.*) NOTICE (.*?) :(.*)/) then
-			return "notice", match[1], match[4], match[5]
+			return "notice", match[1], match[4], match[5],match[2],match[3]
+		elsif match = msg.match(/^:(.*)!(.*)@(.*) JOIN (.*?)/) then
+			return "join", match[1], match[4],nil, match[2],match[3]
+		elsif match = msg.match(/^:(.*)!(.*)@(.*) PART (.*?) :(.*)/) then
+			return "part", match[1], match[4], match[5],match[2],match[3]
+		elsif match = msg.match(/^:(.*)!(.*)@(.*) MODE (.*?) (.*?) (.*)/) then
+				return "mode", match[1], match[4], match[6], match[5],match[2],match[3]
+		elsif match = msg.match(/^:(.*)!(.*)@(.*) NICK (.*?)/) then
+			return "nick", match[1], match[4],nil, match[2],match[3]
 		else
 			return "other",msg
 		end

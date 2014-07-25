@@ -24,6 +24,18 @@ def loadSettings(file = "settings.rb")
 		@password = nil
 	end
 end
+def init_fifos
+	@fifopassive = open("pipes/passive","w+")
+	@fifopassive.flush
+	@fifoauth = open("pipes/auth","w+")
+	@fifoauth.flush
+end
+def sendfifos(raw)
+	@fifopassive.puts raw
+	@fifopassive.flush
+	@fifoauth.puts raw
+	@fifoauth.flush
+end
 $commands = Hash.new()
 loadSettings
 runDir "core"
@@ -92,6 +104,8 @@ def commandParser(cmd,nick,chan)
 end
 def logic(raw)
 	type,nick,to,msg = @bot.msgtype(raw)
+	#sendfifos raw
+	passive_process raw
 	if type == "msg" then
 		if to==@bot.nick then to=nick end
 		puts "#{nick} -> #{to}: "+msg
@@ -111,24 +125,17 @@ def run
 	until @bot.socket.eof? do
 		raw = @bot.receive
 		if raw then
-			@fiforaw.puts raw
 			logic raw
-			@fiforaw.flush
 		end
 	end
 end
 def setup
-	#@bot.join("#ocbots")
-	#@bot.join("#tkbots")
-	@fiforawRead = Fifo.new
-	@fiforawRead.openRead("pipes/raw")
-	@fiforaw = Fifo.new
-	@fiforaw.openWrite("pipes/raw")
-	@fiforaw.flush
+	#init_fifos
 	#@fiforaw = open("pipes/raw","w+")
 	@bot = IRC.new(@server,@port,@nick,@username,@realname,@password)
 	trap("INT"){ @bot.quit }
 	runDir "modules"
+	sleep(3)
 	@channels.each { |chan| @bot.join(chan)}
 end
 setup

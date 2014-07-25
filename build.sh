@@ -21,7 +21,8 @@ echo "Making Named Pipes..."
 rm -r pipes
 mkdir pipes
 cd pipes
-mkfifo raw
+mkfifo passive
+mkfifo auth
 cd ..
 # End
 echo "Done! You should be good to go now!"
