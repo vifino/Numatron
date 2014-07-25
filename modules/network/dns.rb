@@ -21,7 +21,7 @@ def rdns(addr)
 		return e.to_s
 	end
 end
-def dnsWrapper(addresses,type=nil)
+def dnsWrapper(addresses,type="ANY")
 	res = ""
 	addrs = addresses.gsub(/\;+$/, '').split(",")
 	addrs.each {|addr|
