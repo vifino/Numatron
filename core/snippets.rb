@@ -8,3 +8,6 @@ String.class_eval do
         false
     end
 end
+def getMemUsageMac(pid=nil) # Mac only? :< 
+  `ps -o rss= -p #{(pid or Process.pid)}`.to_s.chomp.strip+"k"
+end

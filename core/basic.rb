@@ -13,9 +13,9 @@ def rb(args,nick,chan,rawargs="",pipeargs="")
 				#@bot.msg(chan,"=> "+ returnval.inspect)
 				return (returnval.inspect or "nil")
 			end
-		rescue => detail
+		rescue Exception => detail
 			#@bot.msg(chan,detail.message())
-			return detail.message()
+			return detail.message
 		end
 	end
 end

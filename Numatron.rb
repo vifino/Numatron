@@ -81,7 +81,7 @@ def commandRunner(cmd,nick,chan)
 	#call func
 	#if @commands[func] then
 	#	retLast=self.send(@commands[func],args,nick,chan)
-		return retLast if not (retLast==rnd or (retLast.to_s or "").empty?)
+	return retLast if not (retLast==rnd or (retLast.to_s or "").empty?)
 	#end
 end
 def commandParser(cmd,nick,chan)
@@ -132,6 +132,7 @@ end
 def setup
 	#init_fifos
 	#@fiforaw = open("pipes/raw","w+")
+	@authread,@authwrite = IO.pipe
 	@bot = IRC.new(@server,@port,@nick,@username,@realname,@password)
 	trap("INT"){ @bot.quit }
 	runDir "modules"
