@@ -12,6 +12,9 @@ def passive_newacc(acc)
 		@passivedata[acc]["chan"] = {}
 	end
 end
+def who(chan)
+	@bot.send "WHO "+chan+" c%cuihsnfar"
+end
 def passive_process(raw)
 	data= @bot.msgtype(raw)
 	#p data
@@ -39,10 +42,40 @@ def passive_process(raw)
 				@authwrite.flush
 			end
 		end
+	elsif match = raw.match(/:(.*) 353 (.*?) (.*?) (.*?) :(.*)/)
+		chan2 = match[4]
+		mode = match[3]
+		names = match[5]
+		names.split(" ").each {|name|
+			name = name.delete("+").delete("@")
+			if not @passivedata.include? name then @passivedata[name] = {} end
+			if not @passivedata[name]["chan"] then @passivedata[name]["chan"] = [] end
+			if not @passivedata[name]["chan"].include? chan2 then @passivedata[name]["chan"].push chan2 end
+		}
+	elsif match = raw.match(/:(.*) 354 (.*?) (.*?) (.*?) (.*?) (.*?) (.*?) (.*?) (.*?) (.*?) (.*?):(.*)/) then
+			chan = match[3]
+			user = match[4]
+			ip = match[5]
+			host = match[6]
+			server = match[7]
+			nick = match[8]
+			mode = match[9]
+			acc = match[10]
+			realname = match[12]
+			if not @passivedata.include? nick then @passivedata[nick] = {} end
+			if not @passivedata[nick]["chan"] then @passivedata[nick]["chan"] = [] end
+			if not @passivedata[nick]["chan"].include? chan then @passivedata[nick]["chan"].push chan end
+			@passivedata[nick]["user"] = user
+			@passivedata[nick]["host"] = host
+			@passivedata[nick]["server"] = server
+			@passivedata[nick]["acc"] = acc
+			@passivedata[nick]["ip"] = ip
+			@passivedata[nick]["real"] = realname
 	elsif type=="nick" then
 		# Move table to new pos
 		if not @passivedata.include? nick then @passivedata[nick] = {} end
 		@passivedata[chan] = @passivedata[nick]
+		@passivedata[nick] = nil
 		@passivedata[chan]["user"] = username
 		@passivedata[chan]["host"] = hostname
 	end
