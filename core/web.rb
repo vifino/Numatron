@@ -21,7 +21,7 @@ def putHB(code="")
 	end
 end
 
-def getWeb(id="")
+def get(id="")
 	if not id.empty? then
 		url2 = "http://"+(id.gsub(/http:\/\//,""))
 		puts url2

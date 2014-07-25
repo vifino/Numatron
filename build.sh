@@ -18,10 +18,11 @@ gunzip GeoLiteCity.dat.gz
 cd ../..
 echo "Done downloading."
 echo "Making Named Pipes..."
+rm -r pipes
 mkdir pipes
 cd pipes
 mkfifo raw
 cd ..
 # End
 echo "Done! You should be good to go now!"
-echo "Remember: Tweak the settings in settings.lua to fit your needs!"
+echo "Remember: Tweak the settings in settings.rb to fit your needs!"

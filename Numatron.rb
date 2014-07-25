@@ -44,18 +44,18 @@ def commandRunner(cmd,nick,chan)
 				retLast = ""
 				if $commands[func].is_a?(Method) then
 					retLast = $commands[func].call(args, nick, chan, args, nil)
-					retLast = retLast.to_s or ""
+					retLast = retLast.to_s.strip or ""
 				else
 					retLast = self.send($commands[func], args, nick, chan, args, nil)
-					retLast = retLast.to_s or ""
+					retLast = retLast.to_s.strip or ""
 				end
 			else
 				if $commands[func].is_a?(Method) then
 					retLast = $commands[func].call(args, (args or "")+retLast, chan, args, retLast)
-					retLast = retLast.to_s or ""
+					retLast = retLast.to_s.strip or ""
 				else
 					retLast = self.send($commands[func], (args or "")+retLast, nick, chan, args, retLast)
-					retLast = retLast.to_s or ""
+					retLast = retLast.to_s.strip or ""
 				end
 				#retLast=self.send(@commands[func],(args or "")+retLast,nick,chan) or ""
 			end

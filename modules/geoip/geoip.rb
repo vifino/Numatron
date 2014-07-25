@@ -11,6 +11,7 @@ else
 	$commands["geoip_country"] = :geoip_countryWrapper
 	$commands["geoip_city"] = :geoip_cityWrapper
 	$commands["geoip"] = :geoip_cityWrapper
+	$commands["geomaps"] = :geomapsWrapper
 end
 def geoip_country(addr)
 	if addr then
@@ -37,21 +38,48 @@ def geoip_city(addr)
 		end
 	end
 end
+def geomaps(addr)
+	if addr then
+		begin
+			res = @geocitydb.city(addr)
+			lat = res.latitude
+			long= res.longitude
+			if lat and long then
+				url = "http://maps.google.com/maps?z=12&t=m&q=loc:"+lat.to_s+"+"+long.to_s
+				return url
+			else
+				return "Position data incomplete."
+			end
+		rescue => exception
+			puts exception
+			return "Invalid URL or URL not found in Database!"
+		end
+	end
+end
 def geoip_countryWrapper(addresses,nick,chan,rawargs="",pipeargs="")
 	res = ""
-	addrs = addresses.split(",")
+	addrs = addresses.gsub(/\;+$/, '').split(";")
 	addrs.each {|addr|
-	addr = addr.lstrip().rstrip()
-	res += geoip_country(addr)+"; "
+		addr = addr.lstrip().rstrip()
+		res += geoip_country(addr)+"; "
 	}
-	return res
+	return res.rstrip.chomp(";")
 end
 def geoip_cityWrapper(addresses,nick,chan,rawargs="",pipeargs="")
 	res = ""
-	addrs = addresses.split(",")
+	addrs = addresses.gsub(/\;+$/, '').split(";")
 	addrs.each {|addr|
-	addr = addr.lstrip().rstrip()
-	res += geoip_city(addr)+"; "
+		addr = addr.lstrip().rstrip()
+		res += geoip_city(addr)+" ; "
 	}
-	return res
+	return res.rstrip.chomp(";")
+end
+def geomapsWrapper(addresses,nick,chan,rawargs="",pipeargs="")
+	res = ""
+	addrs = addresses.gsub(/\;+$/, '').split(";")
+	addrs.each {|addr|
+		addr = addr.lstrip().rstrip()
+		res += geomaps(addr)+" ; "
+	}
+	return res.rstrip.chomp(";")
 end

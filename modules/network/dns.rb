@@ -6,7 +6,7 @@ def dns(addr,type="ANY")
 	begin
 		res = rs.getresources(addr, type)
 		return "No results!" if res.empty?
-		return (res.map {|r| r.rdata_to_string.gsub(/[[:cntrl:]]/, '') }).join(", ")
+		return (res.map {|r| r.rdata_to_string.gsub(/[[:cntrl:]]/, '') }).join("; ")
 	rescue => e
 		return e.to_s
 	end
@@ -23,21 +23,21 @@ def rdns(addr)
 end
 def dnsWrapper(addresses,type=nil)
 	res = ""
-	addrs = addresses.split(",")
+	addrs = addresses.gsub(/\;+$/, '').split(",")
 	addrs.each {|addr|
 	addr = addr.lstrip().rstrip()
 	res += dns(addr,type)
 	}
-	return res
+	return res.rstrip.chomp(";")
 end
 def rdnsWrapper(addresses)
 	res = ""
-	addrs = addresses.split(",")
+	addrs = addresses.gsub(/\;+$/, '').split(",")
 	addrs.each {|addr|
 	addr = addr.lstrip().rstrip()
 	res += rdns(addr)
 	}
-	return res
+	return res.rstrip.chomp(";")
 end
 def cmd_dnsall(args,nick,chan,rawargs="",pipeargs="")
 	return dnsWrapper(args)
