@@ -41,9 +41,10 @@ def passive_process(raw)
 		end
 	elsif type=="nick" then
 		# Move table to new pos
-		puts "Nick Change"
 		if not @passivedata.include? nick then @passivedata[nick] = {} end
 		@passivedata[chan] = @passivedata[nick]
+		@passivedata[chan]["user"] = username
+		@passivedata[chan]["host"] = hostname
 	end
 end
 def passive_start
