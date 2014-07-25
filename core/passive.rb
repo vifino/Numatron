@@ -22,8 +22,6 @@ def passive_process(raw)
 	username = data[4]
 	hostname = data[5]
 	if type=="msg" or type=="join" then
-		#if nick then
-			puts type
 			if not @passivedata.include? nick then @passivedata[nick] = {} end
 			@passivedata[nick]["user"] = username
 			@passivedata[nick]["host"] = hostname
