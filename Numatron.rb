@@ -45,13 +45,13 @@ $commands = Hash.new()
 loadSettings
 runDir "core"
 # spacer! \o/
-def subcommandParser(args,nick,chan)
+def subcommandParser(args="",nick,chan)
 	out = ""
 	args.gsub(/\${(.*)}/) {|cmdN|
 		if not cmdN.empty? then
 			#puts cmdN.strip.gsub("${","").gsub("}","")
 			#out +=
-			commandRunner(cmdN.strip.gsub("${","").gsub("}",""), nick, chan)
+			commandRunner(cmdN.strip.gsub("${","").gsub("}","") or cmdN, nick, chan)
 			#puts "After"
 		end
 	}
@@ -67,36 +67,39 @@ def commandRunner(cmd,nick,chan)
 	cmdarray = cmd.scan(/(?:[^|\\]|\\.)+/) or [cmd]
 	#func, args = cmd.lstrip().split(' ', 2)
 	cmdarray.each {|cmd|
-		cmd = cmd.gsub("\\|","|")
-		func, args = cmd.lstrip().rstrip().split(' ', 2)
-		args = args or ""
-		args = subcommandParser(args,nick,chan)
-		func=func.downcase()
-		if $commands[func] then
-			if retLast==rnd then
-				retLast = ""
-				if $commands[func].is_a?(Method) then
-					retLast = $commands[func].call(args, nick, chan, args, nil)
-					retLast = retLast.to_s.strip or ""
+		if cmd then
+			cmd = cmd.gsub("\\|","|")
+			func, args = cmd.lstrip().rstrip().split(' ', 2)
+			argsOld = args or ""
+			args = subcommandParser(argsOld,nick,chan)
+			args = args or argsOld or ""
+			func=func.downcase()
+			if $commands[func] then
+				if retLast==rnd then
+					retLast = ""
+					if $commands[func].is_a?(Method) then
+						retLast = $commands[func].call(args, nick, chan, args, nil)
+						retLast = retLast.to_s.strip or ""
+					else
+						retLast = self.send($commands[func], args, nick, chan, args, nil)
+						retLast = retLast.to_s.strip or ""
+					end
 				else
-					retLast = self.send($commands[func], args, nick, chan, args, nil)
-					retLast = retLast.to_s.strip or ""
+					if $commands[func].is_a?(Method) then
+						retLast = $commands[func].call(args, (args or "")+retLast, chan, args, retLast)
+						retLast = retLast.to_s.strip or ""
+					else
+						retLast = self.send($commands[func], (args or "")+retLast, nick, chan, args, retLast)
+						retLast = retLast.to_s.strip or ""
+					end
+				#retLast=self.send(@commands[func],(args or "")+retLast,nick,chan) or ""
 				end
 			else
-				if $commands[func].is_a?(Method) then
-					retLast = $commands[func].call(args, (args or "")+retLast, chan, args, retLast)
-					retLast = retLast.to_s.strip or ""
-				else
-					retLast = self.send($commands[func], (args or "")+retLast, nick, chan, args, retLast)
-					retLast = retLast.to_s.strip or ""
+				if @cmdnotfound then
+					retLast = "No such function: '#{func}'"
 				end
-				#retLast=self.send(@commands[func],(args or "")+retLast,nick,chan) or ""
+				break
 			end
-		else
-			if @cmdnotfound then
-				retLast = "No such function: '#{func}'"
-			end
-			break
 		end
 	}
 	#call func
