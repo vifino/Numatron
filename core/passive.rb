@@ -43,7 +43,7 @@ def passive_process(raw)
 				@authwrite.flush
 			end
 		end
-	elsif match = raw.match(/:(.*) 353 (.*?) (.*?) (.*?) :(.*)/)
+	elsif match = raw.match(/^:(.*) 353 (.*?) (.*?) (.*?) :(.*)/)
 		chan2 = match[4]
 		mode = match[3]
 		names = match[5]
@@ -53,7 +53,24 @@ def passive_process(raw)
 			if not @passivedata[name]["chan"] then @passivedata[name]["chan"] = [] end
 			if not @passivedata[name]["chan"].include? chan2 then @passivedata[name]["chan"].push chan2 end
 		}
-	elsif match = raw.match(/:(.*) 354 (.*?) (.*?) (.*?) (.*?) (.*?) (.*?) (.*?) (.*?) (.*?) (.*?):(.*)/) then
+	elsif match = raw.match(/^:(.*?) 319 (.*?) (.*?) :(.*)/) then
+		name = match[3]
+		channs = match[4]
+		chans.split(" ").each {|chan2|
+			name = name.delete("+").delete("@")
+			if not @passivedata.include? name then @passivedata[name] = {} end
+			if not @passivedata[name]["chan"] then @passivedata[name]["chan"] = [] end
+			if not @passivedata[name]["chan"].include? chan2 then @passivedata[name]["chan"].push chan2 end
+		}
+	elsif match = raw.match(/^:(.*?) 311 (.*?) (.*?) (.*?) (.*?) (.*?) :(.*)/) then
+		name = match[3]
+		user = match[4]
+		addr = match[5]
+		real = match[6]
+		@passivedata[name]["user"] = user
+		@passivedata[name]["addr"] = addr
+		@passivedata[name]["real"] = real.delete("^\u{0000}-\u{007F}") # Remove unicode, because it kills .to_json
+	elsif match = raw.match(/^:(.*) 354 (.*?) (.*?) (.*?) (.*?) (.*?) (.*?) (.*?) (.*?) (.*?) (.*?):(.*)/) then
 			chan = match[3]
 			user = match[4]
 			ip = match[5]

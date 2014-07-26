@@ -5,7 +5,7 @@ def dns(addr,type="ANY")
 	rs = Dnsruby::DNS.new
 	begin
 		res = rs.getresources(addr, type)
-		return "No results!" if res.empty?
+		return "No results!" if (res.empty? or res==nil)
 		return (res.map {|r| r.rdata_to_string.gsub(/[[:cntrl:]]/, '') }).join("; ")
 	rescue => e
 		return e.to_s
