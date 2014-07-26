@@ -45,20 +45,32 @@ $commands = Hash.new()
 loadSettings
 runDir "core"
 # spacer! \o/
+def subcommandParser(args,nick,chan)
+	out = ""
+	args.gsub(/\${(.*)}/) {|cmdN|
+		if not cmdN.empty? then
+			#puts cmdN.strip.gsub("${","").gsub("}","")
+			#out +=
+			commandRunner(cmdN.strip.gsub("${","").gsub("}",""), nick, chan)
+			#puts "After"
+		end
+	}
+	#args = args.gsub(/\${(.*)}/,out)
+	#args = args.gsub("}","").gsub("${","")
+	#return args
+end
 def commandRunner(cmd,nick,chan)
 	retFinal=""
 	retLast=""
 	rnd= ('a'..'z').to_a.shuffle[0,8].join
 	retLast=rnd
-	cmd.gsub(/\${(.*)}/) {|cmdN|
-		return commandRunner(cmdN, nick, chan)
-	}
 	cmdarray = cmd.scan(/(?:[^|\\]|\\.)+/) or [cmd]
 	#func, args = cmd.lstrip().split(' ', 2)
 	cmdarray.each {|cmd|
 		cmd = cmd.gsub("\\|","|")
 		func, args = cmd.lstrip().rstrip().split(' ', 2)
 		args = args or ""
+		args = subcommandParser(args,nick,chan)
 		func=func.downcase()
 		if $commands[func] then
 			if retLast==rnd then
@@ -153,11 +165,11 @@ def setup
 	@bot = IRC.new(@server,@port,@nick,@username,@realname,@password)
 	trap("INT"){ @bot.quit; abort }
 	runDir "modules"
-	sleep(2)
+	#sleep(2)
 	@channels.each { |chan|
 		@bot.join(chan)
 		who chan
-		sleep(2)
+		sleep(0.5)
 		}
 end
 until false do
