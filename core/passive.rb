@@ -66,7 +66,7 @@ def passive_process(raw)
 		name = match[3]
 		user = match[4]
 		addr = match[5]
-		real = match[6]
+		real = match[7]
 		@passivedata[name]["user"] = user
 		@passivedata[name]["addr"] = addr
 		@passivedata[name]["real"] = real.delete("^\u{0000}-\u{007F}") # Remove unicode, because it kills .to_json
