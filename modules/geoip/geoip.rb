@@ -14,7 +14,7 @@ else
 	$commands["geomaps"] = :geomapsWrapper
 end
 def geoip_country(addr)
-	if addr then
+	if not addr.empty? then
 		begin
 			res = @geoipdb.country(addr)
 			return "Country: "+(res.country_name or "Unknown")+", '"+(res.country_code3 or "Unknown")+"'"
@@ -24,7 +24,7 @@ def geoip_country(addr)
 	end
 end
 def geoip_city(addr)
-	if addr then
+	if not addr.empty? then
 		begin
 			res = @geocitydb.city(addr)
 			if not res.city_name =="" then
@@ -39,7 +39,7 @@ def geoip_city(addr)
 	end
 end
 def geomaps(addr)
-	if addr then
+	if not addr.empty? then
 		begin
 			res = @geocitydb.city(addr)
 			lat = res.latitude

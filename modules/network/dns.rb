@@ -2,6 +2,7 @@
 # Made by vifino
 require "dnsruby"
 def dns(addr,type="ANY")
+	if addr.empty? then return "Can't lookup nothing!" end
 	rs = Dnsruby::DNS.new
 	begin
 		res = rs.getresources(addr, type)
@@ -12,6 +13,7 @@ def dns(addr,type="ANY")
 	end
 end
 def rdns(addr)
+	if addr.empty? then return "Can't lookup nothing!" end
 	rs = Dnsruby::DNS.new
 	begin
 		res = rs.getnames addr
