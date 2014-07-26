@@ -19,7 +19,12 @@ def loadSettings(file = "settings.rb")
 	@prefix = @settings["prefix"] or "#"
 	@cmdnotfound = @settings["notFoundmsg"]
 	begin
-		@password = @settings["password"]
+		@blacklistChannels = @settings["blacklistChannels"] or []
+	rescue => detail
+		@blacklistChannels = []
+	end
+	begin
+		@password = @settings["password"] or nil
 	rescue => detail
 		@password = nil
 	end
@@ -112,7 +117,9 @@ def logic(raw)
 		prefix = @prefix or "\?"
 		if msg.match(/^#{prefix}(.*)/) then
 			begin
-				commandParser "#{$~[1]}",nick,to
+				if not @blacklistChannels.include? to then
+					commandParser "#{$~[1]}",nick,to
+				end
 			rescue Exception => detail
 				@bot.msg(to,detail.message())
 			end

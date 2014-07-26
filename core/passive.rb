@@ -1,5 +1,6 @@
 # Passive data collection, WIP
 # Made by vifino
+require "json"
 @passivedata = Hash.new
 def passive_newacc(acc)
 	if not @passivedata[acc].class == "Hash" then
@@ -61,7 +62,7 @@ def passive_process(raw)
 			nick = match[8]
 			mode = match[9]
 			acc = match[10]
-			realname = match[12].delete("^\u{0000}-\u{007F}")
+			realname = match[12].delete("^\u{0000}-\u{007F}") # Remove unicode, because it kills .to_json
 			if not @passivedata.include? nick then @passivedata[nick] = {} end
 			if not @passivedata[nick]["chan"] then @passivedata[nick]["chan"] = [] end
 			if not @passivedata[nick]["chan"].include? chan then @passivedata[nick]["chan"].push chan end
@@ -89,4 +90,7 @@ def passive_start
 			end
 		end
 	#end
+end
+def passive_dump
+	@passivedata.to_json # In json, of course.
 end
