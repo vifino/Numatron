@@ -14,7 +14,10 @@ def passive_newacc(acc)
 	end
 end
 def who(chan) # Not so passive :3
-	@bot.send "WHO "+chan+" c%cuihsnfar"
+	@bot.send "WHO #{chan} c%cuihsnfar"
+end
+def whois(user)
+	@bot.send "whois #{chan}"
 end
 def passive_process(raw)
 	data= @bot.msgtype(raw)
