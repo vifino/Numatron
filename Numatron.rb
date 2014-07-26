@@ -110,7 +110,12 @@ end
 def logic(raw)
 	type,nick,to,msg = @bot.msgtype(raw)
 	#sendfifos raw
-	passive_process raw
+	begin
+		passive_process raw
+	rescue => e
+		puts e
+		# Todo: do something more useful with output
+	end
 	if type == "msg" then
 		if to==@bot.nick then to=nick end
 		puts "#{nick} -> #{to}: "+msg
