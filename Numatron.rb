@@ -50,6 +50,9 @@ def commandRunner(cmd,nick,chan)
 	retLast=""
 	rnd= ('a'..'z').to_a.shuffle[0,8].join
 	retLast=rnd
+	cmd.gsub(/\${(.*)}/) {|cmdN|
+		return commandRunner(cmdN, nick, chan)
+	}
 	cmdarray = cmd.scan(/(?:[^|\\]|\\.)+/) or [cmd]
 	#func, args = cmd.lstrip().split(' ', 2)
 	cmdarray.each {|cmd|
