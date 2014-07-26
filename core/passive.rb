@@ -17,7 +17,7 @@ def who(chan) # Not so passive :3
 	@bot.send "WHO #{chan} c%cuihsnfar"
 end
 def whois(user)
-	@bot.send "whois #{chan}"
+	@bot.send "whois #{user}"
 end
 def passive_process(raw)
 	data= @bot.msgtype(raw)
