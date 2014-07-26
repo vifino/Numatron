@@ -148,7 +148,7 @@ def setup
 	#@fiforaw = open("pipes/raw","w+")
 	@authread,@authwrite = IO.pipe
 	@bot = IRC.new(@server,@port,@nick,@username,@realname,@password)
-	trap("INT"){ @bot.quit }
+	trap("INT"){ @bot.quit; abort }
 	runDir "modules"
 	sleep(2)
 	@channels.each { |chan|
