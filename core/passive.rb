@@ -60,7 +60,7 @@ def passive_process(raw)
 		name = match[3]
 		chans = match[4]
 		chans.split(" ").each {|chan2|
-			name = name.strip.gsub("@","").gsub("+","")
+			chan2 = chan2.strip.gsub("@","").gsub("+","")
 			if not @passivedata.include? name then @passivedata[name] = {} end
 			if not @passivedata[name]["chan"] then @passivedata[name]["chan"] = [] end
 			if not @passivedata[name]["chan"].include? chan2 then @passivedata[name]["chan"].push chan2 end
