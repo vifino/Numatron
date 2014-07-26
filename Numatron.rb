@@ -136,8 +136,12 @@ def setup
 	@bot = IRC.new(@server,@port,@nick,@username,@realname,@password)
 	trap("INT"){ @bot.quit }
 	runDir "modules"
-	sleep(3)
-	@channels.each { |chan| @bot.join(chan)}
+	sleep(2)
+	@channels.each { |chan|
+		@bot.join(chan)
+		who chan
+		sleep(2)
+		}
 end
 setup
 run

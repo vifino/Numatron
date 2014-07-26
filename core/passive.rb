@@ -12,7 +12,7 @@ def passive_newacc(acc)
 		@passivedata[acc]["chan"] = {}
 	end
 end
-def who(chan)
+def who(chan) # Not so passive :3
 	@bot.send "WHO "+chan+" c%cuihsnfar"
 end
 def passive_process(raw)
