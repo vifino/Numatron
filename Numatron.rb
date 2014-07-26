@@ -156,5 +156,11 @@ def setup
 		sleep(2)
 		}
 end
-setup
-run
+until false do
+	begin
+		setup
+		run
+	rescue => e
+	sleep(60)
+	end
+end
