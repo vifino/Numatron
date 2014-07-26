@@ -118,7 +118,7 @@ def logic(raw)
 		if msg.match(/^#{prefix}(.*)/) then
 			begin
 				puts to
-				if not @blacklistChannels.include? to.split.downcase then
+				if not @blacklistChannels.include? to.strip.downcase then
 					commandParser "#{$~[1]}",nick,to
 				end
 			rescue Exception => detail
