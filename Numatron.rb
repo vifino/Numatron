@@ -51,7 +51,7 @@ def subcommandParser(args="",nick,chan)
 		if not cmdN.empty? then
 			#puts cmdN.strip.gsub("${","").gsub("}","")
 			#out +=
-			commandRunner(cmdN.strip.gsub("${","").gsub("}","") or cmdN, nick, chan)
+			commandRunner((cmdN.strip.gsub("${","").gsub("}","") or cmdN), nick, chan)
 			#puts "After"
 		end
 	}
