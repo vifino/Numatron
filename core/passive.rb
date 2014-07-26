@@ -29,13 +29,18 @@ def passive_process(raw)
 	username = data[4]
 	hostname = data[5]
 	if type=="msg" or type=="join" then
+		begin
 		if not @passivedata then @passivedata = {} end
 		if not @passivedata.include? nick then @passivedata[nick] = {} end
 		@passivedata[nick]["user"] = username
 		@passivedata[nick]["host"] = hostname
 		if not @passivedata[nick]["chan"] then @passivedata[nick]["chan"] = [] end
 		if not @passivedata[nick]["chan"].include? chan then @passivedata[nick]["chan"].push chan end
+		rescue => e
+
+		end
 	elsif type=="notice" then
+		begin
 		if not @passivedata then @passivedata = {} end
 		if nick == "NickServ" then
 			if ret = raw.match(/:Information on (.*?) \(account (.*?)\)/) then
@@ -47,8 +52,13 @@ def passive_process(raw)
 				@authwrite.puts acc
 				@authwrite.flush
 			end
+
+		end
+		rescue => e
+
 		end
 	elsif match = raw.match(/^:(.*) 353 (.*?) (.*?) (.*?) :(.*)/)
+		begin
 		if not @passivedata then @passivedata = {} end
 		chan2 = match[4]
 		mode = match[3]
@@ -59,7 +69,11 @@ def passive_process(raw)
 			if not @passivedata[name]["chan"] then @passivedata[name]["chan"] = [] end
 			if not @passivedata[name]["chan"].include? chan2 then @passivedata[name]["chan"].push chan2 end
 		}
+		rescue => e
+
+		end
 	elsif match = raw.match(/^:(.*?) 319 (.*?) (.*?) :(.*)/) then
+		begin
 		if not @passivedata then @passivedata = {} end
 		name = match[3]
 		chans = match[4]
@@ -69,7 +83,11 @@ def passive_process(raw)
 			if not @passivedata[name]["chan"] then @passivedata[name]["chan"] = [] end
 			if not @passivedata[name]["chan"].include? chan2 then @passivedata[name]["chan"].push chan2 end
 		}
+		rescue => e
+
+		end
 	elsif match = raw.match(/^:(.*?) 311 (.*?) (.*?) (.*?) (.*?) (.*?) :(.*)/) then
+		begin
 		if not @passivedata then @passivedata = {} end
 		name = match[3]
 		user = match[4]
@@ -78,7 +96,11 @@ def passive_process(raw)
 		@passivedata[name]["user"] = user
 		@passivedata[name]["addr"] = addr
 		@passivedata[name]["real"] = real.delete("^\u{0000}-\u{007F}") # Remove unicode, because it kills .to_json
+		rescue => e
+
+		end
 	elsif match = raw.match(/^:(.*) 354 (.*?) (.*?) (.*?) (.*?) (.*?) (.*?) (.*?) (.*?) (.*?) (.*?):(.*)/) then
+		begin
 		if not @passivedata then @passivedata = {} end
 		chan = match[3]
 		user = match[4]
@@ -98,7 +120,11 @@ def passive_process(raw)
 		@passivedata[nick]["acc"] = acc
 		@passivedata[nick]["ip"] = ip
 		@passivedata[nick]["real"] = realname
+		rescue => e
+
+		end
 	elsif type=="nick" then
+		begin
 		# Move table to new pos
 		if not @passivedata then @passivedata = {} end
 		if not @passivedata.include? nick then @passivedata[nick] = {} end
@@ -106,6 +132,9 @@ def passive_process(raw)
 		@passivedata[nick] = nil
 		@passivedata[chan]["user"] = username
 		@passivedata[chan]["host"] = hostname
+		rescue => e
+
+		end
 	end
 end
 def passive_start
