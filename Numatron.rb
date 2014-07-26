@@ -55,6 +55,7 @@ def commandRunner(cmd,nick,chan)
 	cmdarray.each {|cmd|
 		cmd = cmd.gsub("\\|","|")
 		func, args = cmd.lstrip().rstrip().split(' ', 2)
+		args = args or ""
 		func=func.downcase()
 		if $commands[func] then
 			if retLast==rnd then

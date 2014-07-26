@@ -21,6 +21,8 @@ def geoip_country(addr)
 		rescue => exception
 			return "Invalid URL or URL not found in Database!"
 		end
+	else
+		return "Can't locate nothing!"
 	end
 end
 def geoip_city(addr)
@@ -36,6 +38,8 @@ def geoip_city(addr)
 		rescue => exception
 			return "Invalid URL or URL not found in Database!"
 		end
+	else
+		return "Can't locate nothing!"
 	end
 end
 def geomaps(addr)
@@ -54,6 +58,8 @@ def geomaps(addr)
 			puts exception
 			return "Invalid URL or URL not found in Database!"
 		end
+	else
+			return "Can't locate nothing!"
 	end
 end
 def geoip_countryWrapper(addresses,nick,chan,rawargs="",pipeargs="")
