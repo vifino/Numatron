@@ -55,7 +55,7 @@ def passive_process(raw)
 		}
 	elsif match = raw.match(/^:(.*?) 319 (.*?) (.*?) :(.*)/) then
 		name = match[3]
-		channs = match[4]
+		chans = match[4]
 		chans.split(" ").each {|chan2|
 			name = name.delete("+").delete("@")
 			if not @passivedata.include? name then @passivedata[name] = {} end
