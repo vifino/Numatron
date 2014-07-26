@@ -61,7 +61,7 @@ def passive_process(raw)
 			nick = match[8]
 			mode = match[9]
 			acc = match[10]
-			realname = match[12]
+			realname = match[12].delete("^\u{0000}-\u{007F}")
 			if not @passivedata.include? nick then @passivedata[nick] = {} end
 			if not @passivedata[nick]["chan"] then @passivedata[nick]["chan"] = [] end
 			if not @passivedata[nick]["chan"].include? chan then @passivedata[nick]["chan"].push chan end
