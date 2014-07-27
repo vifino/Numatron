@@ -1,6 +1,6 @@
 # Add js interpreter
 # Made by vifino
-require 'v8'
+require 'v8' # Rawr! Fancy!
 #@jsstate = V8::Context.new
 def js(args,nick,chan,rawargs="",pipeargs="") # Considered safe? I hope so.
 	#if isPrivileged? nick and args != nil then

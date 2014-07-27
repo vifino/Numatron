@@ -62,7 +62,7 @@ def commandRunner(cmd,nick,chan)
 	cmdarray.each {|cmd|
 		if cmd then
 			cmd = cmd.gsub("\\|","|")
-			func, args = cmd.lstrip().rstrip().split(' ', 2)
+			func, args = cmd.split(' ', 2)
 			args = subcommandParser((args or ""),nick,chan)
 			func=func.downcase()
 			if $commands[func] then
@@ -70,18 +70,18 @@ def commandRunner(cmd,nick,chan)
 					retLast = ""
 					if $commands[func].is_a?(Method) then
 						retLast = $commands[func].call(args, nick, chan, args, nil)
-						retLast = retLast.to_s.strip or ""
+						retLast = retLast.to_s.rstrip or ""
 					else
 						retLast = self.send($commands[func], args, nick, chan, args, nil)
-						retLast = retLast.to_s.strip or ""
+						retLast = retLast.to_s.rstrip or ""
 					end
 				else
 					if $commands[func].is_a?(Method) then
 						retLast = $commands[func].call(args, (args or "")+retLast, chan, args, retLast)
-						retLast = retLast.to_s.strip or ""
+						retLast = retLast.to_s.rstrip or ""
 					else
 						retLast = self.send($commands[func], (args or "")+retLast, nick, chan, args, retLast)
-						retLast = retLast.to_s.strip or ""
+						retLast = retLast.to_s.rstrip or ""
 					end
 				#retLast=self.send(@commands[func],(args or "")+retLast,nick,chan) or ""
 				end
@@ -96,7 +96,7 @@ def commandRunner(cmd,nick,chan)
 	#call func
 	#if @commands[func] then
 	#	retLast=self.send(@commands[func],args,nick,chan)
-	return retLast if not (retLast==rnd or (retLast.to_s or "").empty?)
+	return retLast.rstrip if not (retLast==rnd or (retLast.to_s or "").empty?)
 	#end
 end
 def commandParser(cmd,nick,chan)
