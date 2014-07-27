@@ -12,9 +12,9 @@ def cmd_rainbow(args,nick,chan,rawargs="",pipeargs="") # seems broken, I dont kn
 		args.split("").each {|char|
 			c+=1
 			if c == 8 then c=0 end
-  		str+="\u0003"+colors[c]+char+"\u000F"
+  		str+="\u0003"+colors[c]+char
 		}
-		return str
+		return str+"\u000F"
 	end
 end
 $commands["rainbow"] = :cmd_rainbow
