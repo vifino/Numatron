@@ -22,3 +22,7 @@ def cmd_underline(args,nick,chan,rawargs="",pipeargs="")
 	return "\u001F"+args+"\u000F"
 end
 $commands["underline"] = :cmd_underline
+def aeiou(args="",nick="",chan="",rawargs="",pipeargs="")
+	return args.gsub('U','A').gsub('O','U').gsub('I','O').gsub("E","I").gsub('A','E').gsub('u','a').gsub('o','u').gsub('i','o').gsub('e','i').gsub('a','e')
+end
+$commands["aeiou"] = :aeiou

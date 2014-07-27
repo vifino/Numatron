@@ -1,4 +1,4 @@
-# Add js interpreter
+# Add an js interpreter
 # Made by vifino
 require 'v8' # Rawr! Fancy!
 @jsvm = V8::Context.new timeout: 700 # Vrooom! Vrooooom! And stop.
