@@ -1,22 +1,28 @@
 # Add js interpreter
 # Made by vifino
 require 'v8' # Rawr! Fancy!
-#@jsstate = V8::Context.new
-def js(args,nick,chan,rawargs="",pipeargs="") # Considered safe? I hope so.
-	#if isPrivileged? nick and args != nil then
-		begin
-			#returnval = @jsstate.eval(args)
-			js = V8::Context.new timeout: 700
-			returnval = js.eval(args)
-			if returnval!=nil then
-				if returnval.class == "Array" then
-					return "[object Object]"
-				end
-				return returnval.inspect
+@jsvm = V8::Context.new timeout: 700 # Vrooom! Vrooooom! And stop.
+@jsout = ""
+def jsinit
+	@jsvm["print"] = lambda {|this, word| @jsout << word.to_s }
+end
+jsinit
+def js(args="",nick="",chan="",rawargs="",pipeargs="") # Considered safe? I hope so.
+	@jsout = ""
+	begin
+		returnval = @jsvm.eval(args)
+		if returnval!=nil then
+			if returnval.class == "Array" then
+				return "[object Object]"
 			end
-		rescue => detail
-			return detail.message
+			if @jsout.empty? then
+				return returnval.inspect
+			else
+				return @jsout.strip+"\n> "+returnval.inspect
+			end
 		end
-	#end
+	rescue => detail
+		return detail.message
+	end
 end
 $commands["js"] = :js
