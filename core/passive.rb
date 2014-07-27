@@ -35,6 +35,10 @@ def passive_process(raw)
 		@passivedata[nick]["host"] = hostname
 		if not @passivedata[nick]["chan"] then @passivedata[nick]["chan"] = [] end
 		if not @passivedata[nick]["chan"].include? chan then @passivedata[nick]["chan"].push chan end
+		if type==msg then
+			if not @passivedata["nick"]["lines"] then @passivedata["nick"]["lines"] = 1 end
+			@passivedata["nick"]["lines"] += 1
+		end
 		rescue => e
 
 		end
