@@ -46,18 +46,11 @@ loadSettings
 runDir "core"
 # spacer! \o/
 def subcommandParser(args="",nick,chan)
-	out = ""
 	args.gsub(/\${(.*)}/) {|cmdN|
 		if not cmdN.empty? then
-			#puts cmdN.strip.gsub("${","").gsub("}","")
-			#out +=
 			commandRunner((cmdN.strip.gsub("${","").gsub("}","") or cmdN), nick, chan)
-			#puts "After"
 		end
 	}
-	#args = args.gsub(/\${(.*)}/,out)
-	#args = args.gsub("}","").gsub("${","")
-	#return args
 end
 def commandRunner(cmd,nick,chan)
 	retFinal=""
@@ -70,9 +63,7 @@ def commandRunner(cmd,nick,chan)
 		if cmd then
 			cmd = cmd.gsub("\\|","|")
 			func, args = cmd.lstrip().rstrip().split(' ', 2)
-			argsOld = args or ""
-			args = subcommandParser(argsOld,nick,chan)
-			args = args or argsOld or ""
+			args = subcommandParser((args or ""),nick,chan)
 			func=func.downcase()
 			if $commands[func] then
 				if retLast==rnd then

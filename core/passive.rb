@@ -21,7 +21,6 @@ def whois(user)
 end
 def passive_process(raw)
 	data= @bot.msgtype(raw)
-	#p data
 	type = data[0]
 	nick = data[1]
 	chan = data[2]
