@@ -38,6 +38,10 @@ def passive_process(raw)
 		if type=="msg" then
 			if not @passivedata[nick]["lines"] then @passivedata[nick]["lines"] = 1 end
 			@passivedata[nick]["lines"] += 1
+			if not @passivedata[nick]["words"] then @passivedata[nick]["words"] = 0 end
+			@passivedata[nick]["words"] += (msg.split(" ").size) + 1
+			if not @passivedata[nick]["chars"] then @passivedata[nick]["chars"] = 0 end
+			@passivedata[nick]["chars"] += (msg.split("").size) + 1
 		end
 		rescue => e
 
