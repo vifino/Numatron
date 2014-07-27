@@ -132,7 +132,6 @@ def logic(raw)
 		prefix = @prefix or "\?"
 		if msg.match(/^#{prefix}(.*)/) then
 			begin
-				puts to
 				if not @blacklistChannels.include? to.strip.downcase then
 					commandParser "#{$~[1]}",nick,to
 				end

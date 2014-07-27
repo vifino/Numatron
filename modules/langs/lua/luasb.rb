@@ -17,11 +17,11 @@ luasb_reset
 def luasb(args, nick, chan,rawargs="",pipeargs="")
 	if args != nil then
 		begin
-			returnval = @luastate.eval(args)
+			returnval = @luasb.eval(args)
 		rescue => detail
 				error = detail.message()
 				begin
-					returnval = @luastate.eval("return (" + args + ")")
+					returnval = @luasb.eval("return (" + args + ")")
 				rescue => detail2
 				end
 		end
