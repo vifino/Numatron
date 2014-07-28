@@ -18,14 +18,14 @@ def rdns(addr)
 	begin
 		res = rs.getnames addr
 		return "No results!" if (res.empty? or res==nil)
-		return (res.map {|r| r.to_s }).join(", ")
+		return (res.map {|r| r.to_s }).join("; ")
 	rescue => e
 		return e.to_s
 	end
 end
 def dnsWrapper(addresses,type="ANY")
 	res = ""
-	addrs = addresses.gsub(/\;+$/, '').split(",")
+	addrs = addresses.gsub(/\;+$/, '').split(";")
 	addrs.each {|addr|
 	addr = addr.lstrip().rstrip()
 	res += dns(addr,type)
@@ -34,7 +34,7 @@ def dnsWrapper(addresses,type="ANY")
 end
 def rdnsWrapper(addresses)
 	res = ""
-	addrs = addresses.gsub(/\;+$/, '').split(",")
+	addrs = addresses.gsub(/\;+$/, '').split(";")
 	addrs.each {|addr|
 	addr = addr.lstrip().rstrip()
 	res += rdns(addr)
