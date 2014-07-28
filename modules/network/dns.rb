@@ -28,18 +28,18 @@ def dnsWrapper(addresses,type="ANY")
 	addrs = addresses.gsub(/\;+$/, '').split(";")
 	addrs.each {|addr|
 	addr = addr.lstrip().rstrip()
-	res += dns(addr,type)
+	res += dns(addr,type) + " ; "
 	}
-	return res.rstrip.chomp(";")
+	return res.strip.chomp(";")
 end
 def rdnsWrapper(addresses)
 	res = ""
 	addrs = addresses.gsub(/\;+$/, '').split(";")
 	addrs.each {|addr|
 	addr = addr.lstrip().rstrip()
-	res += rdns(addr)
+	res += rdns(addr) + " ; "
 	}
-	return res.rstrip.chomp(";")
+	return res.strip.chomp(";")
 end
 def cmd_dnsall(args,nick,chan,rawargs="",pipeargs="")
 	return dnsWrapper(args)
