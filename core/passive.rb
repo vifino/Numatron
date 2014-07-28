@@ -131,11 +131,13 @@ def passive_process(raw)
 
 		end
 	elsif type=="nick" then
+		puts "--- #{nick} is now known as #{chan}"
 		begin
 		# Move table to new pos
 		if not @passivedata then @passivedata = {} end
 		@passivedata[chan] = (@passivedata[nick] or {})
-		@passivedata.delete_at nick
+		#@passivedata.delete_at nick
+		@passivedata = @passivedata.reject{|k|k==nick}
 		@passivedata[chan]["user"] = username
 		@passivedata[chan]["host"] = hostname
 		rescue => e
