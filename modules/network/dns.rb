@@ -6,8 +6,11 @@ def dns(addr,type="ANY")
 	rs = Dnsruby::DNS.new
 	begin
 		res = rs.getresources(addr, type)
-		return "No results!" if (res.empty? or res==nil)
-		return (res.map {|r| r.rdata_to_string.gsub(/[[:cntrl:]]/, '') }).join("; ")
+		if res!=nil then
+			return (res.map {|r| r.rdata_to_string.gsub(/[[:cntrl:]]/, '') }).join("; ")
+		else
+			return "No results!"
+		end
 	rescue => e
 		return e.to_s
 	end
@@ -17,8 +20,11 @@ def rdns(addr)
 	rs = Dnsruby::DNS.new
 	begin
 		res = rs.getnames addr
-		return "No results!" if (res.empty? or res==nil)
-		return (res.map {|r| r.to_s }).join("; ")
+		if res!=nil then
+			return (res.map {|r| r.to_s }).join("; ")
+		else
+			return "No results!"
+		end
 	rescue => e
 		return e.to_s
 	end
