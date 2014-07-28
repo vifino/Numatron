@@ -20,7 +20,11 @@ def js(args="",nick="",chan="",rawargs="",pipeargs="") # Considered safe? I hope
 			if @jsout.empty? then
 				return returnval.inspect
 			else
-				return @jsout.strip+"\n> "+returnval.inspect
+				txt = "\n> "
+				if returnval then
+					txt = "\n> "+returnval.inspect
+				end
+				return @jsout.strip+txt
 			end
 		end
 	rescue => detail
