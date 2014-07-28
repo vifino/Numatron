@@ -14,7 +14,7 @@ class EvalIn
 	end
 	MaxLength = 80
 	def eval(lang, code)
-		result = Net::HTTP.post_form(URI("https://eval.in/"), "utf8" => "λ", "code" => template(lang)+(code or ""), "execute" => "on", "lang" => (lang or @lang), "input" => "")
+		result = Net::HTTP.post_form(URI("https://eval.in/"), "utf8" => "λ", "code" => template(lang,code), "execute" => "on", "lang" => (lang or @lang), "input" => "")
 		if result.is_a? Net::HTTPFound
     		location = URI(result['location'])
         location.scheme = "https"
@@ -27,7 +27,7 @@ class EvalIn
           	needs_ellipsis = output.each_line.count > 1 || first_line.length > MaxLength
           	out = "#{first_line[0, MaxLength]}#{'...' if needs_ellipsis} (#{location})"
 					rescue => e # no output
-						out = "No output (#{location})"
+						out = "No output. (#{location})"
 					end
 					#if out.match("^\/tmp\/(.*):(\d*):in") then
 					#	return out.gsub("^\/tmp\/(.*):(\d*):","")
@@ -41,11 +41,14 @@ class EvalIn
         raise CommunicationError, result
       end
     end
-		def template(lang)
+		def template(lang,code="")
 			#if lang.match("ruby") then
 			#return "begin; puts eval(DATA.read).inspect;rescue => e; $stderr.puts \"\#{e.class}: \#{e}\"; end; "
 			#	return ""
 			#end
+			if lang.match("php") then
+				return "<?php #{code} ?>"
+			end
 			return ""
 		end
 end

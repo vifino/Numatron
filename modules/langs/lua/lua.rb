@@ -33,7 +33,7 @@ def lua(args, nick, chan,rawargs="",pipeargs="")
 			end
 		end
 		if @returnval != nil or not @output.empty? then
-			return ret
+			return @returnval
 		elsif error
 			return error
 		end
