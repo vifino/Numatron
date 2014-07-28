@@ -134,9 +134,8 @@ def passive_process(raw)
 		begin
 		# Move table to new pos
 		if not @passivedata then @passivedata = {} end
-		if not @passivedata.include? nick then @passivedata[nick] = {} end
-		@passivedata[chan] = @passivedata[nick]
-		@passivedata[nick] = nil
+		@passivedata[chan] = (@passivedata[nick] or {})
+		@passivedata.delete_at nick
 		@passivedata[chan]["user"] = username
 		@passivedata[chan]["host"] = hostname
 		rescue => e
