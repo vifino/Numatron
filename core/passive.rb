@@ -42,6 +42,8 @@ def passive_process(raw)
 			@passivedata[nick]["words"] += (msg.split(" ").size) + 1
 			if not @passivedata[nick]["chars"] then @passivedata[nick]["chars"] = 0 end
 			@passivedata[nick]["chars"] += (msg.split("").size) + 1
+			@passivedata[nick]["avgchars"] = @passivedata[nick]["chars"] / @passivedata[nick]["lines"]
+			@passivedata[nick]["avgwords"] = @passivedata[nick]["words"] / @passivedata[nick]["lines"]
 		end
 		rescue => e
 
