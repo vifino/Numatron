@@ -9,7 +9,8 @@ def testai(raw)
 	username = data[4]
 	hostname = data[5]
 	if type =="msg" then
-		if msg.downcase.include? "hello" and msg.downcase.include? @bot.nick then
+		msg = msg.downcase
+		if msg.include? "hello" and msg.include? @bot.nick.downcase then
 			@bot.msg(chan,"Hello #{nick}!")
 		end
 	end
