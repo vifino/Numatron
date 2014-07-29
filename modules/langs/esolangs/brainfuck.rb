@@ -23,7 +23,6 @@ def bf(insts,input="")
 			end
 		}
 		code +="return o;"
-		puts code
 		begin
 			out=eval(code)
 			return out
