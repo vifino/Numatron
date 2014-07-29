@@ -81,7 +81,7 @@ def commandRunner(cmd,nick,chan)
 					if $commands[func].is_a?(Method) then
 						retLast = $commands[func].call(args, nick, chan, args, nil)
 						retLast = retLast.to_s.rstrip or ""
-					elsif $command[func].class == "Proc" then
+					elsif $commands[func].class == "Proc" then
 						retLast = $commands[func].call(args, nick, chan, args, nil)
 						retLast = retLast.to_s.rstrip or ""
 					elsif $commands[func].class == "String" then

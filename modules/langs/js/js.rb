@@ -7,6 +7,7 @@ def jsinit
 	@jsvm["print"] = lambda {|this, word| @jsout << word.to_s + " "; return word.to_s}
 	@jsvm["log"] = lambda {|this, word| @jsout << word.to_s + " "; return word.to_s}
 	@jsvm["write"] = lambda {|this, word| @jsout << word.to_s; return word.to_s}
+	@jsvm["Math"]["random"] = lambda {|this| return rand}
 end
 jsinit
 def js(args="",nick="",chan="",rawargs="",pipeargs="") # Considered safe? I hope so.
