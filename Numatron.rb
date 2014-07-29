@@ -42,8 +42,18 @@ def sendfifos(raw)
 	@fifoauth.flush
 end
 $commands = Hash.new()
+@rawhooks = []
 loadSettings
 runDir "core"
+def runRaw(raw)
+	@rawhooks.each {|item|
+	if item.is_a?(Method) then
+		$commands[func].call(raw)
+	else
+		self.send(item,raw)
+	end
+	}
+end
 # spacer! \o/
 def subcommandParser(args="",nick,chan)
 	args.gsub(/\${(.*)}/) {|cmdN|
@@ -121,7 +131,7 @@ def logic(raw)
 	type,nick,to,msg = @bot.msgtype(raw)
 	#sendfifos raw
 	begin
-		passive_process raw
+		runRaw raw
 	rescue => e
 		puts e
 		# Todo: do something more useful with output
@@ -162,7 +172,7 @@ def setup
 	@channels.each { |chan|
 		@bot.join(chan)
 		who chan
-		sleep(0.5)
+		sleep(0.2)
 		}
 end
 until false do
