@@ -1,6 +1,7 @@
 @settings = {
 	'server' => 'irc.esper.net', # The server to connect to
-	'port' => 5555,							 # The port
+	'port' => 6697,							 # The port
+	'ssl' => true,							 # Whether to use, or not to use ssl
 	'nickname'=> 'MyBot',				 # Nickname
 	'username'=> 'MyBot',				 # Username
 	'realname'=> 'MyBot',				 # Realname

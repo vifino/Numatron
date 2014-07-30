@@ -28,6 +28,11 @@ def loadSettings(file = "settings.rb")
 	rescue => detail
 		@password = nil
 	end
+	begin
+		@ssl = @settings["ssl"]
+	rescue => e
+		@ssl=false
+	end
 end
 def init_fifos
 	@fifopassive = open("pipes/passive","w+")
@@ -175,7 +180,7 @@ def setup
 	#init_fifos
 	#@fiforaw = open("pipes/raw","w+")
 	@authread,@authwrite = IO.pipe
-	@bot = IRC.new(@server,@port,@nick,@username,@realname,@password)
+	@bot = IRC.new(@server,@port,@ssl,@nick,@username,@realname,@password)
 	trap("INT"){ @bot.quit; abort }
 	runDir "modules"
 	#sleep(2)

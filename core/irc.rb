@@ -1,17 +1,29 @@
 # IRC Connector and basic framework
 # Made by vifino
 require 'socket'
+require "openssl"
 class IRC
 	attr_reader :nick
 	attr_reader :username
 	attr_reader :realname
 	attr_reader :socket
 	attr_reader :lastline
-	def initialize(server, port, nick,user=nick,realname = nick,pass = nil)
+	def initialize(server,port,ssl=false,nick,user=nick,realname=nick,pass=nil)
 		@nick = nick
 		@username = user
 		@realname = realname
-		@socket = TCPSocket.open(server, port)
+		if ssl then
+			sock = TCPSocket.new(server,port)
+			sleep 2
+			ssl_context = OpenSSL::SSL::SSLContext.new
+			ssl_context.verify_mode = OpenSSL::SSL::VERIFY_NONE
+			irc = OpenSSL::SSL::SSLSocket.new(sock, ssl_context)
+			irc.sync = true
+			irc.connect
+			@socket = irc
+		else
+			@socket = TCPSocket.open(server, port)
+		end
 		@lastline = nil
 		@hookRaw = Array.new
 		send "NICK #{@nick}"
