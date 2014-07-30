@@ -1,7 +1,7 @@
 # Brainfuck interpreter, ported to ruby
 # Made by vifino
 require 'timeout'
-def bf(insts,input="")
+def bf(insts,input="") # not working fully, but most part is working.
 	if not insts.empty? then
 		code = "o='';p=0;w=p;a=[];"
 		insts.strip.split("").each {|inst|
