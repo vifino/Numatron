@@ -8,7 +8,7 @@ class IRC
 	attr_reader :realname
 	attr_reader :socket
 	attr_reader :lastline
-	def initialize(server,port,ssl=false,nick,user=nick,realname=nick,pass=nil)
+	def initialize(server, port, ssl=false, nick, user=nick, realname = nick,pass = nil)
 		@nick = nick
 		@username = user
 		@realname = realname
