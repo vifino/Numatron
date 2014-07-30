@@ -3,9 +3,9 @@
 require 'timeout'
 def bf(insts,input="")
 	if not insts.empty? then
-		code = "o='';p=0;a=[];"
+		code = "o='';p=0;w=p;a=[];"
 		insts.strip.split("").each {|inst|
-			code +="if p<=0 then p=0; end;if !a[p] then a[p]=0; end;if a[p]<=0 then a[p]=0; end;"
+			code +="if p<=0 then p=0; end;if a[p]==nil then a[p]=0; end;if a[p]==-1 then a[p]=0; end;"
 			if inst==">" then
 				code += "p+=1;"
 			elsif inst=="<" then
@@ -17,12 +17,14 @@ def bf(insts,input="")
 			elsif inst=="." then
 				code += "o+=a[p].chr;"
 			elsif inst=="["
-				code += "if a[p]!=0 then; until a[p]<=1 do;"
+				code += "w=p;while a[w]!=0 do;p=0;"
 			elsif inst=="]" then
-				code += "end;end;"
+				code += "end;w=p;"
 			end
 		}
+		code +="if p<=0 then p=0; end;if a[p]==nil then a[p]=0; end;if a[p]==-1 then a[p]=0; end;"
 		code +="return o;"
+		puts code
 		begin
 			out=eval(code)
 			return out
@@ -35,7 +37,7 @@ end
 def bf_cmd(args="",nick="",chan="",rawargs="",pipeargs="")
 	begin
   	Timeout::timeout(2) do
-    return bf(args,pipeargs)
+    return bf(args,pipeargs).delete("\r\n")
   end
 rescue => e
   	return "Error: Took too long."
