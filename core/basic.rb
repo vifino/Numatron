@@ -9,10 +9,7 @@ def rb(args,nick,chan,rawargs="",pipeargs="")
 	if isPrivileged? nick and args != nil then
 		begin
 			returnval = eval args
-			if returnval!=nil then
-				#@bot.msg(chan,"=> "+ returnval.inspect)
 				return (returnval.inspect or "nil")
-			end
 		rescue Exception => detail
 			#@bot.msg(chan,detail.message())
 			return detail.message

@@ -19,6 +19,23 @@ end
 def whois(user)
 	@bot.send "whois #{user}"
 end
+def getAcc(user)
+	who user
+	sleep (0.5)
+	if not user.include? "#" then
+		for i in 0..20
+			if @passivedata[user] then
+				if acc=@passivedata[user]["acc"] then
+					return acc
+				end
+				sleep(0.2)
+			end
+		end
+		return nil
+	else
+		return "Channel not a user!"
+	end
+end
 def passive_process(raw)
 	data= @bot.msgtype(raw)
 	type = data[0]
