@@ -1,4 +1,5 @@
 @settings = {
+	'jruby' => false,						 # Set this to true if you are running this on Jruby, dont do it.
 	'server' => 'irc.esper.net', # The server to connect to
 	'port' => 6697,							 # The port
 	'ssl' => true,							 # Whether to use, or not to use ssl

@@ -18,6 +18,7 @@ def loadSettings(file = "settings.rb")
 	@admins = @settings["admins"]
 	@prefix = @settings["prefix"] or "#"
 	@cmdnotfound = @settings["notFoundmsg"]
+	@jruby = @settings["jruby"]
 	begin
 		@blacklistChannels = @settings["blacklistChannels"] or []
 	rescue => detail
@@ -125,7 +126,8 @@ def commandRunner(cmd,nick,chan)
 	#end
 end
 def commandParser(cmd,nick,chan)
-	job_parser = fork do
+	#job_parser = fork do
+	Thread.new do
 		begin
 			ret=commandRunner(cmd, nick, chan)
 			if ret then
@@ -138,9 +140,9 @@ def commandParser(cmd,nick,chan)
 		rescue => detail
 			@bot.msg(chan,detail.message())
 		end
-		exit
+		#exit
 	end
-	Process.detach(job_parser)
+	#Process.detach(job_parser)
 end
 def logic(raw)
 	type,nick,to,msg = @bot.msgtype(raw)
