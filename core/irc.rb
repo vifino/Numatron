@@ -84,8 +84,16 @@ class IRC
 	def identify(pass)
 		send "PASS :#{pass}"
 	end
+	def ctcp(chan,msg)
+		self.msg(chan,"\x01#{msg}\x01")
+	end
+	def action(chan,msg)
+		self.msg(chan,"\x01ACTION #{msg}\x01")
+	end
 	def msgtype(msg)
-		if match = msg.match(/^:(.*)!(.*)@(.*) PRIVMSG (.*?) :(.*)/) then
+		if match = msg.match(/^:(.*)!(.*)@(.*) PRIVMSG (.*?) :\x01ACTION (.*)\x01/) then
+			return "action", match[1], match[4], match[5],match[2],match[3]
+		elsif match = msg.match(/^:(.*)!(.*)@(.*) PRIVMSG (.*?) :(.*)/) then
 			return "msg", match[1], match[4], match[5],match[2],match[3]
 		elsif match = msg.match(/^:(.*)!(.*)@(.*) NOTICE (.*?) :(.*)/) then
 			return "notice", match[1], match[4], match[5],match[2],match[3]
