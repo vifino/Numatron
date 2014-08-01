@@ -1,7 +1,8 @@
 # Brainfuck interpreter, ported to ruby
 # Made by vifino
 require 'timeout'
-def bf(insts,input="") # not working fully, but most part is working.
+def bf(insts="",input="") # not working fully, but most part is working.
+	#if insts=nil then return "Can't execute nothing!" end
 	if not insts.empty? then
 		code = "o='';p=0;w=p;a=[];"
 		insts.strip.split("").each {|inst|
@@ -39,6 +40,7 @@ def bf_cmd(args="",nick="",chan="",rawargs="",pipeargs="")
     	return bf(args,pipeargs).delete("\r\n")
 		end
 	rescue => e
+		puts e
   	return "Error: Took too long."
 	end
 end
@@ -70,13 +72,7 @@ $commands["brainfuck2boolfuck"] = :brf2blf
 $commands["blf2brf"] = :blf2brf
 $commands["boolfuck2brainfuck"] = :blf2brf
 def blf_cmd(args="",nick="",chan="",rawargs="",pipeargs="")
-	begin
-		Timeout::timeout(2) do
-			return bf(blf2brf(args),pipeargs).delete("\r\n")
-		end
-	rescue => e
-		return "Error: Took too long."
-	end
+	bf(blf2brf(args))
 end
 $commands["bf"] = :blf_cmd
 $commands["blf"] = :blf_cmd
