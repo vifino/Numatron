@@ -62,7 +62,7 @@ class IRC
 		send "JOIN #{chan}"
 	end
 	def part(chan,message=nil)
-		if message=nil then
+		if message==nil then
 			send "PART #{chan}"
 		else
 			send "PART #{chan} :#{message}"
