@@ -89,14 +89,14 @@ def bfopt(code)
 	# tbd
 	return optimised.strip
 end
-def blf2brf(code) # Boolfuck to brainfuck :3
+def blf2brf(code="",nick="",chan="",rawargs="",pipeargs="") # Boolfuck to brainfuck, doesnt work
 	code=code.gsub('>[>]+<[+<]>>>>>>>>>[+]<<<<<<<<<',"+").gsub('>>>>>>>>>+<<<<<<<<+[>+]<[<]>>>>>>>>>[+]<<<<<<<<<',"-") # + and -
 	code=code.gsub('<<<<<<<<<',"<").gsub('>>>>>>>>>',">") # > and <
 	code=code.gsub('>,>,>,>,>,>,>,>,<<<<<<<<',",").gsub('>;>;>;>;>;>;>;>;<<<<<<<<',".") # Input and output
 	code=code.gsub('>>>>>>>>>+<<<<<<<<+[>+]<[<]>>>>>>>>>[+<<<<<<<<[>]+<[+<]',"[").gsub('>>>>>>>>>+<<<<<<<<+[>+]<[<]>>>>>>>>>]<[+<]',"]") # [ and ]
 	return code
 end
-def brf2blf(code) # Boolfuck to brainfuck, reversed! :D
+def brf2blf(code="",nick="",chan="",rawargs="",pipeargs="") # Brainfuck to Boolfuck. 101% useful
 	code=code.gsub(/\+/,'>[>]+<[+<]>>>>>>>>>[+]<<<<<<<<<').gsub(/\-/,'>>>>>>>>>+<<<<<<<<+[>+]<[<]>>>>>>>>>[+]<<<<<<<<<') # + and -
 	code=code.gsub(/</,'<<<<<<<<<').gsub(/>/,'>>>>>>>>>') # > and <
 	code=code.gsub(/,/,'>,>,>,>,>,>,>,>,<<<<<<<<').gsub(/\./,'>;>;>;>;>;>;>;>;<<<<<<<<') # Input and output
@@ -107,9 +107,9 @@ $commands["brf2blf"] = :brf2blf
 $commands["brainfuck2boolfuck"] = :brf2blf
 $commands["blf2brf"] = :blf2brf
 $commands["boolfuck2brainfuck"] = :blf2brf
-def blf_cmd(args="",nick="",chan="",rawargs="",pipeargs="")
+def blf_cmd(args="",nick="",chan="",rawargs="",pipeargs="")# Would not use.
 	begin
-		Timeout::timeout(2) do
+		Timeout::timeout(4) do
 			return bf(blf2brf(args)).delete("\r\n")
 		end
 	rescue => e
@@ -117,7 +117,6 @@ def blf_cmd(args="",nick="",chan="",rawargs="",pipeargs="")
 		return "Error: Took too long."
 	end
 end
-$commands["bf"] = :blf_cmd
 $commands["blf"] = :blf_cmd
 $commands["boolfuck"] = :blf_cmd
 def bfenc(str="")
