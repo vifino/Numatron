@@ -69,6 +69,7 @@ def subcommandParser(args="",nick,chan)
 	}
 end
 def commandRunner(cmd,nick,chan)
+	cmd=cmd.strip
 	retFinal=""
 	retLast=""
 	rnd= ('a'..'z').to_a.shuffle[0,8].join
@@ -76,6 +77,7 @@ def commandRunner(cmd,nick,chan)
 	cmdarray = cmd.scan(/(?:[^|\\]|\\.)+/) or [cmd]
 	#func, args = cmd.lstrip().split(' ', 2)
 	cmdarray.each {|cmd|
+		cmd=cmd.lstrip
 		if cmd then
 			cmd = cmd.gsub("\\|","|")
 			func, args = cmd.split(' ', 2)
@@ -85,15 +87,15 @@ def commandRunner(cmd,nick,chan)
 				if retLast==rnd then
 					retLast = ""
 					if $commands[func].is_a?(Method) then
-						retLast = $commands[func].call(args, nick, chan, args, nil)
+						retLast = $commands[func].call(args, nick, chan, args, "")
 						retLast = retLast.to_s.rstrip or ""
 					elsif $commands[func].class == "Proc" then
-						retLast = $commands[func].call(args, nick, chan, args, nil)
+						retLast = $commands[func].call(args, nick, chan, args, "")
 						retLast = retLast.to_s.rstrip or ""
 					elsif $commands[func].class == "String" then
 								retLast = $command[func].to_s.rstrip or ""
 					else
-						retLast = self.send($commands[func], args, nick, chan, args, nil)
+						retLast = self.send($commands[func], args, nick, chan, args, "")
 						retLast = retLast.to_s.rstrip or ""
 					end
 				else
