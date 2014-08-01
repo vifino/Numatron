@@ -78,8 +78,12 @@ class IRC
 		@lastline = msg.delete("\r\n")
 		return msg.delete("\r\n")
 	end
-	def quit
-		send 'QUIT'
+	def quit(msg=nil)
+		if not msg then
+			send 'QUIT'
+		else
+			send "QUIT #{msg}"
+		end
 	end
 	def identify(pass)
 		send "PASS :#{pass}"

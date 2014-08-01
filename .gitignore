@@ -3,3 +3,5 @@ bundle*
 *.dat
 *.lock
 pipes/*
+
+modules/other/cookie.rb

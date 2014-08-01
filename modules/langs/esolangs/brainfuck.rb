@@ -72,7 +72,14 @@ $commands["brainfuck2boolfuck"] = :brf2blf
 $commands["blf2brf"] = :blf2brf
 $commands["boolfuck2brainfuck"] = :blf2brf
 def blf_cmd(args="",nick="",chan="",rawargs="",pipeargs="")
-	bf(blf2brf(args))
+	begin
+		Timeout::timeout(2) do
+			return bf(blf2brf(args)).delete("\r\n")
+		end
+	rescue => e
+		puts e
+		return "Error: Took too long."
+	end
 end
 $commands["bf"] = :blf_cmd
 $commands["blf"] = :blf_cmd

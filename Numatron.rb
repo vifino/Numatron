@@ -89,10 +89,10 @@ def commandRunner(cmd,nick,chan)
 					if $commands[func].is_a?(Method) then
 						retLast = $commands[func].call(args, nick, chan, args, "")
 						retLast = retLast.to_s.rstrip or ""
-					elsif $commands[func].class == "Proc" then
+					elsif $commands[func].class == Proc then
 						retLast = $commands[func].call(args, nick, chan, args, "")
 						retLast = retLast.to_s.rstrip or ""
-					elsif $commands[func].class == "String" then
+					elsif $commands[func].class == String then
 								retLast = $command[func].to_s.rstrip or ""
 					else
 						retLast = self.send($commands[func], args, nick, chan, args, "")
@@ -102,10 +102,10 @@ def commandRunner(cmd,nick,chan)
 					if $commands[func].is_a?(Method) then
 						retLast = $commands[func].call(args, (args or "")+retLast, chan, args, retLast)
 						retLast = retLast.to_s.rstrip or ""
-					elsif $commands[func].class == "Proc" then
+					elsif $commands[func].class == Proc then
 						retLast = $commands[func].call(args, (args or "")+retLast, chan, args, retLast)
 						retLast = retLast.to_s.rstrip or ""
-					elsif $commands[func].class == "String" then
+					elsif $commands[func].class == String then
 							retLast = $command[func].to_s.rstrip or ""
 					else
 						retLast = self.send($commands[func], (args or "")+retLast, nick, chan, args, retLast)
