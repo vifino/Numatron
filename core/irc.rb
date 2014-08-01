@@ -59,10 +59,14 @@ class IRC
 		}
 	end
 	def join(chan)
-			send "JOIN #{chan}"
+		send "JOIN #{chan}"
 	end
-	def part(chan)
+	def part(chan,message=nil)
+		if message=nil then
 			send "PART #{chan}"
+		else
+			send "PART #{chan} :#{message}"
+		end
 	end
 	def notice(chan,msg)
 		send "NOTICE #{chan} :#{msg}"
@@ -79,10 +83,10 @@ class IRC
 		return msg.delete("\r\n")
 	end
 	def quit(msg=nil)
-		if not msg then
+		if msg==nil then
 			send 'QUIT'
 		else
-			send "QUIT #{msg}"
+			send "QUIT :#{msg}"
 		end
 	end
 	def identify(pass)
