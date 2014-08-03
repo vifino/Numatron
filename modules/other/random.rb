@@ -9,3 +9,4 @@ $commands["nohedidn't"]= lambda {|args="",nick="",chan="",rawargs="",pipeargs=""
 $commands["noyoudidnt"]= lambda {|args="",nick="",chan="",rawargs="",pipeargs=""| return "No, I did!"}
 $commands["noyoudidn't"]= lambda {|args="",nick="",chan="",rawargs="",pipeargs=""| return "No, I did!"}
 $commands["lies"]= lambda {|args="",nick="",chan="",rawargs="",pipeargs=""| return "Errr... No?"}
+$commands["chicken"] = lambda {|args="",nick="",chan="",rawargs="",pipeargs=""| return "\xf0\x9f\x90\x94"} # Chicken. Totally.

@@ -109,7 +109,7 @@ $commands["blf2brf"] = :blf2brf
 $commands["boolfuck2brainfuck"] = :blf2brf
 def blf_cmd(args="",nick="",chan="",rawargs="",pipeargs="")# Would not use.
 	begin
-		Timeout::timeout(4) do
+		Timeout::timeout(2) do
 			return bf(blf2brf(args)).delete("\r\n")
 		end
 	rescue => e
