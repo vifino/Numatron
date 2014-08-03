@@ -83,25 +83,46 @@ end
 $commands["bf"] = :bf_cmd
 $commands["brf"] = :bf_cmd
 $commands["brainfuck"] = :bf_cmd
-def bfopt(code)
+def bfopt(code) # Should be useful someday.
 	optimised = ""
 	optimised = code.gsub(/[^\+\-<>\[\]\.,]/i, '')
 	# tbd
 	return optimised.strip
 end
 def blf2brf(code="",nick="",chan="",rawargs="",pipeargs="") # Boolfuck to brainfuck, doesnt work
-	code=code.gsub('>[>]+<[+<]>>>>>>>>>[+]<<<<<<<<<',"+").gsub('>>>>>>>>>+<<<<<<<<+[>+]<[<]>>>>>>>>>[+]<<<<<<<<<',"-") # + and -
-	code=code.gsub('<<<<<<<<<',"<").gsub('>>>>>>>>>',">") # > and <
-	code=code.gsub('>,>,>,>,>,>,>,>,<<<<<<<<',",").gsub('>;>;>;>;>;>;>;>;<<<<<<<<',".") # Input and output
-	code=code.gsub('>>>>>>>>>+<<<<<<<<+[>+]<[<]>>>>>>>>>[+<<<<<<<<[>]+<[+<]',"[").gsub('>>>>>>>>>+<<<<<<<<+[>+]<[<]>>>>>>>>>]<[+<]',"]") # [ and ]
+	code=code.gsub('>>>>>>>>>+<<<<<<<<+[>+]<[<]>>>>>>>>>[+<<<<<<<<[>]+<[+<]','[')
+	code=code.gsub('>>>>>>>>>+<<<<<<<<+[>+]<[<]>>>>>>>>>]<[+<]',']') # [ and ]
+	code=code.gsub('>[>]+<[+<]>>>>>>>>>[+]<<<<<<<<<','+')
+	code=code.gsub('>>>>>>>>>+<<<<<<<<+[>+]<[<]>>>>>>>>>[+]<<<<<<<<<','-') # + and -
+	code=code.gsub('>,>,>,>,>,>,>,>,<<<<<<<<',',')
+	code=code.gsub('>;>;>;>;>;>;>;>;<<<<<<<<','.') # Input and output
+	code=code.gsub('<<<<<<<<<','>')
+	code=code.gsub('>>>>>>>>>','<') # > and <
 	return code
 end
 def brf2blf(code="",nick="",chan="",rawargs="",pipeargs="") # Brainfuck to Boolfuck. 101% useful
-	code=code.gsub(/\+/,'>[>]+<[+<]>>>>>>>>>[+]<<<<<<<<<').gsub(/\-/,'>>>>>>>>>+<<<<<<<<+[>+]<[<]>>>>>>>>>[+]<<<<<<<<<') # + and -
-	code=code.gsub(/</,'<<<<<<<<<').gsub(/>/,'>>>>>>>>>') # > and <
-	code=code.gsub(/,/,'>,>,>,>,>,>,>,>,<<<<<<<<').gsub(/\./,'>;>;>;>;>;>;>;>;<<<<<<<<') # Input and output
-	code=code.gsub(/\[/,'>>>>>>>>>+<<<<<<<<+[>+]<[<]>>>>>>>>>[+<<<<<<<<[>]+<[+<]').gsub(/\[/,'>>>>>>>>>+<<<<<<<<+[>+]<[<]>>>>>>>>>]<[+<]') # [ and ]
-	return code
+	str=""
+	code.split("").each {|c|
+		str+=case c
+		when "+"
+			'>[>]+<[+<]>>>>>>>>>[+]<<<<<<<<<'
+		when "-"
+			'>>>>>>>>>+<<<<<<<<+[>+]<[<]>>>>>>>>>[+]<<<<<<<<<'
+		when "<"
+			'<<<<<<<<<'
+		when ">"
+			'>>>>>>>>>'
+		when ","
+			'>,>,>,>,>,>,>,>,<<<<<<<<'
+		when "."
+			'>;>;>;>;>;>;>;>;<<<<<<<<'
+		when "["
+			'>>>>>>>>>+<<<<<<<<+[>+]<[<]>>>>>>>>>[+<<<<<<<<[>]+<[+<]'
+		when "]"
+			'>>>>>>>>>+<<<<<<<<+[>+]<[<]>>>>>>>>>]<[+<]'
+		end
+	}
+	return str
 end
 $commands["brf2blf"] = :brf2blf
 $commands["brainfuck2boolfuck"] = :brf2blf
