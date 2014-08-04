@@ -84,11 +84,11 @@ def logic(raw)
 			end
 		end
 	elsif type=="invite" then
-		if not @blacklistChannels.include? msg.strip.downcase then
+		#if not @blacklistChannels.include? msg.strip.downcase then
 			@bot.join msg
 			who msg
 			@bot.msg msg,"Hello! :3"
-		end
+		#end
 	else
 		puts raw
 	end

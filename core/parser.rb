@@ -16,14 +16,19 @@ def argParser(args="",nick,chan)
 				return "Missing input."
 			end
 		else
-				return "Missing input."
+			return "Missing input."
 		end
 	}
 	#args=args.gsub(/\$<(.*?)>/) {|var|
 	args=args.gsub(/<(.*?)>/) {|var=""|
 		if not var.empty? then
-			puts var
-			$variables[var.strip.gsub(/^</,"").gsub(/>$/,"").split(" ").first.strip]
+			nme=(var or "< >").strip.gsub(/^</,"").gsub(/>$/,"").split(" ")[0]
+			return "<>" if (nme or "").empty?
+			if $variables[nme] then
+				return $variables[nme] if not $variables[nme]==""
+			else
+				return "<#{nme}>"
+			end
 		end
 	}
 	args=args.gsub(/\${(.*)}/) {|cmdN|
@@ -59,7 +64,7 @@ def commandRunner(cmd,nick,chan)
 						retLast = retLast.to_s.rstrip or ""
 					elsif $commands[func].class == String then
 								retLast = $command[func].to_s.rstrip or ""
-					else
+					elsif $commands[func].class == Symbol then
 						retLast = self.send($commands[func], args, nick, chan, args, "")
 						retLast = retLast.to_s.rstrip or ""
 					end
@@ -72,7 +77,7 @@ def commandRunner(cmd,nick,chan)
 						retLast = retLast.to_s.rstrip or ""
 					elsif $commands[func].class == String then
 							retLast = $command[func].to_s.rstrip or ""
-					else
+					elsif $commands[func].class == Symbol then
 						retLast = self.send($commands[func], (args or "")+retLast, nick, chan, args, retLast)
 						retLast = retLast.to_s.rstrip or ""
 					end
