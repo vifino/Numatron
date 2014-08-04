@@ -12,3 +12,9 @@ end
 $commands["myfunc"] = :myfunc
 ```
 Thats a very basic module, of course you can make things more complicated than that.
+But your plain "Hello World" can be made quicker.
+```
+$commands["hello"]="Hello World!"
+```
+That's it!
+There is also the way to use lambdas instead of symbols, if you prefer them, use them!
