@@ -113,6 +113,8 @@ class IRC
 				return "mode", match[1], match[4], match[6], match[5],match[2],match[3]
 		elsif match = msg.match(/^:(.*)!(.*)@(.*) NICK :(.*)/) then
 			return "nick", match[1], match[4],nil, match[2],match[3]
+		elsif match = msg.match(/^:(.*)!(.*)@(.*) INVITE (.*?) :(.*)/) then
+			return "invite", match[1], match[4], match[5],match[2],match[3]
 		else
 			return "other",msg
 		end

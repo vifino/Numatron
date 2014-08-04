@@ -83,6 +83,12 @@ def logic(raw)
 				@bot.msg(to,detail.message())
 			end
 		end
+	elsif type=="invite" then
+		if not @blacklistChannels.include? msg.strip.downcase then
+			@bot.join msg
+			who msg
+			@bot.msg msg,"Hello! :3"
+		end
 	else
 		puts raw
 	end
