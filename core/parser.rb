@@ -23,11 +23,11 @@ def argParser(args="",nick,chan)
 	args=args.gsub(/<(.*?)>/) {|var=""|
 		if not var.empty? then
 			nme=(var or "< >").strip.gsub(/^</,"").gsub(/>$/,"").split(" ")[0]
-			return "<>" if (nme or "").empty?
+			"<>" if (nme or "").empty?
 			if $variables[nme] then
-				return $variables[nme] if not $variables[nme]==""
+				$variables[nme] if not $variables[nme]==""
 			else
-				return "<#{nme}>"
+				"<#{nme}>"
 			end
 		end
 	}
