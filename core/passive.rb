@@ -177,4 +177,6 @@ end
 def passive_dump
 	@passivedata.to_json # In json, of course.
 end
-@rawhooks.push(:passive_process)
+if not @rawhooks.include? :passive_process then
+	@rawhooks.push(:passive_process)
+end
