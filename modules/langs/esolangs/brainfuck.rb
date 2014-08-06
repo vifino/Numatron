@@ -1,7 +1,7 @@
 # Brainfuck interpreter, ported to ruby
 # Made by vifino
 require 'timeout'
-def bf(insts) # This one works! (TM)
+def bf(insts,input="") # This one works! (TM)
 	str="o='';a=Array.new(256,0);p=0;"
 	insts.gsub(/./){|inst|
 		str = str+"a[p]=a[p]||0;if a[p]>=256 then;a[p]=0; end;if a[p]<0 then; a[p]=255; end;"
@@ -71,12 +71,17 @@ def bfOld(insts="",input="") # not working correctly.
 	end
 end
 def bf_cmd(args="",nick="",chan="",rawargs="",pipeargs="")
-	begin
-  	Timeout::timeout(2) do
-    	return bf(args,pipeargs).delete("\r\n")
+		begin
+  		Timeout::timeout(2) do
+    		ret=bf(args,pipeargs)
+				return (ret or "").delete("\r\n")
+			end
+		 if ret.class == String
+		else
+			"Error: Took too long."
 		end
 	rescue => e
-		puts e
+		puts e.to_s
   	return "Error: Took too long."
 	end
 end
