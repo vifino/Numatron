@@ -45,29 +45,23 @@ def commandRunner(cmd,nick,chan)
 				if retLast==rnd then
 					retLast = ""
 					if $commands[func].is_a?(Method) then
-						retLast = $commands[func].call(args, nick, chan, args, "")
-						retLast = retLast.to_s or ""
+						retLast = $commands[func].call(args.to_s, nick, chan, args, "")
 					elsif $commands[func].class == Proc then
-						retLast = $commands[func].call(args, nick, chan, args, "")
-						retLast = retLast.to_s or ""
-					elsif $commands[func].class == String then
-						retLast = $commands[func] or ""
+						retLast = $commands[func].call(args.to_s, nick, chan, args, "")
 					elsif $commands[func].class == Symbol then
-						retLast = self.send($commands[func], args, nick, chan, args, "")
-						retLast = retLast.to_s or ""
+						retLast = self.send($commands[func], args.to_s, nick, chan, args, "")
+					else
+						retLast = $commands[func]
 					end
 				else
 					if $commands[func].is_a?(Method) then
-						retLast = $commands[func].call(args, (args or "")+retLast, chan, args, retLast)
-						retLast = retLast.to_s or ""
+						retLast = $commands[func].call(args, (args.to_s or "")+retLast, chan, args, retLast)
 					elsif $commands[func].class == Proc then
-						retLast = $commands[func].call(args, (args or "")+retLast, chan, args, retLast)
-						retLast = retLast.to_s or ""
-					elsif $commands[func].class == String then
-							retLast = $commands[func] or ""
+						retLast = $commands[func].call(args, (args.to_s or "")+retLast, chan, args, retLast)
 					elsif $commands[func].class == Symbol then
-						retLast = self.send($commands[func], (args or "")+retLast, nick, chan, args, retLast)
-						retLast = retLast.to_s or ""
+						retLast = self.send($commands[func], (args.to_s or "")+retLast, nick, chan, args, retLast)
+					else
+						retLast = $commands[func]
 					end
 				#retLast=self.send(@commands[func],(args or "")+retLast,nick,chan) or ""
 				end
@@ -79,7 +73,7 @@ def commandRunner(cmd,nick,chan)
 			end
 		end
 	}
-	return retLast.rstrip if not (retLast==rnd or (retLast.to_s or "").empty?)
+	return retLast if not (retLast==rnd or (retLast.to_s or "").empty?)
 end
 def commandParser(cmd,nick,chan) # This is the entry point.
 	#job_parser = fork do
@@ -87,7 +81,7 @@ def commandParser(cmd,nick,chan) # This is the entry point.
 		begin
 			ret=commandRunner(cmd, nick, chan)
 			if ret then
-				if ret.length > 200 then
+				if ret.to_s.length > 200 then
 					@bot.msg(chan,"> Output: "+putHB(ret.to_s))
 				else
 					@bot.msg(chan,"> "+ret.to_s)
