@@ -1,10 +1,5 @@
 # Core Commands here.
-# Made by vifino
-def echo(args,nick,chan,rawargs="",pipeargs="")
-	return args
-end
-$commands["echo"] = :echo
-$commands["say"] = :echo
+$commands["say"] = $commands["echo"] =->(args,nick,chan,rawargs="",pipeargs=""){args}
 def rb(args,nick,chan,rawargs="",pipeargs="")
 	if isPrivileged? nick and args != nil then
 		begin

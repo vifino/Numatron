@@ -1,7 +1,7 @@
 # Commands for text modification
 # Made by vifino
 def cmd_sqeeze(args,nick,chan,rawargs="",pipeargs="")
-	return (args or "").squeeze()
+	return (args or "").squeeze
 end
 $commands["sqeeze"] = :cmd_sqeeze
 def cmd_rainbow(args,nick,chan,rawargs="",pipeargs="") # seems broken, I dont know why...

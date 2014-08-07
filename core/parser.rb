@@ -6,28 +6,16 @@ def argParser(args="",nick,chan)
 	$variables["nick"]=nick
 	$variables["chan"]=chan
 	$variables["channel"]=chan
-	$commands["let"]=->(args="",nick="",chan="",rawargs="",pipeargs=""){
-		if not args.empty? then
-			if data=args.match(/(.*?)=(.*)/) then
-				p data
-				$variables[data[1].strip] = data[2].strip
-				return "Set Variable '#{data[1]}' to '#{data[2]}'"
-			else
-				return "Missing input."
-			end
-		else
-			return "Missing input."
-		end
-	}
 	#args=args.gsub(/\$<(.*?)>/) {|var|
 	args=args.gsub(/<(.*?)>/) {|var=""|
 		if not var.empty? then
-			nme=(var or "< >").strip.gsub(/^</,"").gsub(/>$/,"").split(" ")[0]
+			nme=(var or "< >").strip.gsub(/^</,"").gsub(/>$/,"")#.split(" ")[0]
 			"<>" if (nme or "").empty?
 			if $variables[nme] then
-				$variables[nme] if not $variables[nme]==""
+				return $variables[nme.downcase] if not $variables[nme.downcase]==""
+				return var
 			else
-				"<#{nme}>"
+				return var
 			end
 		end
 	}
@@ -112,3 +100,16 @@ def commandParser(cmd,nick,chan) # This is the entry point.
 	end
 	#Process.detach(job_parser)
 end
+$commands["let"]=->(args="",nick="",chan="",rawargs="",pipeargs=""){
+	if not args.empty? then
+		if data=args.match(/(.*?)=(.*)/) then
+			p data
+			$variables[data[1].strip.downcase] = data[2].strip
+			return "Set Variable '#{data[1].downcase}' to '#{data[2]}'"
+		else
+			return "Missing input."
+		end
+	else
+		return "Missing input."
+	end
+}
