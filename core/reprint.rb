@@ -4,9 +4,9 @@ print "\r"
 def puts(t)
 	t=t.chomp||""
 	if @written==nil then
-		print "#{t}"
+		print "#{t.to_s}"
 	else
-		print "\n#{t}"
+		print "\n#{t.to_s}"
 	end
 	@written ||=true
 	@lastline=t

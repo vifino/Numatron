@@ -6,13 +6,13 @@ end
 $commands["sqeeze"] = :cmd_sqeeze
 def cmd_rainbow(args,nick,chan,rawargs="",pipeargs="") # seems broken, I dont know why...
 	if not args.to_s.empty? then
-		colors=["04","07","08","03","02","12","06","04","07"] # color is "\u0003<val>""
+		colors=["05","07","08","09","10","12","06"] # color is "\u0003<val>""
 		str = ""
 		c=0
-		args.to_s.split("").each {|char|
-			c+=1
-			if c == 8 then c=0 end
+		args.to_s.lstrip.split("").each {|char|
+			if c==colors.length then c=0 end
   		str+="\u0003"+colors[c]+char
+			c+=1
 		}
 		return str+"\u000F"
 	end

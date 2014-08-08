@@ -1,9 +1,9 @@
 # Passive data collection, WIP
 # Made by vifino
 require "json"
-@passivedata = Hash.new
-@passivedata["users"] = Hash.new
-@passivedata["chans"] = Hash.new
+@passivedata||= Hash.new
+@passivedata["users"]||= Hash.new
+@passivedata["chans"]||= Hash.new
 def passive_newacc(acc)
 	if not @passivedata[acc].class == "Hash" then
 		@passivedata["users"][acc] = Hash.new
@@ -39,13 +39,22 @@ def getAcc(user)
 	end
 end
 def chanProcess(chan,nick,mode=nil)
+	puts chan
+	puts nick
+	puts mode
 	@passivedata["chans"]||={}
 	@passivedata["chans"][chan]||={}
 	@passivedata["chans"][chan]["users"]||={}
 	if mode!=nil then
-		@passivedata["chans"][chan]["users"][nick]=mode # Maybe copy data over?
+		@passivedata["chans"][chan]["users"][nick]=mode.gsub(/^[hg]/i,"") # Maybe copy data over?
+		if mode.match(/^h/i) then
+			@passivedata["users"][nick]["away"]=false
+		elsif mode.match(/^g/i) then
+			@passivedata["users"][nick]["away"]=true
+		end
 	else
-		@passivedata["chans"][chan]["users"][nick]="Unknown"
+		@passivedata["chans"][chan]["users"][nick]||="Unknown"
+		@passivedata["users"][nick]["away"]||="Unknown"
 	end
 	#@passivedata["chans"][chan]["users"][nick]
 end
@@ -77,7 +86,7 @@ def passive_process(raw)
 				chanProcess(chan,nick)
 			end
 		rescue => e
-
+			#puts e
 		end
 	elsif type=="notice" then
 		begin
@@ -96,38 +105,51 @@ def passive_process(raw)
 				end
 			end
 		rescue => e
-
+			#puts e
 		end
-	elsif match = raw.match(/^:(.*) 353 (.*?) (.*?) (.*?) :(.*)/)
+	elsif match = raw.match(/^:(.*) 353 (.*?) (.*?) (.*?) :(.*)/) # NAMES
 		begin
+			puts "NAMES"
 			if not @passivedata["users"] then @passivedata["users"] = {} end
 			chan2 = match[4]
 			mode = match[3]
 			names = match[5]
-			names.split(" ").each {|name|
-				name = name.strip.gsub("@","").gsub("+","")
-				if not @passivedata["users"].include? name then @passivedata["users"][name] = {} end
-				if not @passivedata["users"][name]["chan"] then @passivedata[name]["chan"] = [] end
+			names.split(" ").each {|name2|
+				name = name2.strip.gsub("@","").gsub("+","")
+				puts name
+				@passivedata["users"][name]||= {}
+				@passivedata["users"][name]["chan"] ||= []
 				if not @passivedata["users"][name]["chan"].include? chan2 then @passivedata["users"][name]["chan"].push chan2 end
-				chanProcess(chan2,name)
+				match=name2.strip.match(/[@\+\~]/)
+				if match then
+					chanProcess(chan2,name,match[0])
+				else
+					chanProcess(chan2,name,"")
+				end
 			}
 		rescue => e
-
+			p e
 		end
 	elsif match = raw.match(/^:(.*?) 319 (.*?) (.*?) :(.*)/) then
 		begin
 			if not @passivedata["users"] then @passivedata["users"] = {} end
 			name = match[3]
 			chans = match[4]
-			chans.split(" ").each {|chan2|
-				chan = chan2.strip.gsub("@","").gsub("+","")
+			chans.split(" ").each {|chan|
+				chan2 = chan.strip.gsub("@","").gsub("+","")
 				if not @passivedata["users"].include? name then @passivedata["users"][name] = {} end
 				if not @passivedata["users"][name]["chan"] then @passivedata["users"][name]["chan"] = [] end
-				if not @passivedata["users"][name]["chan"].include? chan then @passivedata["users"][name]["chan"].push chan end
-				chanProcess(chan,name,chan2.strip.match(/^[@+~]/)[0])
+				if not @passivedata["users"][name]["chan"].include? chan2 then @passivedata["users"][name]["chan"].push chan2 end
+				puts chan
+				match=chan.strip.match(/[@\+\~]/)
+				if match then
+					chanProcess(chan2,name,match[0])
+				else
+					chanProcess(chan2,name,"")
+				end
 			}
 		rescue => e
-
+			#puts e
 		end
 	elsif match = raw.match(/^:(.*?) 311 (.*?) (.*?) (.*?) (.*?) (.*?) :(.*)/) then
 		begin
@@ -140,7 +162,7 @@ def passive_process(raw)
 			@passivedata["users"][name]["addr"] = addr
 			@passivedata["users"][name]["real"] = real.delete("^\u{0000}-\u{007F}") # Remove unicode, because it kills .to_json
 		rescue => e
-
+			#puts e
 		end
 	elsif match = raw.match(/^:(.*) 354 (.*?) (.*?) (.*?) (.*?) (.*?) (.*?) (.*?) (.*?) (.*?) (.*?):(.*)/) then
 		begin
@@ -163,20 +185,20 @@ def passive_process(raw)
 			@passivedata["users"][nick]["acc"] = acc
 			@passivedata["users"][nick]["ip"] = ip
 			@passivedata["users"][nick]["real"] = realname
-			chanProcess(chan,nick)
+			chanProcess(chan,nick,mode)
 		rescue => e
-
+			#puts e
 		end
 	elsif type=="nick" then
 		puts "--- #{nick} is now known as #{chan}"
 		begin
-		# Move table to new pos
-		if not @passivedata["users"] then @passivedata["users"] = {} end
-		@passivedata["users"][chan] = (@passivedata["users"][nick] or {})
-		#@passivedata.delete_at nick
-		@passivedata["users"] = @passivedata["users"].reject{|k|k==nick}
-		@passivedata["users"][chan]["user"] = username
-		@passivedata["users"][chan]["host"] = hostname
+			# Move table to new pos
+			if not @passivedata["users"] then @passivedata["users"] = {} end
+			@passivedata["users"][chan] = (@passivedata["users"][nick] or {})
+			#@passivedata.delete_at nick
+			@passivedata["users"] = @passivedata["users"].reject{|k|k==nick}
+			@passivedata["users"][chan]["user"] = username
+			@passivedata["users"][chan]["host"] = hostname
 		rescue => e
 
 		end
