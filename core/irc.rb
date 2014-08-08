@@ -101,6 +101,8 @@ class IRC
 	def msgtype(msg)
 		if match = msg.match(/^:(.*)!(.*)@(.*) PRIVMSG (.*?) :\x01ACTION (.*)\x01/) then
 			return "action", match[1], match[4], match[5],match[2],match[3]
+		elsif match = msg.match(/^:(.*)!(.*)@(.*) PRIVMSG (.*?) :\x01(.*)\x01/) then
+			return "ctcp", match[1], match[4], match[5],match[2],match[3]
 		elsif match = msg.match(/^:(.*)!(.*)@(.*) PRIVMSG (.*?) :(.*)/) then
 			return "msg", match[1], match[4], match[5],match[2],match[3]
 		elsif match = msg.match(/^:(.*)!(.*)@(.*) NOTICE (.*?) :(.*)/) then
