@@ -2,11 +2,21 @@
 # Made by vifino
 print "\r"
 def puts(t)
-	t=t.chomp||""
+	t=t.to_s.chomp||""
 	if @written==nil then
 		print "#{t.to_s}"
 	else
 		print "\n#{t.to_s}"
+	end
+	@written ||=true
+	@lastline=t
+end
+def p(t)
+	t=t.chomp||""
+	if @written==nil then
+		print "#{t.inspect}"
+	else
+		print "\n#{t.inspect}"
 	end
 	@written ||=true
 	@lastline=t

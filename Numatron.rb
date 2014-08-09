@@ -120,6 +120,7 @@ until false do
 		setup
 		run
 	rescue => e
+		puts e.to_s
 	sleep(60)
 	end
 end
