@@ -8,6 +8,8 @@ if not @jruby then
 		@jsvm["print"] = lambda {|this, word| @jsout << word.to_s + " "; return word.to_s}
 		@jsvm["log"] = lambda {|this, word| @jsout << word.to_s + " "; return word.to_s}
 		@jsvm["write"] = lambda {|this, word| @jsout << word.to_s; return word.to_s}
+		@jsvm["console"]={}
+		@jsvm["console"]["log"] = lambda {|this, word| @jsout << word.to_s; return word.to_s}
 		@jsvm["Math"]["random"] = lambda {|this| return rand}
 	end
 	jsinit
@@ -16,18 +18,20 @@ if not @jruby then
 		begin
 			returnval = @jsvm.eval(args)
 			if returnval!=nil then
-				if returnval.class == "Array" then
-					return "[object Object]"
+				if returnval.class == "Array" or returnval.class==V8::Object then
+					returnval="[object Object]"
+				elsif returnval.class==V8::Function then
+					returnval="[Function]"
 				end
-				if @jsout.empty? then
-					return returnval.inspect
-				else
-					txt = ""
-					if returnval then
-						txt = "\n> "+returnval.inspect
-					end
-					return @jsout.strip+txt
+			end
+			if @jsout.empty? then
+				return returnval.inspect
+			else
+				txt = ""
+				if returnval!=nil then
+					txt = "\n> "+returnval.inspect
 				end
+				return @jsout.strip+txt
 			end
 		rescue => detail
 			return detail.message
