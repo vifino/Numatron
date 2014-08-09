@@ -22,15 +22,18 @@ if not @jruby then
 					returnval="[object Object]"
 				elsif returnval.class==V8::Function then
 					returnval="[Function]"
+				else
+					returnval=returnval.inspect
 				end
 			end
 			returnval=returnval.gsub("[\r\n]+"," | ") if returnval
+			returnval||="null"
 			if @jsout.empty? then
-				return returnval.inspect
+				return returnval
 			else
 				txt = ""
 				if returnval!=nil then
-					txt = "\n> "+returnval.inspect
+					txt = "\n> "+returnval.to_s
 				end
 				return @jsout.join(" | ").delete("\r\n").strip+txt
 			end
