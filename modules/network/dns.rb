@@ -13,7 +13,6 @@ def dns(addr,type="ANY")
 			return "No results!"
 		end
 	rescue => e
-		p e
 		if e.to_s == "no implicit conversion of nil into Array" then # The URL, that is given, is invalid.
 			return "Invalid URL."
 		elsif e.class==Dnsruby::NXDomain then
@@ -35,9 +34,10 @@ def rdns(addr)
 			return "No results!"
 		end
 	rescue => e
-		p e
 		if e.to_s == "cannot interpret as address: No entries for Domain." then # The URL, that is given, is invalid.
 			return "Invalid URL or no entries for Domain."
+		elsif e.class==Dnsruby::NXDomain then
+			return "No entries for Domain."
 		else
 			return (e.to_s or "Error unknown.")
 		end

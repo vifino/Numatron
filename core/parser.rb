@@ -12,10 +12,13 @@ def argParser(args="",nick,chan)
 			nme=(var or "< >").strip.gsub(/^</,"").gsub(/>$/,"")#.split(" ")[0]
 			"<>" if (nme or "").empty?
 			if $variables[nme] then
-				return $variables[nme.downcase] if not $variables[nme.downcase]==""
-				return var
+				if not $variables[nme.downcase]=="" then
+					$variables[nme.downcase]
+				else
+					var
+				end
 			else
-				return var
+				var
 			end
 		end
 	}
@@ -31,9 +34,10 @@ def commandRunner(cmd,nick,chan)
 	retFinal=""
 	retLast=""
 	rnd= ('a'..'z').to_a.shuffle[0,8].join
-	retLast=rnd
+	#retLast=rnd
 	cmdarray = cmd.scan(/(?:[^|\\]|\\.)+/) or [cmd]
 	#func, args = cmd.lstrip().split(' ', 2)
+	runtimes=0
 	cmdarray.each {|cmd|
 		cmd=cmd.lstrip
 		if cmd then
@@ -42,8 +46,7 @@ def commandRunner(cmd,nick,chan)
 			args = argParser((args or ""),nick,chan)
 			func=func.downcase()
 			if $commands[func] then
-				if retLast==rnd then
-					retLast = ""
+				if runtimes==0 then # first command
 					if $commands[func].is_a?(Method) then
 						retLast = $commands[func].call(args.to_s, nick, chan, args, "")
 					elsif $commands[func].class == Proc then
@@ -55,9 +58,9 @@ def commandRunner(cmd,nick,chan)
 					end
 				else
 					if $commands[func].is_a?(Method) then
-						retLast = $commands[func].call(args, (args.to_s or "")+retLast, chan, args, retLast)
+						retLast = $commands[func].call((args.to_s or "")+retLast, chan, args, retLast)
 					elsif $commands[func].class == Proc then
-						retLast = $commands[func].call(args, (args.to_s or "")+retLast, chan, args, retLast)
+						retLast = $commands[func].call((args.to_s or "")+retLast, chan, args, retLast)
 					elsif $commands[func].class == Symbol then
 						retLast = self.send($commands[func], (args.to_s or "")+retLast, nick, chan, args, retLast)
 					else
@@ -71,6 +74,7 @@ def commandRunner(cmd,nick,chan)
 				end
 				break
 			end
+			runtimes+=1
 		end
 	}
 	return retLast if not (retLast==rnd or (retLast.to_s or "").empty?)

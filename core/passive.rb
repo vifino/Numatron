@@ -39,9 +39,6 @@ def getAcc(user)
 	end
 end
 def chanProcess(chan,nick,mode=nil)
-	puts chan
-	puts nick
-	puts mode
 	@passivedata["chans"]||={}
 	@passivedata["chans"][chan]||={}
 	@passivedata["chans"][chan]["users"]||={}
