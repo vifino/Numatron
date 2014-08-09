@@ -3,18 +3,18 @@
 if not @jruby then
 	require 'v8' # Rawr! Fancy!
 	@jsvm = V8::Context.new timeout: 700 # Vrooom! Vrooooom! And stop.
-	@jsout = ""
+	@jsout = []
 	def jsinit
-		@jsvm["print"] = lambda {|this, word| @jsout << word.to_s + " "; return word.to_s}
-		@jsvm["log"] = lambda {|this, word| @jsout << word.to_s + " "; return word.to_s}
-		@jsvm["write"] = lambda {|this, word| @jsout << word.to_s; return word.to_s}
+		@jsvm["print"] = lambda {|this, word| @jsout.push word.to_s ; return word.to_s}
+		@jsvm["log"] = lambda {|this, word| @jsout.push word.to_s; return word.to_s}
+		@jsvm["write"] = lambda {|this, word| @jsout[@jsout.length]+=word.to_s; return word.to_s}
 		@jsvm["console"]={}
 		@jsvm["console"]["log"] = lambda {|this, word| @jsout << word.to_s; return word.to_s}
 		@jsvm["Math"]["random"] = lambda {|this| return rand}
 	end
 	jsinit
 	def js(args="",nick="",chan="",rawargs="",pipeargs="") # Considered safe? I hope so.
-		@jsout = ""
+		@jsout=[]
 		begin
 			returnval = @jsvm.eval(args)
 			if returnval!=nil then
@@ -24,6 +24,7 @@ if not @jruby then
 					returnval="[Function]"
 				end
 			end
+			returnval=returnval.gsub("[\r\n]+"," | ") if returnval
 			if @jsout.empty? then
 				return returnval.inspect
 			else
@@ -31,7 +32,7 @@ if not @jruby then
 				if returnval!=nil then
 					txt = "\n> "+returnval.inspect
 				end
-				return @jsout.strip+txt
+				return @jsout.join(" | ").delete("\r\n").strip+txt
 			end
 		rescue => detail
 			return detail.message
