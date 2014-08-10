@@ -15,29 +15,6 @@ def passive_newacc(acc)
 		@passivedata["users"][acc]["chan"] = {}
 	end
 end
-def who(chan) # Not so passive :3
-	@bot.send "WHO #{chan} c%cuihsnfar"
-end
-def whois(user)
-	@bot.send "whois #{user}"
-end
-def getAcc(user)
-	who user
-	sleep (0.5)
-	if not user.include? "#" then
-		for i in 0..20
-			if @passivedata["users"][user] then
-				if acc=@passivedata["users"][user]["acc"] then
-					return acc
-				end
-				sleep(0.2)
-			end
-		end
-		return nil
-	else
-		return "Channel not a user!"
-	end
-end
 def chanProcess(chan,nick,mode=nil)
 	@passivedata["chans"]||={}
 	@passivedata["chans"][chan]||={}
