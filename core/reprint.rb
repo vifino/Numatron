@@ -1,36 +1,40 @@
 # Reprint lines :D
 # Made by vifino
-print "\r"
-def puts(t)
-	t=t.to_s.chomp||""
-	if @written==nil then
-		print "#{t.to_s}"
-	else
-		print "\n#{t.to_s}"
+def reprintinit
+	print "\r"
+	def puts(t)
+		t=t.to_s.chomp||""
+		if @written==nil then
+			print "#{t.to_s}"
+		else
+			print "\n#{t.to_s}"
+		end
+		@written ||=true
+		@lastline=t
 	end
-	@written ||=true
-	@lastline=t
-end
-def p(t)
-	t=t.chomp||""
-	if @written==nil then
-		print "#{t.inspect}"
-	else
-		print "\n#{t.inspect}"
+	def p(t)
+		t=t.chomp||""
+		if @written==nil then
+			print "#{t.inspect}"
+		else
+			print "\n#{t.inspect}"
+		end
+		@written ||=true
+		@lastline=t
 	end
-	@written ||=true
-	@lastline=t
-end
-def reprint(t)
-	t=t||""
-	str=""
-	rel=@lastline.length - t.length
-	if rel>0 then
-		str=" "*rel
+	def reprint(t)
+		t=t||""
+		str=""
+		rel=@lastline.length - t.length
+		if rel>0 then
+			str=" "*rel
+		end
+		print "\r#{t}"+str
 	end
-	print "\r#{t}"+str
+	def putsabove(t)
+		reprint(t)
+		puts @lastline
+	end
+
 end
-def putsabove(t)
-	reprint(t)
-	puts @lastline
-end
+#reprintinit
