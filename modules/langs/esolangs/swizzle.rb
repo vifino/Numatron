@@ -2,7 +2,7 @@
 # Made by vifino
 require 'timeout'
 def swizzle(insts,input="")
-	str="o='';a=Array.new(256,0);p=0;i=0"#;cn=0;co=0;"
+	str="o='';a=Array.new(256,0);p=0;i=0;"#;cn=0;co=0;"
 	insts.gsub(/./){|inst|
 		str = str+"i=i||0;if cn<=0 then;cn=0;end;if i>=256 then;i=0;end;if i<0 then;i=255; end;"
 		case inst
@@ -38,10 +38,10 @@ def swizzle(insts,input="")
 	}
 	str+="return o;"
 	#puts str
-	begin
+	begin # Dont ask me why i have to do this twice.
 		eval str
-	rescue => e
-		puts e
+	rescue SyntaxError => e
+		puts e.to_s
 		return "Error."
 	end
 end

@@ -80,7 +80,7 @@ def bf_cmd(args="",nick="",chan="",rawargs="",pipeargs="")
 		else
 			"Error: Took too long."
 		end
-	rescue => e
+	rescue SyntaxError => e
 		puts e.to_s
   	return "Error: Took too long."
 	end
