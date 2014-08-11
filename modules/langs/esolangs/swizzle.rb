@@ -38,7 +38,7 @@ def swizzle(insts,input="")
 	}
 	str+="return o;"
 	#puts str
-	begin # Dont ask me why i have to do this twice.
+	begin
 		eval str
 	rescue SyntaxError => e
 		puts e.to_s
@@ -46,11 +46,11 @@ def swizzle(insts,input="")
 	end
 end
 def sw_cmd(args="",nick="",chan="",rawargs="",pipeargs="")
-		begin
-			Timeout::timeout(2) do
-				ret=swizzle(args,pipeargs)
-				return (ret or "").delete("\r\n")
-			end
+	begin
+		Timeout::timeout(2) do
+			ret=swizzle(args,pipeargs)
+			return (ret or "").delete("\r\n")
+		end
 		if ret.class == String
 		else
 			"Error: Took too long."
