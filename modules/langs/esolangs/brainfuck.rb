@@ -22,6 +22,8 @@ def bf(insts,input="") # This one works! (TM)
 			#str+="w=p;while true do;if a[w]==0 then; break; end;"
 		when "]"
 			str+="end;"
+		when ","
+			str+="if c=input[0] then;a[p]=c.ord;else;a[p]=0;end;input=input[1..-1];"
 		end
 	}
 	str+="return o;"
