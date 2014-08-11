@@ -3,7 +3,7 @@
 require 'timeout'
 def swizzle(insts,input="")
 	str="o='';a=Array.new(256,0);p=0;i=0;"#;cn=0;co=0;"
-	insts.gsub(/./){|inst|
+	insts.downcase.gsub(/./){|inst|
 		str = str+"i=i||0;if i>=256 then;i=0;end;if i<0 then;i=255; end;"
 		case inst
 		when "+"
@@ -22,6 +22,10 @@ def swizzle(insts,input="")
 			str+="while i>0 do;"
 		when "]"
 			str+="end;"
+		when "("
+			str+="if a[p]==i;"
+		when ")"
+			str+="end;"
 		#when "["
 		#	str+="co=cn;cn=a[p];until cn>0 do;cn-=1;"
 		#when "]"
@@ -34,15 +38,17 @@ def swizzle(insts,input="")
 			str+="i=i**2;"
 		when "d"
 			str+="i+=i;"
+		when ","
+			str+="if c=input[0] then;i=c.ord;else;i=0;end;input=input[1..-1];"
 		end
 	}
-	str+="return o;"
+	str+="o;"
 	#puts str
 	begin
 		eval str
 	rescue SyntaxError => e
 		puts e.to_s
-		return "Error."
+		return "Syntax Error."
 	end
 end
 def sw_cmd(args="",nick="",chan="",rawargs="",pipeargs="")
