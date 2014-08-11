@@ -91,7 +91,7 @@ def commandParser(cmd,nick,chan) # This is the entry point.
 					@bot.msg(chan,"> "+ret.to_s)
 				end
 			end
-		rescue => detail
+		rescue Exception => detail
 			@bot.msg(chan,detail.message())
 		end
 		#exit
