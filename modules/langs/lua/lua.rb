@@ -24,11 +24,11 @@ def lua(args, nick, chan,rawargs="",pipeargs="")
 	@returnval = []
 	if args != nil then
 		begin
-			@returnval = @luastate.eval(args)
+			@returnval = @luastate.eval(args.to_s)
 		rescue => detail
 			error = detail.message()
 			begin
-				@returnval = @luastate.eval("return (" + args + ")")
+				@returnval = @luastate.eval("return (" + args.to_s + ")")
 			rescue => detail2
 			end
 		end

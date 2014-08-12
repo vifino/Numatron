@@ -43,27 +43,42 @@ def commandRunner(cmd,nick,chan)
 		if cmd then
 			cmd = cmd.gsub("\\|","|")
 			func, args = cmd.split(' ', 2)
-			args = argParser((args or ""),nick,chan)
+			args = argParser((args.to_s or ""),nick,chan)
 			func=func.downcase()
+			nargs=""
+			if retLast.class==Array then
+				nargs=retLast
+				if !args.to_s.empty? then
+					nargs.push args.to_s
+				end
+			elsif retLast.class==String
+				if (args.to_s or "").empty? then
+					nargs=retLast
+				else
+					nargs=args.to_s+retLast
+				end
+			else
+				nargs=(args or "")+retLast.to_s
+			end
 			if $commands[func] then
 				if runtimes==0 then # first command
 					if $commands[func].is_a?(Method) then
-						retLast = $commands[func].call(args.to_s, nick, chan, args, "")
+						retLast = $commands[func].call(nargs, nick, chan, args, "")
 					elsif $commands[func].class == Proc then
-						retLast = $commands[func].call(args.to_s, nick, chan, args, "")
+						retLast = $commands[func].call(nargs, nick, chan, args, "")
 					elsif $commands[func].class == Symbol then
-						retLast = self.send($commands[func], args.to_s, nick, chan, args, "")
-					else
+						retLast = self.send($commands[func], nargs, nick, chan, args, "")
+					elsif $commands[func].class == String then
 						retLast = $commands[func]
 					end
 				else
 					if $commands[func].is_a?(Method) then
-						retLast = $commands[func].call((args.to_s or "")+retLast, chan, args, retLast)
+						retLast = $commands[func].call(nargs, chan, args, retLast)
 					elsif $commands[func].class == Proc then
-						retLast = $commands[func].call((args.to_s or "")+retLast, chan, args, retLast)
+						retLast = $commands[func].call(nargs, chan, args, retLast)
 					elsif $commands[func].class == Symbol then
-						retLast = self.send($commands[func], (args.to_s or "")+retLast, nick, chan, args, retLast)
-					else
+						retLast = self.send($commands[func], nargs, nick, chan, args, retLast)
+					elsif $commands[func].class == String then
 						retLast = $commands[func]
 					end
 				#retLast=self.send(@commands[func],(args or "")+retLast,nick,chan) or ""

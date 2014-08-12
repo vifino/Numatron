@@ -16,12 +16,18 @@ def shorten(link)
 	end
 end
 def shortenWrapper(addresses,nick,chan,rawargs="",pipeargs="")
-	res = ""
-	addrs = addresses.gsub(/\;+$/, '').split(";")
+	res = []
+	if addresses.class==String then
+		addrs = addresses.gsub(/\;+$/, '').split(";")
+	elsif addresses.class==Array then
+		addrs=addresses
+	else
+		return "Invalid type of input."
+	end
 	addrs.each {|addr|
 		addr = addr.lstrip().rstrip()
-		res += shorten(addr)+" ; "
+		res.push shorten(addr)
 	}
-	return res.rstrip.chomp(";")
+	return res
 end
 $commands["shorten"] = :shortenWrapper

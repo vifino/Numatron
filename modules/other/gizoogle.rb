@@ -5,7 +5,7 @@ def gizoogle(text="",nick="",chan="",rawargs="",pipeargs="")
 	http = Net::HTTP.new(uri.host, uri.port)
 	begin
 		request = Net::HTTP::Post.new(uri.request_uri)
-		request.body="translatetext="+text
+		request.body="translatetext="+text.to_s
 		response = http.request(request)
 		return response.body.match("<textarea type=\"text\" name=\"translatetext\" style=\"width: 600px; height:250px;\"/>(.*?)</textarea>")[1]
 	rescue => e

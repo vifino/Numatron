@@ -96,10 +96,10 @@ def getHB(id="")
 end
 
 def gethb_cmd(args,nick,channel,rawargs="",pipeargs="") # php
-	getHB args
+	getHB args.to_s
 end
 def puthb_cmd(args,nick,channel,rawargs="",pipeargs="") # php
-	putHB args
+	putHB args.to_s
 end
 $commands["get"] = :gethb_cmd
 $commands["put"] = :puthb_cmd

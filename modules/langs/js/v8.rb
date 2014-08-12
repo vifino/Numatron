@@ -16,7 +16,7 @@ if not @jruby then
 	def js(args="",nick="",chan="",rawargs="",pipeargs="") # Considered safe? I hope so.
 		@jsout=[]
 		begin
-			returnval = @jsvm.eval(args)
+			returnval = @jsvm.eval(args.to_s)
 			if returnval!=nil then
 				if returnval.class == "Array" or returnval.class==V8::Object then
 					returnval="[object Object]"

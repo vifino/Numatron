@@ -12,10 +12,10 @@ def coffee2js(code)
 end
 if not `which coffee`.strip.chomp.match("coffee not found") then
 	$commands["coffeecompiler"]=->(args,nick="",chan="",rawargs="",pipeargs=""){
-		coffee2js(args.strip)
+		coffee2js(args.to_s.strip)
 	}
 	$commands["coffeescript"]=->(args,nick="",chan="",rawargs="",pipeargs=""){
-		js(coffee2js(args.strip))
+		js(coffee2js(args.to_s.strip))
 	}
 	$commands["c[_]"]=$commands["coffeescript"] # Shhh! Dont tell anyone!
 end

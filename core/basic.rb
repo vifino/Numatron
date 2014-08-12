@@ -1,10 +1,10 @@
 # Core Commands here.
 # Made by vifino
-$commands["say"] = $commands["echo"] =->(args,nick,chan,rawargs="",pipeargs=""){args}
+$commands["say"] = $commands["echo"] =->(args,nick,chan,rawargs="",pipeargs=""){args.to_s}
 def rb(args,nick,chan,rawargs="",pipeargs="")
 	if isPrivileged? nick and args != nil then
 		begin
-			returnval = eval args
+			returnval = eval args.to_s
 				return (returnval.inspect or "nil")
 		rescue Exception => detail
 			#@bot.msg(chan,detail.message())
@@ -14,7 +14,7 @@ def rb(args,nick,chan,rawargs="",pipeargs="")
 end
 $commands[">>"] = :rb
 def cmd_append(args,nick,chan,rawargs="",pipeargs="")
-	return (pipeargs or "")+(rawargs or "")
+	return (pipeargs.to_s or "")+(rawargs.to_s or "")
 end
 $commands["append"] = :cmd_append
 def raw(args,nick,chan,rawargs="",pipeargs="")
@@ -35,3 +35,4 @@ def part(args,nick,chan,rawargs="",pipeargs="")
 end
 $commands["join"] = :join
 $commands["part"] = :part
+$commands["inspect"]=->(args,nick,chan,rawargs="",pipeargs=""){args.inspect}

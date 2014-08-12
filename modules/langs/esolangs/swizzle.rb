@@ -60,7 +60,7 @@ end
 def sw_cmd(args="",nick="",chan="",rawargs="",pipeargs="")
 	begin
 		Timeout::timeout(2) do
-			ret=swizzle(args,pipeargs)
+			ret=swizzle(args.to_s,pipeargs.to_s)
 			return (ret or "").delete("\r\n")
 		end
 		if ret.class == String

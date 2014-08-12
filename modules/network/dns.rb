@@ -6,9 +6,9 @@ def dns(addr,type="ANY")
 	rs = Dnsruby::DNS.new
 	begin
 		res = rs.getresources(addr, type)
-		p res
 		if res!=nil then
-			return (res.map {|r| r.rdata_to_string.gsub(/[[:cntrl:]]/, '') }).join("; ")
+			#return (res.map {|r| r.rdata_to_string.gsub(/[[:cntrl:]]/, '') }).join("; ")
+			return (res.map {|r| r.rdata_to_string.gsub(/[[:cntrl:]]/, '') })
 		else
 			return "No results!"
 		end
@@ -27,12 +27,13 @@ def rdns(addr)
 	rs = Dnsruby::DNS.new
 	begin
 		res = rs.getnames addr
-		p res
-		if res.class == Hash then
-			return (res.map {|r| r.to_s }).join("; ")
-		else
-			return "No results!"
-		end
+	#	if res.class == Hash then
+			#return (res.map {|r| r.to_s }).join("; ")
+			return (res.map {|r| r.to_s })
+	#	else
+	#		p (res.map {|r| r.to_s })
+	#		return "No results!"
+	#	end
 	rescue => e
 		if e.to_s == "cannot interpret as address: No entries for Domain." then # The URL, that is given, is invalid.
 			return "Invalid URL or no entries for Domain."
@@ -44,22 +45,40 @@ def rdns(addr)
 	end
 end
 def dnsWrapper(addresses,type="ANY")
-	res = ""
-	addrs = addresses.gsub(/\;+$/, '').split(";")
+	res = []
+	if addresses.class==String then
+		addrs = addresses.gsub(/\;+$/, '').split(";")
+	elsif addresses.class==Array then
+		addrs=addresses
+	else
+		return "Invalid type of input."
+	end
 	addrs.each {|addr|
-	addr = addr.lstrip().rstrip()
-	res += dns(addr,type) + " ; "
+		addr = addr.lstrip().rstrip()
+		dns(addr,type).each{|a|
+			res.push a
+		}
 	}
-	return res.strip.chomp(";")
+	return res
 end
 def rdnsWrapper(addresses)
-	res = ""
-	addrs = addresses.gsub(/\;+$/, '').split(";")
+	res = []
+	if addresses.class==String then
+		addrs = addresses.strip.gsub(/\;+$/, '').split(";")
+	elsif addresses.class==Array then
+		addrs=addresses
+	else
+		return "Invalid type of input."
+	end
 	addrs.each {|addr|
-	addr = addr.lstrip().rstrip()
-	res += rdns(addr) + " ; "
+		addr = addr.strip()
+		p addr
+		rdns(addr).each{|a|
+			p a
+			res.push a
+		}
 	}
-	return res.strip.chomp(";")
+	return res
 end
 def cmd_dnsall(args,nick,chan,rawargs="",pipeargs="")
 	return dnsWrapper(args)

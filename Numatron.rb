@@ -83,7 +83,7 @@ def logic(raw)
 		if to==@bot.nick then to=nick end
 		puts "#{nick} -> #{to}: "+msg
 		prefix = @prefix or "\?"
-		if msg.match(/^#{prefix}(.*)/) then
+		if msg.match(/^#{Regexp.escape(prefix)}(.*)/) then
 			cmdrun "#{$~[1]}",nick,to
 		elsif msg.match(/^#{Regexp.escape(@bot.nick)}.(.*)/) then
 			cmdrun "#{$~[1]}",nick,to

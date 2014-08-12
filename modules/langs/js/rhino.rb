@@ -14,7 +14,7 @@ if @jruby then
 	def js(args="",nick="",chan="",rawargs="",pipeargs="") # Considered safe? I hope so.
 		@jsout = ""
 		begin
-			returnval = @jsvm.eval(args)
+			returnval = @jsvm.eval(args.to_s)
 			if returnval!=nil then
 				if returnval.class == "Array" then
 					return "[object Object]"

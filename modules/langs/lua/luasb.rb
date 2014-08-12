@@ -153,7 +153,7 @@ def luasb(args, nick, chan,rawargs="",pipeargs="")
 	if args != nil then
 		returnval=""
 		begin
-			@luasb["code"]=args
+			@luasb["code"]=args.to_s
 			Timeout::timeout(0.1) do
 				returnval = @luasb.eval("return (lua(code))")
 			end

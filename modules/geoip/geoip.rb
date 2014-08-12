@@ -63,29 +63,48 @@ def geomaps(addr)
 	end
 end
 def geoip_countryWrapper(addresses,nick,chan,rawargs="",pipeargs="")
-	res = ""
-	addrs = addresses.gsub(/\;+$/, '').split(";")
+	res = []
+	if addresses.class==String then
+		addrs = addresses.gsub(/\;+$/, '').split(";")
+	elsif addresses.class==Array then
+		addrs=addresses
+	else
+		return "Invalid type of input."
+	end
 	addrs.each {|addr|
 		addr = addr.lstrip().rstrip()
-		res += geoip_country(addr)+"; "
+		res.push geoip_country(addr)
 	}
-	return res.rstrip.chomp(";")
+	return res
 end
 def geoip_cityWrapper(addresses,nick,chan,rawargs="",pipeargs="")
-	res = ""
-	addrs = addresses.gsub(/\;+$/, '').split(";")
+	res = []
+	if addresses.class==String then
+		addrs = addresses.gsub(/\;+$/, '').split(";")
+	elsif addresses.class==Array then
+		addrs=addresses
+	else
+		return "Invalid type of input."
+	end
 	addrs.each {|addr|
+		p addr
 		addr = addr.lstrip().rstrip()
-		res += geoip_city(addr)+" ; "
+		res.push geoip_city(addr)
 	}
-	return res.rstrip.chomp(";")
+	return res
 end
 def geomapsWrapper(addresses,nick,chan,rawargs="",pipeargs="")
-	res = ""
-	addrs = addresses.gsub(/\;+$/, '').split(";")
+	res = []
+	if addresses.class==String then
+		addrs = addresses.gsub(/\;+$/, '').split(";")
+	elsif addresses.class==Array then
+		addrs=addresses
+	else
+		return "Invalid type of input."
+	end
 	addrs.each {|addr|
 		addr = addr.lstrip().rstrip()
-		res += geomaps(addr)+" ; "
+		res.push geomaps(addr)
 	}
-	return res.rstrip.chomp(";")
+	return res
 end

@@ -28,7 +28,7 @@ end
 def df_cmd(args="",nick="",chan="",rawargs="",pipeargs="")
 		begin
 			Timeout::timeout(2) do
-				ret=deadfish(args)
+				ret=deadfish(args.to_s)
 				return (ret or "").delete("\r\n")
 			end
 		if ret.class == String
@@ -69,7 +69,7 @@ end
 def dfxkcd_cmd(args="",nick="",chan="",rawargs="",pipeargs="")
 		begin
 			Timeout::timeout(2) do
-				ret=xkcdfish(args)
+				ret=xkcdfish(args.to_s)
 				return (ret or "").delete("\r\n")
 			end
 		if ret.class == String
