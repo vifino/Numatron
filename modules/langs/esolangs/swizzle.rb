@@ -6,40 +6,46 @@ def swizzle(insts,input="")
 	insts.downcase.gsub(/./){|inst|
 		str = str+"i=i||0;if i>=256 then;i=0;end;if i<0 then;i=255; end;"
 		case inst
-		when "+"
-			str+="i+=1;"
-		when "-"
-			str+="i-=1;"
-		when ">"
-			str+="p+=1;"
-		when "<"
-			str+="p-=1;"
-		when "."
-			str+="o+=i.chr;"
-		when ";"
-			str+="o+=i.to_s;"
-		when "["
-			str+="while i>0 do;"
-		when "]"
-			str+="end;"
-		when "("
-			str+="if a[p]==i then;"
-		when ")"
-			str+="end;"
-		#when "["
-		#	str+="co=cn;cn=a[p];until cn>0 do;cn-=1;"
-		#when "]"
-		#	str+="end;cn=co;"
-		when "!"
-			str+="a[p]=i;"
-		when "#"
-			str+="i=a[p]||0;"
-		when "^"
-			str+="i=i**2;"
-		when "d"
-			str+="i+=i;"
-		when ","
-			str+="if c=input[0] then;i=c.ord;else;i=0;end;input=input[1..-1];"
+			when "+"# Add
+				str+="i+=1;"
+			when "-" # Substract
+				str+="i-=1;"
+			when ">" # Increase pointer
+				str+="p+=1;"
+			when "<"# Decrease pointer
+				str+="p-=1;"
+			when "." # Write char
+				str+="o+=i.chr;"
+			when ";" # Write number
+				str+="o+=i.to_s;"
+			when "[" # While
+				str+="while i>0 do;"
+			when "]" # End
+				str+="end;"
+			when "=" # If tape and workcell are the same, set workcell to 1, else 0.
+				str+="if a[p]==i then;i=1;else;i=0;end;"
+			when "?" # Same as = but reversed.
+				str+="if a[p]==i then;i=0;else;i=1;end;"
+			when "(" # If higher than 1
+				str+="if i>=1 then;"
+			when ")" # End
+				str+="end;"
+			#when "["
+			#	str+="co=cn;cn=a[p];until cn>0 do;cn-=1;"
+			#when "]"
+			#	str+="end;cn=co;"
+			when "!" # Write workcell to tape
+				str+="a[p]=i;"
+			when "#" # Read tape
+				str+="i=a[p]||0;"
+			when "^" # Square
+				str+="i=i**2;"
+			when "d" # Dupe
+				str+="i+=i;"
+			when "h" # Halve
+				str+="i=i/2;"
+			when "," # Read from input
+				str+="if c=input[0] then;i=c.ord;else;i=0;end;input=input[1..-1];"
 		end
 	}
 	str+="o;"

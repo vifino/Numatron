@@ -6,24 +6,24 @@ def bf(insts,input="") # This one works! (TM)
 	insts.gsub(/./){|inst|
 		str = str+"a[p]=a[p]||0;if a[p]>=256 then;a[p]=0; end;if a[p]<0 then; a[p]=255; end;"
 		case inst
-		when "+"
-			str+="if a[p]<=256 then; a[p]+=1;else;a[p]=0;end;"
-		when "-"
-			#str+="if a[p]<=0 then;a[p]-=1;end;"
-			str+="if a[p]<0 then; a[p]=255;else; a[p]-=1;end;"
-		when ">"
-			str+="p+=1;"
-		when "<"
-			str+="p-=1;"
-		when "."
-			str+="o+=a[p].chr;"
-		when "["
-			str+="while a[p]>0 do;"
-			#str+="w=p;while true do;if a[w]==0 then; break; end;"
-		when "]"
-			str+="end;"
-		when ","
-			str+="if c=input[0] then;a[p]=c.ord;else;a[p]=0;end;input=input[1..-1];"
+			when "+"
+				str+="if a[p]<=256 then; a[p]+=1;else;a[p]=0;end;"
+			when "-"
+				#str+="if a[p]<=0 then;a[p]-=1;end;"
+				str+="if a[p]<0 then; a[p]=255;else; a[p]-=1;end;"
+			when ">"
+				str+="p+=1;"
+			when "<"
+				str+="p-=1;"
+			when "."
+				str+="o+=a[p].chr;"
+			when "["
+				str+="while a[p]>0 do;"
+				#str+="w=p;while true do;if a[w]==0 then; break; end;"
+			when "]"
+				str+="end;"
+			when ","
+				str+="if c=input[0] then;a[p]=c.ord;else;a[p]=0;end;input=input[1..-1];"
 		end
 	}
 	str+="return o;"
@@ -111,22 +111,22 @@ def brf2blf(code="",nick="",chan="",rawargs="",pipeargs="") # Brainfuck to Boolf
 	str=""
 	code.split("").each {|c|
 		str+=case c
-		when "+"
-			'>[>]+<[+<]>>>>>>>>>[+]<<<<<<<<<'
-		when "-"
-			'>>>>>>>>>+<<<<<<<<+[>+]<[<]>>>>>>>>>[+]<<<<<<<<<'
-		when "<"
-			'<<<<<<<<<'
-		when ">"
-			'>>>>>>>>>'
-		when ","
-			'>,>,>,>,>,>,>,>,<<<<<<<<'
-		when "."
-			'>;>;>;>;>;>;>;>;<<<<<<<<'
-		when "["
-			'>>>>>>>>>+<<<<<<<<+[>+]<[<]>>>>>>>>>[+<<<<<<<<[>]+<[+<]'
-		when "]"
-			'>>>>>>>>>+<<<<<<<<+[>+]<[<]>>>>>>>>>]<[+<]'
+			when "+"
+				'>[>]+<[+<]>>>>>>>>>[+]<<<<<<<<<'
+			when "-"
+				'>>>>>>>>>+<<<<<<<<+[>+]<[<]>>>>>>>>>[+]<<<<<<<<<'
+			when "<"
+				'<<<<<<<<<'
+			when ">"
+				'>>>>>>>>>'
+			when ","
+				'>,>,>,>,>,>,>,>,<<<<<<<<'
+			when "."
+				'>;>;>;>;>;>;>;>;<<<<<<<<'
+			when "["
+				'>>>>>>>>>+<<<<<<<<+[>+]<[<]>>>>>>>>>[+<<<<<<<<[>]+<[+<]'
+			when "]"
+				'>>>>>>>>>+<<<<<<<<+[>+]<[<]>>>>>>>>>]<[+<]'
 		end
 	}
 	return str

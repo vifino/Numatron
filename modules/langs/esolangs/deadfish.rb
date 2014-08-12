@@ -6,14 +6,14 @@ def deadfish(insts)
 	insts.gsub(/./){|inst|
 		str = str+"if i>=256 then;i=0; end;if i<0 then; i=255; end;"
 		case inst
-		when "i"
-			str+="i+=1;"
-		when "d"
-			str+="i-=1;"
-		when "o"
-			str+="o+=i.chr;"
-		when "s"
-			str+="i=i*i;"
+			when "i"
+				str+="i+=1;"
+			when "d"
+				str+="i-=1;"
+			when "o"
+				str+="o+=i.chr;"
+			when "s"
+				str+="i=i*i;"
 		end
 	}
 	str+="return o;"
