@@ -3,44 +3,216 @@
 def luasb_reset(args="",nick="",chan="",rawargs="",pipeargs="")
 	@output = ""
 	@luasb = Rufus::Lua::State.new
-	@luasb.function 'print' do |string|
-		@output << string.to_s
+	#@luasb.eval(
+	#	"(function() local e = error;" +
+	#	"debug.sethook(function() e(\"Quota exceeded\", 3) end, \"\", 500000) " +
+	#	"io = nil;  os = nil; require = nil; module = nil; dofile = nil; loadfile = nil; package = nil; debug = nil; " +
+	#	"end)()")
+	@luasb.eval '
+do
+	function maxval(tbl)
+		local mx=0
+		for k,v in pairs(tbl) do
+			if type(k)=="number" then
+				mx=math.max(k,mx)
+			end
+		end
+		return mx
 	end
-	@luasb.eval(
-		"(function() local e = error;" +
-		"debug.sethook(function() e(\"Quota exceeded\", 3) end, \"\", 500000) " +
-		"io = nil;  os = nil; require = nil; module = nil; dofile = nil; loadfile = nil; package = nil; debug = nil; " +
-		"end)()")
+	local sbox,usr,out
+	local function rst()
+		local tsbox={}
+		sbox={
+			_VERSION=_VERSION.." Sandbox",
+			assert=assert,
+			error=error,
+			getfenv=function(func)
+				if tsbox[func] then
+					return false,"Nope."
+				end
+				local res=getfenv(func)
+				if res==_G then
+					return sbox
+				end
+				return res
+			end,
+			getmetatable=getmetatable,
+			ipairs=ipairs,
+			load=function(func,name)
+				local out=""
+				while true do
+					local n=func()
+					if not n or n=="" then
+						return out
+					end
+					out=out..n
+				end
+				return sbox.loadstring(out,name)
+			end,
+			loadstring=function(txt,name)
+				if txt:sub(1,1)=="\27" then
+					return false,"Nope."
+				end
+				local func,err=loadstring(txt,name)
+				if func then
+					setfenv(func,sbox)
+				end
+				return func,err
+			end,
+			next=next,
+			pairs=pairs,
+			print=function(...)
+				local newt = {}
+				for k,v in pairs({...}) do
+					newt[k] = tostring(v)
+				end
+				out=out ..tostring(table.concat(newt," ")).."\n"
+			end,
+			select=select,
+			setfenv=function(func,env)
+				if tsbox[func] then
+					return false,no()
+				end
+				return setfenv(func,env)
+			end,
+			tonumber=tonumber,
+			tostring=tostring,
+			type=type,
+			xpcall=xpcall,
+			setmetatable=setmetatable,
+			unpack = function(t)
+				return unpack(t)
+			end,
+			rawget = rawget,
+			--rawset = rawset,
+			rawequal = rawequal,
+			os={
+				clock=os.clock,
+				date=os.date,
+				difftime=os.difftime,
+				execute=function(txt)
+					local cmd,tx=txt:match("^(.-) (.+)$")
+					cmd=cmd or txt
+					if cmd=="lua" or cmd=="luafile"  then
+						return no()
+					end
+					return evalCommand(usr["nick"],usr["chan"],txt) or nil
+				end,
+				exit=function()
+					error()
+				end,
+				time=os.time,
+			},
+			io={
+				write=function(...)
+					out=out..table.concat({...})
+				end,
+			},
+			channel = "",
+			nick = "",
+			pcall = pcall,
+			username = username,
+			string = {
+						sub = string.sub,
+						find = string.find,
+						gsub =  string.gsub,
+						gfind = string.gfind,
+						reverse = string.reverse,
+						match = string.match,
+						char = string.char,
+						dump = string.dump,
+						byte = string.byte,
+						upper = string.upper,
+						len = string.len,
+						format = string.format,
+						gmatch = string.gmatch,
+						lower = string.lower
+			}
+		}
+		for k,v in pairs({
+			math=math,
+			table=table
+		}) do
+			sbox[k]={}
+			for n,l in pairs(v) do
+				sbox[k][n]=l
+			end
+		end
+		for k,v in pairs(sbox) do
+			if type(v)=="table" then
+				for n,l in pairs(v) do
+					tsbox[l]=true
+				end
+			elseif type(v)=="function" then
+				tsbox[v]=true
+			end
+		end
+		sbox._G=sbox
+	end
+	rst()
+	lua=function(txt,nick,chan)
+		local user={nick=nick,chan=chan}
+		usr=user
+		out=""
+		sbox["nick"] = nick
+		sbox["channel"] = chan
+		local func,err=loadstring("return "..txt,"=lua")
+		if not func then
+			func,err=loadstring(txt,"=lua")
+			if not func then
+				return err:gsub("^[\r\n]+",""):gsub("[\r\n]+$",""):gsub("[\r\n]+"," | "):sub(1,440)
+			end
+		end
+		local func=coroutine.create(setfenv(func,sbox))
+		debug.sethook(func,function()
+			debug.sethook(func)
+			debug.sethook(func,function()
+				error("Time limit exceeded.",0)
+			end,"",1)
+			error("Time limit exceeded.",0)
+		end,"",20000)
+		local res={coroutine.resume(func)}
+		local o
+		for l1=2,maxval(res) do
+			o=(o or "")..tostring(res[l1]).."\n"
+		end
+		return (out..(o or "nil")):gsub("^[\r\n]+",""):gsub("[\r\n]+^",""):gsub("[\r\n]+$",""):gsub("[\r\n]+"," | ")
+	end
+end
+'
 	@luasb[:to_ruby] = false
 end
 luasb_reset
 def luasb(args, nick, chan,rawargs="",pipeargs="")
 	if args != nil then
 		begin
-			returnval = @luasb.eval(args)
+			@luasb["code"]=args
+			returnval = @luasb.eval("return (lua(code))")
 		rescue => detail
 				error = detail.message()
-				begin
-					returnval = @luasb.eval("return (" + args + ")")
-				rescue => detail2
-				end
+				#begin
+				#returnval = @luasb.eval("return lua('return ('..code..')")
+				#rescue => detail2
+				#end
+				puts error
 		end
 					#$bot.irc.msg(chan, detail.message())
-		if returnval != nil or not @output.empty? then
-			if returnval != nil and returnval!= "" then
-				if returnval.class == "Array" then
-					return "[table]"
-				end
+		if returnval != nil then #or not @output.empty? then
+			#if returnval != nil and returnval!= "" then
+				#if returnval.class == "Array" then
+				#	return "[table]"
+				#end
 				return returnval
-			end
-			if not @output.empty? then
-				$bot.irc.msg(chan, "> " + @output)
-			end
-		elsif error
-			@bot.msg(chan,error)
+			#end
+			#if not @output.empty? then
+			#	$bot.irc.msg(chan, "> " + @output)
+			#end
+			#elsif error
+			#@bot.msg(chan,error)
+		#end
+		#@output = ""
 		end
-		@output = ""
 	end
 end
-#$commands["luasb"] = :luasb
-#$commands["resetlua"] = :luasb_reset
+$commands["luasb"] = :luasb
+$commands["resetlua"] = :luasb_reset
