@@ -10,13 +10,13 @@ def dns(addr,type="ANY")
 			#return (res.map {|r| r.rdata_to_string.gsub(/[[:cntrl:]]/, '') }).join("; ")
 			return (res.map {|r| r.rdata_to_string.gsub(/[[:cntrl:]]/, '') })
 		else
-			return "No results!"
+			return ["No results!"]
 		end
 	rescue => e
 		if e.to_s == "no implicit conversion of nil into Array" then # The URL, that is given, is invalid.
-			return "Invalid URL."
+			return ["Invalid URL."]
 		elsif e.class==Dnsruby::NXDomain then
-			return "No entries for Domain."
+			return ["No entries for Domain."]
 		else
 			return (e.to_s or "Error unknown.")
 		end
@@ -36,9 +36,9 @@ def rdns(addr)
 	#	end
 	rescue => e
 		if e.to_s == "cannot interpret as address: No entries for Domain." then # The URL, that is given, is invalid.
-			return "Invalid URL or no entries for Domain."
+			return ["Invalid URL or no entries for Domain."]
 		elsif e.class==Dnsruby::NXDomain then
-			return "No entries for Domain."
+			return ["No entries for Domain."]
 		else
 			return (e.to_s or "Error unknown.")
 		end
