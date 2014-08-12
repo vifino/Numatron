@@ -18,12 +18,12 @@ def dns(addr,type="ANY")
 		elsif e.class==Dnsruby::NXDomain then
 			return ["No entries for Domain."]
 		else
-			return (e.to_s or "Error unknown.")
+			return [(e.to_s or "Error unknown.")]
 		end
 	end
 end
 def rdns(addr)
-	if addr.empty? then return "Can't lookup nothing!" end
+	if addr.empty? then return ["Can't lookup nothing!"] end
 	rs = Dnsruby::DNS.new
 	begin
 		res = rs.getnames addr
@@ -40,7 +40,7 @@ def rdns(addr)
 		elsif e.class==Dnsruby::NXDomain then
 			return ["No entries for Domain."]
 		else
-			return (e.to_s or "Error unknown.")
+			return [(e.to_s or "Error unknown.")]
 		end
 	end
 end
