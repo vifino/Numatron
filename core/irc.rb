@@ -98,6 +98,10 @@ class IRC
 	def action(chan,msg)
 		self.msg(chan,"\x01ACTION #{msg}\x01")
 	end
+	def chnick(nick)
+		@nick=nick
+		send "NICK #{nick}"
+	end
 	def msgtype(msg)
 		if match = msg.match(/^:(.*)!(.*)@(.*) PRIVMSG (.*?) :\x01ACTION (.*)\x01/) then
 			return "action", match[1], match[4], match[5],match[2],match[3]

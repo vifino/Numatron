@@ -38,17 +38,6 @@ do
 			end,
 			getmetatable=getmetatable,
 			ipairs=ipairs,
-			load=function(func,name)
-				local out=""
-				while true do
-					local n=func()
-					if not n or n=="" then
-						return out
-					end
-					out=out..n
-				end
-				return sbox.loadstring(out,name)
-			end,
 			loadstring=function(txt,name)
 				if txt:sub(1,1)=="\27" then
 					return false,"Nope."
@@ -84,20 +73,12 @@ do
 				return unpack(t)
 			end,
 			rawget = rawget,
-			--rawset = rawset,
+			rawset = rawset,
 			rawequal = rawequal,
 			os={
 				clock=os.clock,
 				date=os.date,
 				difftime=os.difftime,
-				execute=function(txt)
-					local cmd,tx=txt:match("^(.-) (.+)$")
-					cmd=cmd or txt
-					if cmd=="lua" or cmd=="luafile"  then
-						return no()
-					end
-					return evalCommand(usr["nick"],usr["chan"],txt) or nil
-				end,
 				exit=function()
 					error()
 				end,
@@ -112,22 +93,7 @@ do
 			nick = "",
 			pcall = pcall,
 			username = username,
-			string = {
-						sub = string.sub,
-						find = string.find,
-						gsub =  string.gsub,
-						gfind = string.gfind,
-						reverse = string.reverse,
-						match = string.match,
-						char = string.char,
-						dump = string.dump,
-						byte = string.byte,
-						upper = string.upper,
-						len = string.len,
-						format = string.format,
-						gmatch = string.gmatch,
-						lower = string.lower
-			}
+			string=string,
 		}
 		for k,v in pairs({
 			math=math,
@@ -167,9 +133,9 @@ do
 		debug.sethook(func,function()
 			debug.sethook(func)
 			debug.sethook(func,function()
-				error("Time limit exceeded.",0)
+				error("Error: Took too long.",0)
 			end,"",1)
-			error("Time limit exceeded.",0)
+			error("Error: Took too long.",0)
 		end,"",20000)
 		local res={coroutine.resume(func)}
 		local o
@@ -185,11 +151,14 @@ end
 luasb_reset
 def luasb(args, nick, chan,rawargs="",pipeargs="")
 	if args != nil then
+		returnval=""
 		begin
 			@luasb["code"]=args
-			returnval = @luasb.eval("return (lua(code))")
+			Timeout::timeout(0.1) do
+				returnval = @luasb.eval("return (lua(code))")
+			end
 		rescue => detail
-				error = detail.message()
+				return "Error: Took too long."
 				#begin
 				#returnval = @luasb.eval("return lua('return ('..code..')")
 				#rescue => detail2
@@ -197,7 +166,7 @@ def luasb(args, nick, chan,rawargs="",pipeargs="")
 				puts error
 		end
 					#$bot.irc.msg(chan, detail.message())
-		if returnval != nil then #or not @output.empty? then
+		if returnval != nil and returnval !="" then #or not @output.empty? then
 			#if returnval != nil and returnval!= "" then
 				#if returnval.class == "Array" then
 				#	return "[table]"
@@ -214,5 +183,5 @@ def luasb(args, nick, chan,rawargs="",pipeargs="")
 		end
 	end
 end
-$commands["luasb"] = :luasb
+$commands["lua"] = :luasb
 $commands["resetlua"] = :luasb_reset

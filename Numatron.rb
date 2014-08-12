@@ -61,6 +61,15 @@ def runRaw(raw)
 	}
 end
 # spacer! \o/
+def cmdrun(cmd,nick,to)
+	begin
+		if not @blacklistChannels.include? to.strip.downcase then
+			commandParser cmd,nick,to
+		end
+	rescue Exception => detail
+		@bot.msg(to,detail.message())
+	end
+end
 def logic(raw)
 	type,nick,to,msg = @bot.msgtype(raw)
 	#sendfifos raw
@@ -75,13 +84,9 @@ def logic(raw)
 		puts "#{nick} -> #{to}: "+msg
 		prefix = @prefix or "\?"
 		if msg.match(/^#{prefix}(.*)/) then
-			begin
-				if not @blacklistChannels.include? to.strip.downcase then
-					commandParser "#{$~[1]}",nick,to
-				end
-			rescue Exception => detail
-				@bot.msg(to,detail.message())
-			end
+			cmdrun "#{$~[1]}",nick,to
+		elsif msg.match(/^#{Regexp.escape(@bot.nick)}.(.*)/) then
+			cmdrun "#{$~[1]}",nick,to
 		end
 	elsif type=="invite" then
 		#if not @blacklistChannels.include? msg.strip.downcase then
