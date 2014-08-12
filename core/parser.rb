@@ -28,7 +28,9 @@ def argParser(args="",nick,chan)
 		end
 	}
 end
-
+def sanitizer(input)
+	input.delete("\x06") # Bell char. Evil.
+end
 def commandRunner(cmd,nick,chan)
 	cmd=cmd.strip
 	retFinal=""
@@ -68,7 +70,7 @@ def commandRunner(cmd,nick,chan)
 						retLast = $commands[func].call(nargs, nick, chan, args, "")
 					elsif $commands[func].class == Symbol then
 						retLast = self.send($commands[func], nargs, nick, chan, args, "")
-					elsif $commands[func].class == String then
+					elsif
 						retLast = $commands[func]
 					end
 				else
@@ -78,7 +80,7 @@ def commandRunner(cmd,nick,chan)
 						retLast = $commands[func].call(nargs, chan, args, retLast)
 					elsif $commands[func].class == Symbol then
 						retLast = self.send($commands[func], nargs, nick, chan, args, retLast)
-					elsif $commands[func].class == String then
+					elsif
 						retLast = $commands[func]
 					end
 				#retLast=self.send(@commands[func],(args or "")+retLast,nick,chan) or ""
@@ -101,9 +103,9 @@ def commandParser(cmd,nick,chan) # This is the entry point.
 			ret=commandRunner(cmd, nick, chan)
 			if ret then
 				if ret.to_s.length > 200 then
-					@bot.msg(chan,"> Output: "+putHB(ret.to_s))
+					@bot.msg(chan,"> Output: "+putHB(sanitizer ret.to_s))
 				else
-					@bot.msg(chan,"> "+ret.to_s)
+					@bot.msg(chan,"> "+sanitizer ret.to_s)
 				end
 			end
 		rescue Exception => detail

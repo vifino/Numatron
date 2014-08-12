@@ -36,3 +36,8 @@ end
 $commands["join"] = :join
 $commands["part"] = :part
 $commands["inspect"]=->(args,nick,chan,rawargs="",pipeargs=""){args.inspect}
+$commands["type"]=->(args,nick,chan,rawargs="",pipeargs=""){args.class}
+$commands["class"]=$commands["type"]
+$commands["void"]=""
+$commands["string"]=->(args,nick,chan,rawargs="",pipeargs=""){args.to_s}
+$commands["array"]=->(args,nick,chan,rawargs="",pipeargs=""){if not args.class==Array then;[args];else;args;end;}
