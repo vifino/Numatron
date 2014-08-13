@@ -3,7 +3,7 @@
 def cmd_sqeeze(args,nick,chan,rawargs="",pipeargs="")
 	return (args.to_s or "").squeeze
 end
-$commands["sqeeze"] = :cmd_sqeeze
+addCommand("sqeeze",:cmd_sqeeze,"Replaces double characters with one.")
 def cmd_rainbow(args,nick,chan,rawargs="",pipeargs="") # seems broken, I dont know why...
 	if not args.to_s.empty? then
 		c=rand(colors.length-1)
@@ -17,12 +17,12 @@ def cmd_rainbow(args,nick,chan,rawargs="",pipeargs="") # seems broken, I dont kn
 		return str+"\u000F"
 	end
 end
-$commands["rainbow"] = :cmd_rainbow
+addCommand("rainbow",:cmd_rainbow,"RAAAAINBOW!!!")
 def cmd_underline(args,nick,chan,rawargs="",pipeargs="")
 	return "\u001F"+args.to_s+"\u000F"
 end
-$commands["underline"] = :cmd_underline
+addCommand("underline",:cmd_underline,"Underline the input.")
 def aeiou(args="",nick="",chan="",rawargs="",pipeargs="")
 	return args.to_s.gsub('U','A').gsub('O','U').gsub('I','O').gsub("E","I").gsub('A','E').gsub('u','a').gsub('o','u').gsub('i','o').gsub('e','i').gsub('a','e')
 end
-$commands["aeiou"] = :aeiou
+addCommand("aeiou",:aeiou,"Riplecis Vuwils with shoftid unis.") # yes. yes.

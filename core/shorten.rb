@@ -30,4 +30,4 @@ def shortenWrapper(addresses,nick,chan,rawargs="",pipeargs="")
 	}
 	return res
 end
-$commands["shorten"] = :shortenWrapper
+addCommand("shorten",:shortenWrapper,"Shorten urls.")

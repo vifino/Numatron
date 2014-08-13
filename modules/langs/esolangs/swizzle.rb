@@ -72,5 +72,5 @@ def sw_cmd(args="",nick="",chan="",rawargs="",pipeargs="")
 		return "Error: Took too long."
 	end
 end
-$commands["swz"] = :sw_cmd
-$commands["swizzle"] = :sw_cmd
+addCommand("swz",:sw_cmd,"Run Swizzle code.")
+addCommand("swizzle",:sw_cmd,"Run Swizzle code.")

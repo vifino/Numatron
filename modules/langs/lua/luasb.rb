@@ -183,5 +183,5 @@ def luasb(args, nick, chan,rawargs="",pipeargs="")
 		end
 	end
 end
-$commands["lua"] = :luasb
-$commands["resetlua"] = :luasb_reset
+addCommand("lua",:luasb,"Run Lua code in a Sandbox.")
+addCommand("resetlua",:luasb_reset,"Resets the Lua Sandbox.")

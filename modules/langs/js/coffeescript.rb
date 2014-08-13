@@ -11,11 +11,11 @@ def coffee2js(code)
 	`cat /tmp/coffee_#{rnd}|coffee -sc` # "Compiled" coffee to js will be the output.
 end
 if not `which coffee`.strip.chomp.match("coffee not found") then
-	$commands["coffeecompiler"]=->(args,nick="",chan="",rawargs="",pipeargs=""){
+	addCommand("coffeecompiler",->(args,nick="",chan="",rawargs="",pipeargs=""){
 		coffee2js(args.to_s.strip)
-	}
-	$commands["coffeescript"]=->(args,nick="",chan="",rawargs="",pipeargs=""){
+	},"Compile Coffeescript code to javascript.")
+	addCommand("coffeescript",->(args,nick="",chan="",rawargs="",pipeargs=""){
 		js(coffee2js(args.to_s.strip))
-	}
-	$commands["c[_]"]=$commands["coffeescript"] # Shhh! Dont tell anyone!
+	},"Run coffeescript code directly.")
+	addCommand("c[_]",$commands["coffeescript"],"Sip on your coffee, while running coffeescript code!") # Shhh! Dont tell anyone!
 end

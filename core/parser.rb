@@ -1,7 +1,28 @@
 # The command Parser
 # Made by vifino
 $commands ||= Hash.new()
+$helpdata ||= Hash.new()
 $variables ||= Hash.new()
+def addCommand(nme,val,help="No help for this command available.")
+	$commands[nme]=val
+	$helpdata[nme]=help
+end
+def help(topicorig,nick,chan,rawargs="",pipeargs="")
+	topic=topicorig.split(" ").first.downcase
+	if $helpdata[topic.strip] then
+		if $helpdata[topic.strip].is_a?(Method) then
+			"#{topic}: "+$helpdata[topic.strip].call.to_s
+		elsif $helpdata[topic.strip].class == Proc then
+			"#{topic}: "+$helpdata[topic.strip].to_s
+		elsif $helpdata[topic.strip].class == Symbol then
+			"#{topic}: "+self.send($helpdata[topic.strip]).to_s
+		elsif $helpdata[topic.strip].class == String then
+			"#{topic}: "+$helpdata[topic.strip].to_s
+		end
+	else
+		"#{topic}: No such topic."
+	end
+end
 def argParser(args="",nick,chan)
 	$variables["nick"]=nick
 	$variables["chan"]=chan
@@ -113,7 +134,6 @@ def commandRunner(cmd,nick,chan)
 			runtimes+=1
 		end
 	}
-	p retLast
 	return outconv(retLast) if not (retLast==rnd or (retLast.to_s or "").empty?)
 end
 def commandParser(cmd,nick,chan) # This is the entry point.
@@ -135,7 +155,7 @@ def commandParser(cmd,nick,chan) # This is the entry point.
 	end
 	#Process.detach(job_parser)
 end
-$commands["let"]=->(args="",nick="",chan="",rawargs="",pipeargs=""){
+addCommand("let",->(args="",nick="",chan="",rawargs="",pipeargs=""){
 	if not args.empty? then
 		if data=args.match(/(.*?)=(.*)/) then
 			p data
@@ -147,4 +167,5 @@ $commands["let"]=->(args="",nick="",chan="",rawargs="",pipeargs=""){
 	else
 		return "Missing input."
 	end
-}
+},"Assign Values to Variables.")
+addCommand("help",:help,"Shows help on certain topics.")

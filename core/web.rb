@@ -101,7 +101,7 @@ end
 def puthb_cmd(args,nick,channel,rawargs="",pipeargs="") # php
 	putHB args.to_s
 end
-$commands["get"] = :gethb_cmd
-$commands["put"] = :puthb_cmd
-$commands["gethb"] = :gethb_cmd
-$commands["puthb"] = :puthb_cmd
+addCommand("get",:gethb_cmd,"Get the hastebin with the id, specified in the input.")
+addCommand("put",:puthb_cmd,"Puts the input in a hastebin, and returns the url.")
+addCommand("gethb",:gethb_cmd,"Get the hastebin with the id, specified in the input.")
+addCommand("puthb",:puthb_cmd,"Puts the input in a hastebin, and returns the url.")

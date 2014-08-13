@@ -33,5 +33,5 @@ if @jruby then
 			return detail.message
 		end
 	end
-	$commands["js"] = :js
+	addCommand("js",:js,"Execute javascript code!")
 end

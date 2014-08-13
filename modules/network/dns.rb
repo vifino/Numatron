@@ -95,9 +95,9 @@ end
 def cmd_rdns(args,nick,chan,rawargs="",pipeargs="")
 	return rdnsWrapper(args)
 end
-$commands["dns_all"] = :cmd_dnsall
-$commands["dns_mx"] = :cmd_dnsmx
+addCommand("dns_all",:cmd_dnsall,"Show every DNS info of a domain.")
+addCommand("dns_mx",:cmd_dnsmx,"Shows the MX record of a domain.")
 # $commands["dns_type"] = :cmd_dnst doesnt work :/
-$commands["dns"] = :cmd_dnsa
-$commands["dns_a"] = :cmd_dnsa
-$commands["rdns"] = :cmd_rdns
+addCommand("dns",:cmd_dnsa,"Shows the A Record of a domain.")
+addCommand("dns_a",:cmd_dnsa,"Shows the A Record of a domain.")
+addCommand("rdns",:cmd_rdns,"Lookup the domain of an IP.")

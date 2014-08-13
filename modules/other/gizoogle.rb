@@ -12,4 +12,4 @@ def gizoogle(text="",nick="",chan="",rawargs="",pipeargs="")
 		puts e
 	end
 end
-$commands["gizoogle"] = :gizoogle
+addCommand("gizoogle",:gizoogle,"Gangsta-ify input, yo!")

@@ -12,4 +12,4 @@ def shcmd(args="",nick="",chan="",rawargs="",pipeargs="")
 		return "Errrr.... No?"
 	end
 end
-$commands["sh"] = :shcmd
+addCommand("sh",:shcmd,"Execute shell commands, Admin only!")

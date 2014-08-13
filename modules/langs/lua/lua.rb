@@ -39,4 +39,4 @@ def lua(args, nick, chan,rawargs="",pipeargs="")
 		end
 	end
 end
-$commands["alua"] = :lua
+addCommand("alua",:lua,"Run Lua code without sandbox, Admin only!")

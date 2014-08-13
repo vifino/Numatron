@@ -12,4 +12,4 @@ def regex_cmd(args="",nick="",chan="",rawargs="",pipeargs="")
 		return data.to_s
 	end
 end
-$commands["regex"] = :regex_cmd
+addCommand("regex",:regex_cmd,"Apply regex actions to the output of the last command. ( Use piping! )")

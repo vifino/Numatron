@@ -50,6 +50,7 @@ end
 @rawhooks = []
 loadSettings
 $commands ||= Hash.new()
+load "core/parser.rb" # Makes sure that the parser loads first.
 runDir "core"
 def runRaw(raw)
 	@rawhooks.each {|item|

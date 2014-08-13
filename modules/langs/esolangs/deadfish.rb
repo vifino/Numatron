@@ -40,8 +40,8 @@ def df_cmd(args="",nick="",chan="",rawargs="",pipeargs="")
 		return "Error: Took too long."
 	end
 end
-$commands["df"] = :df_cmd
-$commands["deadfish"] = :df_cmd
+addCommand("df",:df_cmd,"Run deadfish code.")
+addCommand("deadfish",:df_cmd,"Run deadfish code.")
 def xkcdfish(insts)
 	str="o='';i=0;"
 	insts.gsub(/./){|inst|
@@ -81,4 +81,4 @@ def dfxkcd_cmd(args="",nick="",chan="",rawargs="",pipeargs="")
 		return "Error: Took too long."
 	end
 end
-$commands["xkcdfish"] = :dfxkcd_cmd
+addCommand("xkcdfish",:dfxkcd_cmd,"XKCD-Styled deadfish!")

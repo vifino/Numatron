@@ -8,10 +8,10 @@ if not (File.exists?(geoipdb) and File.exists?(geoipdb))
 else
 	@geoipdb = GeoIP.new(geoipdb)
 	@geocitydb = GeoIP.new(geocitydb)
-	$commands["geoip_country"] = :geoip_countryWrapper
-	$commands["geoip_city"] = :geoip_cityWrapper
-	$commands["geoip"] = :geoip_cityWrapper
-	$commands["geomaps"] = :geomapsWrapper
+	addCommand("geoip_country",:geoip_countryWrapper,"Geolocate URLs and IPs.")
+	addCommand("geoip_city",:geoip_cityWrapper,"Geolocate URLs and IPs.")
+	addCommand("geoip",:geoip_cityWrapper,"Geolocate URLs and IPs.")
+	addCommand("geomaps",:geomapsWrapper,"Geolocate URLs and IPs.")
 end
 def geoip_country(addr)
 	if not addr.empty? then

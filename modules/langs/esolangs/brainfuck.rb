@@ -87,9 +87,9 @@ def bf_cmd(args="",nick="",chan="",rawargs="",pipeargs="")
   	return "Error: Took too long."
 	end
 end
-$commands["bf"] = :bf_cmd
-$commands["brf"] = :bf_cmd
-$commands["brainfuck"] = :bf_cmd
+addCommand("bf",:bf_cmd,"Run Brainfuck code.")
+addCommand("brf",:bf_cmd,"Run Brainfuck code.")
+addCommand("brainfuck",:bf_cmd,"Run Brainfuck code.")
 def bfopt(code) # Should be useful someday.
 	optimised = ""
 	optimised = code.gsub(/[^\+\-<>\[\]\.,]/i, '')
@@ -132,10 +132,10 @@ def brf2blf(code="",nick="",chan="",rawargs="",pipeargs="") # Brainfuck to Boolf
 	}
 	return str
 end
-$commands["brf2blf"] = :brf2blf
-$commands["brainfuck2boolfuck"] = :brf2blf
-$commands["blf2brf"] = :blf2brf
-$commands["boolfuck2brainfuck"] = :blf2brf
+addCommand("brf2blf",:brf2blf)
+addCommand("brainfuck2boolfuck",:brf2blf)
+addCommand("blf2brf",:blf2brf)
+addCommand("boolfuck2brainfuck",:blf2brf)
 def blf_cmd(args="",nick="",chan="",rawargs="",pipeargs="")# Would not use.
 	begin
 		Timeout::timeout(2) do
@@ -146,8 +146,8 @@ def blf_cmd(args="",nick="",chan="",rawargs="",pipeargs="")# Would not use.
 		return "Error: Took too long."
 	end
 end
-$commands["blf"] = :blf_cmd
-$commands["boolfuck"] = :blf_cmd
+addCommand("blf",:blf_cmd)
+addCommand("boolfuck",:blf_cmd)
 def bfenc(str="")
 	if !str.empty? then
 		enc = ""
