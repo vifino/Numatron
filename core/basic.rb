@@ -41,4 +41,4 @@ addCommand("type",->(args,nick,chan,rawargs="",pipeargs=""){args.class},"Returns
 addCommand("type",$commands["type"],"Returns the type of the input")
 addCommand("void","","Replaces every input with an empty string.")
 addCommand("string",->(args,nick,chan,rawargs="",pipeargs=""){args.to_s},"Stringifies the input")
-addCommand("array",->(args,nick,chan,rawargs="",pipeargs=""){if not args.class==Array then;[args];else;args;end;},"Puts the input in an array, if not already.")
+addCommand("array",->(args,nick,chan,rawargs="",pipeargs=""){if not args.class==Array then;if not args.empty? then;[args];else;[];end;else;args;end;},"Puts the input in an array, if not already.")

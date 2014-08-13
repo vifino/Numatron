@@ -84,8 +84,8 @@ def commandRunner(cmd,nick,chan)
 			nargs=""
 			if retLast.class==Array then
 				nargs=retLast
-				if !args.to_s.empty? then
-					nargs.push args.to_s
+				if !args.empty? then
+					nargs.push args
 				end
 			elsif retLast.class==String
 				if (args.to_s or "").empty? then
