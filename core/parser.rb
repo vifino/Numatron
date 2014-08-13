@@ -31,6 +31,19 @@ end
 def sanitizer(input)
 	input.delete("\x06") # Bell char. Evil.
 end
+def outconv(input)
+	if input.class==Array then
+		# This is the main thing.
+		#input.to_s.gsub("^[","").gsub("]$","")
+		output=""
+		input.each {|c|
+			output+=c+"; "
+		}
+		output.strip.strip.chomp(";")
+	else
+		input.to_s
+	end
+end
 def commandRunner(cmd,nick,chan)
 	cmd=cmd.strip
 	retFinal=""
@@ -59,6 +72,12 @@ def commandRunner(cmd,nick,chan)
 				else
 					nargs=args.to_s+retLast
 				end
+			elsif retLast.class==Number
+					if (args.to_s or "").empty? then
+						nargs=retLast.to_s
+					else
+						nargs=args.to_s+retLast.to_s
+					end
 			else
 				nargs=(args or "")+retLast.to_s
 			end
@@ -94,7 +113,8 @@ def commandRunner(cmd,nick,chan)
 			runtimes+=1
 		end
 	}
-	return retLast if not (retLast==rnd or (retLast.to_s or "").empty?)
+	p retLast
+	return outconv(retLast) if not (retLast==rnd or (retLast.to_s or "").empty?)
 end
 def commandParser(cmd,nick,chan) # This is the entry point.
 	#job_parser = fork do
