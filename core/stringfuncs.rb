@@ -1,13 +1,13 @@
 # Commands for text modification
 # Made by vifino
-c=rand(colors.length-1)
-colors=["05","07","08","09","10","12","06"] # color is "\u0003<val>""
 def cmd_sqeeze(args,nick,chan,rawargs="",pipeargs="")
 	return (args.to_s or "").squeeze
 end
 $commands["sqeeze"] = :cmd_sqeeze
 def cmd_rainbow(args,nick,chan,rawargs="",pipeargs="") # seems broken, I dont know why...
 	if not args.to_s.empty? then
+		c=rand(colors.length-1)
+		colors=["05","07","08","09","10","12","06"] # color is "\u0003<val>""
 		str = ""
 		args.to_s.lstrip.split("").each {|char|
 			if c==colors.length then c=0 end
