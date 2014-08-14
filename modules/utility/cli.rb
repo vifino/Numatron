@@ -4,7 +4,7 @@ def cli_init
 	putsbelow "> "
 	Thread.new do
 		while true do
-			puts ">> "+commandRunner(gets,@admins.first,"#Console") # I wonder why this even works :P
+			puts ">> "+(commandRunner((gets or ""),@admins.first,"#Console") or "") # I wonder why this even works :P
 		end
 	end
 end
