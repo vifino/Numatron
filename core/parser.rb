@@ -7,20 +7,24 @@ def addCommand(nme,val,help="No help for this command available.")
 	$commands[nme]=val
 	$helpdata[nme]=help
 end
-def help(topicorig,nick,chan,rawargs="",pipeargs="")
-	topic=topicorig.split(" ").first.downcase
-	if $helpdata[topic.strip] then
-		if $helpdata[topic.strip].is_a?(Method) then
-			"#{topic}: "+$helpdata[topic.strip].call.to_s
-		elsif $helpdata[topic.strip].class == Proc then
-			"#{topic}: "+$helpdata[topic.strip].to_s
-		elsif $helpdata[topic.strip].class == Symbol then
-			"#{topic}: "+self.send($helpdata[topic.strip]).to_s
-		elsif $helpdata[topic.strip].class == String then
-			"#{topic}: "+$helpdata[topic.strip].to_s
+def help(topicorig="",nick="",chan="",rawargs="",pipeargs="")
+	if not topicorig.empty? then
+		topic=topicorig.split(" ").first.downcase
+		if $helpdata[topic.strip] then
+			if $helpdata[topic.strip].is_a?(Method) then
+				"#{topic}: "+$helpdata[topic.strip].call.to_s
+			elsif $helpdata[topic.strip].class == Proc then
+				"#{topic}: "+$helpdata[topic.strip].call.to_s
+			elsif $helpdata[topic.strip].class == Symbol then
+				"#{topic}: "+self.send($helpdata[topic.strip]).to_s
+			elsif $helpdata[topic.strip].class == String then
+				"#{topic}: "+$helpdata[topic.strip].to_s
+			end
+		else
+			"#{topic}: No such topic."
 		end
 	else
-		"#{topic}: No such topic."
+		"To view help about a specific topic, do '#{@prefix}help <topic>'"
 	end
 end
 def argParser(args="",nick,chan)
