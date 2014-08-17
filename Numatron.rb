@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 # Made by vifino
-# Copyright 2014
 APP_ROOT = File.dirname(__FILE__)
 require 'yaml'
 def runDir(dir)
