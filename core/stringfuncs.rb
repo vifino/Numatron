@@ -23,6 +23,7 @@ def cmd_underline(args,nick,chan,rawargs="",pipeargs="")
 end
 addCommand("underline",:cmd_underline,"Underline the input.")
 def aeiou(args="",nick="",chan="",rawargs="",pipeargs="")
-	return args.to_s.gsub('U','A').gsub('O','U').gsub('I','O').gsub("E","I").gsub('A','E').gsub('u','a').gsub('o','u').gsub('i','o').gsub('e','i').gsub('a','e')
+	#return args.to_s.gsub('U','A').gsub('O','U').gsub('I','O').gsub("E","I").gsub('A','E').gsub('u','a').gsub('o','u').gsub('i','o').gsub('e','i').gsub('a','e')
+	return args.to_s.tr 'aeiouAEIOU','eiouaEIOUA'
 end
 addCommand("aeiou",:aeiou,"Riplecis Vuwils with shoftid unis.") # yes. yes.
