@@ -29,13 +29,13 @@ if not @jruby then
 			returnval=returnval.gsub("[\r\n]+"," | ") if returnval
 			returnval||="null"
 			if @jsout.empty? then
-				return returnval.gsub("[\r\n]+","\n> ")
+				return returnval.gsub("[\r\n]+"," | ")
 			else
 				txt = ""
 				if returnval!=nil then
 					txt = "\n> "+returnval.to_s.gsub("[\r\n]+","\n> ")
 				end
-				return @jsout.join(" | ").split(/[\r\n]+/).join(" | ").strip+txt.gsub("[\r\n]+","\n> ")
+				return @jsout.join(" | ").split(/[\r\n]+/).join(" | ").strip+txt.gsub("[\r\n]+"," | ")
 			end
 		rescue => detail
 			return detail.message
