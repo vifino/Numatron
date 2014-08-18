@@ -35,7 +35,7 @@ if not @jruby then
 				if returnval!=nil then
 					txt = "\n> "+returnval.to_s.gsub("[\r\n]+","\n> ")
 				end
-				return @jsout.join(" | ").gsub("[\r\n]+","\n> ").strip+txt.gsub("[\r\n]+","\n> ")
+				return @jsout.split(/[\r\n]+/).join(" | ").strip+txt.gsub("[\r\n]+","\n> ")
 			end
 		rescue => detail
 			return detail.message
