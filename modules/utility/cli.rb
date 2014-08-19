@@ -16,4 +16,4 @@ def cli_init
 		end
 	end
 end
-cli_init
+cli_init if STDIN.tty?
