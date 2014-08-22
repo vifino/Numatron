@@ -16,7 +16,7 @@ def shcmd(args="",nick="",chan="",rawargs="",pipeargs=nil)
 			f=File.open "/tmp/sh_#{rnd}","w"
 			f.write pipeargs
 			f.close
-			return sh("cat /tmp/sh_#{rnd}|#{args}")
+			return sh("cat /tmp/sh_#{rnd}|#{rawargs}")
 		end
 	else
 		return "Errrr.... No?"
