@@ -56,7 +56,7 @@ class Markov
 		#part2=@parts[part].sample or ""
 		#part1=part.split(" ")[1]
 		#return part1+" "+part2
-		(@parts[part.strip] or [nil]).sample
+		(@parts[part.downcase.strip] or [nil]).sample
 	end
 end
 @marky||=Markov.new
@@ -73,6 +73,6 @@ def markovhook(raw)
 		@marky.learn(msg) # HUEHUEHUE
 	end
 end
-if not @rawhooks.include? :testai then
-	@rawhooks.push :testai
+if not @rawhooks.include? :markovhook then
+	@rawhooks.push :markovhook
 end
