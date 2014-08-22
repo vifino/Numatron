@@ -115,8 +115,9 @@ def setup
 	#init_fifos
 	#@fiforaw = open("pipes/raw","w+")
 	@authread,@authwrite = IO.pipe
-	@bot = IRC.new(@server,@port,@ssl,@nick,@username,@realname,@password)
 	trap("INT"){ @bot.quit; abort }
+	trap("TERM"){ @bot.quit; abort }
+	@bot = IRC.new(@server,@port,@ssl,@nick,@username,@realname,@password)
 	runDir "modules"
 	#sleep(2)
 	@channels.each { |chan|
