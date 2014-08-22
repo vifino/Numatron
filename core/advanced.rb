@@ -4,7 +4,9 @@ def disguise(args="",nick="",chan="",rawargs="",pipeargs="")
 	if isPrivileged? nick then
 		user, cmd = args.split(' ', 2)
 		if user and cmd then
-			return commandRunner(cmd,user,chan)
+			puts user
+			nickn= argParser(user,nick,chan)
+			return commandRunner(cmd,nickn,chan)
 		else
 			return "Missing input."
 		end
