@@ -9,7 +9,7 @@ class Markov
 	def learn(str="")
 		input=str.split(" ")
 		if input[1] then
-			@startParts.push((input[0]+" "+input[1]).downcase)
+			@startParts.push(input[0]+" "+input[1])
 			for i in 0 ...(input.size-1) do
 				if input[i+1] then
 					part1=input[i].strip
@@ -26,7 +26,7 @@ class Markov
 	def generate()
 		start = @startParts.sample
 		finished = false
-		out = start
+		out = start.downcase
 		until finished do
 			a = out.split(" ")
 			lastPart = a[a.count-2].to_s + " " + a[a.count-1].to_s
