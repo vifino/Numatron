@@ -8,7 +8,24 @@ String.class_eval do
         false
     end
 end
-def getMemUsageMac(pid=nil) # Mac only? :<
+class OS
+  def windows?
+    (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
+  end
+
+  def mac?
+   (/darwin/ =~ RUBY_PLATFORM) != nil
+  end
+
+  def unix?
+    !OS.windows?
+  end
+
+  def linux?
+    OS.unix? and not OS.mac?
+  end
+end
+def getMemUsage(pid=nil) # Mac only? :< I dont think so...
   `ps -o rss= -p #{(pid or Process.pid)}`.to_s.chomp.strip+"k"
 end
 def konamicode
