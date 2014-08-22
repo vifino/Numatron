@@ -31,8 +31,9 @@ class Markov
 			a = out.split(" ")
 			lastPart = a[a.count-2] + " " + a[a.count-1]
 			part = nextItem(lastPart)
-			if (a[a.count-2]+part).downcase==lastPart.downcase
-			if part then
+			if (a[a.count-2]+part).downcase==lastPart.downcase then
+				return out
+			elsif part then
 				out = out+" "+part
 			else
 				return out
@@ -59,7 +60,7 @@ class Markov
 	end
 end
 @marky||=Markov.new
-addCommand("markov",->((args,nick,chan,rawargs="",pipeargs=""){(@marky.generate or "No output.")})
+addCommand("markov",->(args,nick,chan,rawargs="",pipeargs=""){@marky.generate},"Generate a sentence using the Markov Chain.")
 def markovhook(raw)
 	data= @bot.msgtype(raw)
 	type = data[0]
