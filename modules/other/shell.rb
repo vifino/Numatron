@@ -8,6 +8,7 @@ def sh(args="")
 		`#{args} &> #{tmpfile}`
 		o=File.read tmpfile
 		`rm #{tmpfile}`
+		return o
 	end
 end
 def shcmd(args="",nick="",chan="",rawargs="",pipeargs=nil)
