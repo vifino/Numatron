@@ -2,13 +2,13 @@
 # Made by vifino
 def sh(args="")
 	if not args.to_s.empty? then
-		rnd= ('a'..'z').to_a.shuffle[0,8].join
-		tmpfile="/tmp/shout_#{rnd}"
-		#return `#{args} 2>&1`
-		`#{args} &> #{tmpfile}`
-		o=File.read tmpfile
-		`rm #{tmpfile}`
-		return o
+		#rnd= ('a'..'z').to_a.shuffle[0,8].join
+		#tmpfile="/tmp/shout_#{rnd}"
+		#`#{args} 2>&1 > #{tmpfile}`
+		#o=File.read tmpfile
+		#`rm #{tmpfile}`
+		#return o
+		return `#{args} 2>&1`
 	end
 end
 def shcmd(args="",nick="",chan="",rawargs="",pipeargs=nil)
