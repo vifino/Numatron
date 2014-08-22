@@ -95,7 +95,7 @@ def commandRunner(cmd,nick,chan)
 		if cmd then
 			cmd = cmd.gsub("\\|","|")
 			func, args = cmd.split(' ', 2)
-			if $commandNP[func.downcase] then
+			if $commandNP[func.downcase]==true then
 				args=(args.to_s or "")
 			else
 				args = argParser((args.to_s or ""),nick,chan)
