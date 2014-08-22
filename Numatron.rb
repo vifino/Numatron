@@ -24,6 +24,11 @@ def loadSettings(file = "settings.rb")
 		@blacklistChannels = []
 	end
 	begin
+		@blacklistAcc = @settings["blacklistAcc"] or []
+	rescue => detail
+		@blacklistAcc = []
+	end
+	begin
 		@password = @settings["password"] or nil
 	rescue => detail
 		@password = nil
@@ -83,9 +88,9 @@ def logic(raw)
 		if to==@bot.nick then to=nick end
 		puts "#{nick} -> #{to}: "+msg
 		prefix = @prefix or "\?"
-		if msg.match(/^#{Regexp.escape(prefix)}(.*)/) then
+		if msg.match(/^#{Regexp.escape(prefix)}(.*)/) and not @blacklistAcc.include? getNSAcc(nick) then
 			cmdrun "#{$~[1]}",nick,to
-		elsif msg.match(/^#{Regexp.escape(@bot.nick)}.(.*)/) then
+		elsif msg.match(/^#{Regexp.escape(@bot.nick)}.(.*)/) and not @blacklistAcc.include? getNSAcc(nick) then
 			cmdrun "#{$~[1]}",nick,to
 		end
 	elsif type=="invite" then

@@ -12,7 +12,6 @@ def whois(user)
 end
 def getNSAcc(user)
 	who user
-	sleep (0.5)
 	if not user.include? "#" then
 		for i in 0..20
 			if @passivedata["users"][user] then
