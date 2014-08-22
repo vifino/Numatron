@@ -3,7 +3,11 @@
 def disguise(args="",nick="",chan="",rawargs="",pipeargs="")
 	if isPrivileged? nick then
 		user, cmd = args.split(' ', 2)
-		return commandRunner(cmd,user,chan)
+		if user and cmd then
+			return commandRunner(cmd,user,chan)
+		else
+			return "Missing input."
+		end
 	else
 		"You aren't allowed to disguise as others!"
 	end
