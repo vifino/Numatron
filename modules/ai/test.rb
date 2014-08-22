@@ -31,7 +31,7 @@ def testai(raw)# this isnt even an ai q_q
 	msg = data[3]
 	username = data[4]
 	hostname = data[5]
-	if type =="msg" and not @blacklistAcc.include? getNSAcc(nick) then
+	if type =="msg" and (!isBlacklisted? nick) then
 		msg = msg.downcase
 		if str.isGreeting? and msg.include? @bot.nick.downcase then
 			@bot.msg(chan,"Hello #{nick}!")

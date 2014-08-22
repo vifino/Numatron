@@ -88,9 +88,9 @@ def logic(raw)
 		if to==@bot.nick then to=nick end
 		puts "#{nick} -> #{to}: "+msg
 		prefix = @prefix or "\?"
-		if msg.match(/^#{Regexp.escape(prefix)}(.*)/) and not @blacklistAcc.include? getNSAcc(nick) then
+		if msg.match(/^#{Regexp.escape(prefix)}(.*)/) and (!isBlacklisted? nick) then
 			cmdrun "#{$~[1]}",nick,to
-		elsif msg.match(/^#{Regexp.escape(@bot.nick)}.(.*)/) and not @blacklistAcc.include? getNSAcc(nick) then
+		elsif msg.match(/^#{Regexp.escape(@bot.nick)}.(.*)/) and (!isBlacklisted? nick) then
 			cmdrun "#{$~[1]}",nick,to
 		end
 	elsif type=="invite" then

@@ -4,6 +4,10 @@ def isPrivileged? nick
 	return true if @admins.include? getNSAcc(nick)
 	return false
 end
+def isBlacklisted? nick
+	return true if @blacklistAcc.include? getNSAcc(nick)
+	return false
+end
 def who(chan) # Not so passive :3
 	@bot.send "WHO #{chan} c%cuihsnfar"
 end
