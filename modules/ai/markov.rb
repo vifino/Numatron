@@ -29,9 +29,9 @@ class Markov
 		out = start
 		until finished do
 			a = out.split(" ")
-			lastPart = a[a.count-2] + " " + a[a.count-1]
+			lastPart = a[a.count-2].to_s + " " + a[a.count-1].to_s
 			part = nextItem(lastPart)
-			if (a[a.count-2]+part).downcase==lastPart.downcase then
+			if (a[a.count-2].to_s+part.to_s).downcase==lastPart.to_s.downcase then
 				return out
 			elsif part then
 				out = out+" "+part
