@@ -49,7 +49,7 @@ def passive_process(raw)
 			@passivedata["users"][nick]["user"] = username
 			@passivedata["users"][nick]["host"] = hostname
 			@passivedata["users"][nick]["chan"]||={}
-			i@passivedata["users"][nick]["chan"][chan]||=""
+			@passivedata["users"][nick]["chan"][chan]||=""
 			if type=="msg" then
 				if not @passivedata["users"][nick]["lines"] then @passivedata["users"][nick]["lines"] = 1 end
 				@passivedata["users"][nick]["lines"] += 1
