@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 # Made by vifino
+Encoding.default_external = Encoding::UTF_8
+Encoding.default_internal = Encoding::UTF_8
 APP_ROOT = File.dirname(__FILE__)
 require 'yaml'
 def runDir(dir)
