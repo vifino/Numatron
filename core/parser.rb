@@ -79,7 +79,7 @@ def commandRunner(cmd,nick,chan)
 	#retLast=rnd
 	begin
 		func, args = cmd.split(' ', 2)
-		if $commandNP[func.downcase]
+		if $commandNP[func.downcase] then
 			cmdarray=[cmd]
 		else
 			cmdarray = cmd.scan(/(?:[^|\\]|\\.)+/) or [cmd]
