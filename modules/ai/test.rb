@@ -33,7 +33,7 @@ def testai(raw)# this isnt even an ai q_q
 	hostname = data[5]
 	if type =="msg" and (!isBlacklisted? nick) then
 		msg = msg.downcase
-		if str.isGreeting? and msg.include? @bot.nick.downcase then
+		if (str.downcase.isGreeting?) and (msg.include? @bot.nick.downcase) then
 			@bot.msg(chan,"Hello #{nick}!")
 		elsif msg.downcase.include? "cafebabe" then
 			@bot.msg(chan,"Mmmmhh...")
