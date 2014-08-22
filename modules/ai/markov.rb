@@ -60,6 +60,7 @@ class Markov
 	end
 end
 @marky||=Markov.new
+@markychans||=[]
 addCommand("markov",->(args,nick,chan,rawargs="",pipeargs=""){@marky.generate},"Generate a sentence using the Markov Chain.")
 def markovhook(raw)
 	data= @bot.msgtype(raw)
@@ -70,9 +71,28 @@ def markovhook(raw)
 	username = data[4]
 	hostname = data[5]
 	if type =="msg" and (!isBlacklisted? nick) then
-		@marky.learn(msg) # HUEHUEHUE
+		prefix = @prefix or "\?"
+		if not (msg.match(/^#{Regexp.escape(prefix)}(.*)/) or msg.match(/^#{Regexp.escape(@bot.nick)}.(.*)/)) and (!isBlacklisted? nick) then
+			@marky.learn(msg) # HUEHUEHUE
+		end
 	end
 end
-if not @rawhooks.include? :markovhook then
-	@rawhooks.push :markovhook
+def markycontrol(args="",nick="",chan="",rawargs="",pipeargs="")
+	if isPrivileged? nick then
+		args=args.strip
+		if args.split(" ").first=="enable" then
+			if not @rawhooks.include? :markovhook then
+				@rawhooks.push :markovhook
+			end
+			"Marky enabled! \\o/"
+		elsif args.split(" ").first=="disable" then
+			@rawhooks.each_with_index {|i,v|
+				@rawhooks.pop i if v==:markovhook
+			}
+			"Disabled!"
+		end
+	else
+		"No permission to control me! D:<"
+	end
 end
+addCommand("markycontrol",:markycontrol,"Control the Markov Chain, Admin only!")
