@@ -1,10 +1,12 @@
 # The command Parser
 # Made by vifino
 $commands ||= Hash.new()
+$commandNP ||= Hash.new()
 $helpdata ||= Hash.new()
 $variables ||= Hash.new()
-def addCommand(nme,val,help="No help for this command available.")
+def addCommand(nme,val,help="No help for this command available.",nopipes=false)
 	$commands[nme]=val
+	$commandNP[nme]=val
 	$helpdata[nme]=help
 end
 def help(topicorig="",nick="",chan="",rawargs="",pipeargs="")
@@ -75,6 +77,16 @@ def commandRunner(cmd,nick,chan)
 	retLast=""
 	rnd= ('a'..'z').to_a.shuffle[0,8].join
 	#retLast=rnd
+	begin
+		func, args = cmd.split(' ', 2)
+		if $commandNP[func.downcase]
+			cmdarray=[cmd]
+		else
+			cmdarray = cmd.scan(/(?:[^|\\]|\\.)+/) or [cmd]
+		end
+	rescue => e
+		puts e
+	end
 	cmdarray = cmd.scan(/(?:[^|\\]|\\.)+/) or [cmd]
 	#func, args = cmd.lstrip().split(' ', 2)
 	runtimes=0
