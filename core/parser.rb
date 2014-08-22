@@ -97,7 +97,7 @@ def commandRunner(cmd,nick,chan)
 			func, args = cmd.split(' ', 2)
 			if !$commandNP[func.downcase]
 				args = argParser((args.to_s or ""),nick,chan)
-			else
+			end
 			func=func.downcase()
 			nargs=""
 			if retLast.class==Array then
