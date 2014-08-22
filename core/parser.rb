@@ -6,7 +6,7 @@ $helpdata ||= Hash.new()
 $variables ||= Hash.new()
 def addCommand(nme,val,help="No help for this command available.",nopipes=false)
 	$commands[nme]=val
-	$commandNP[nme]=val
+	$commandNP[nme]=nopipes
 	$helpdata[nme]=help
 end
 def help(topicorig="",nick="",chan="",rawargs="",pipeargs="")
