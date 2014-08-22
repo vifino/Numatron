@@ -9,11 +9,15 @@ class Markov
 	def learn(str)
 		input=str.split(" ")
 		@startParts.push(input[0]+" "+input[1])
-		for i in 1 ... input.size do
+		for i in 1 ...(input.size-1) do
 			if input[i+1] then
 				part1=input[i]
 				part2=input[i+1]
-				@parts[part1+" "+part2] = (input[1+2] or "")
+				#@parts[part1+" "+part2] = (input[1+2] or "")
+				@parts[part1+" "+part2] ||=[]
+				if not @parts[part1+" "+part2].include? (input[1+2] or "")  then
+					@parts[part1+" "+part2].push (input[1+2] or "") 
+				end
 			end
 		end
 	end
