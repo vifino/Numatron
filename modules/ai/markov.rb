@@ -9,7 +9,7 @@ class Markov
 	def learn(str="")
 		input=str.split(" ")
 		if input[1] then
-			@startParts.push(input[0]+" "+input[1])
+			@startParts.push((input[0]+" "+input[1]).downcase)
 			for i in 0 ...(input.size-1) do
 				if input[i+1] then
 					part1=input[i].strip
