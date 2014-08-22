@@ -72,7 +72,7 @@ def outconv(input)
 	end
 end
 def commandRunner(cmd,nick,chan)
-	cmd=cmd.strip
+	cmd=cmd.lstrip
 	retFinal=""
 	retLast=""
 	rnd= ('a'..'z').to_a.shuffle[0,8].join
