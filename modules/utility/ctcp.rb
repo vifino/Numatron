@@ -26,6 +26,11 @@ def ctcpping(usr)
 	end
 end
 def ping(args="",nick="",chan="",rawargs="",pipeargs="")
-	ctcpping(nick)
+	if not args.empty? then
+		ctcpping(args.split(" ").first)
+	else
+		ctcpping(nick)
+	end
 end
 addCommand("ping",:ping,"CTCP PINGs the user.")
+addCommand("p",:ping,"CTCP PINGs the user.")
