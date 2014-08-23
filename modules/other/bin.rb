@@ -3,9 +3,16 @@
 def str2bin(inp="")
 	out=[]
 	inp=inp.to_s
-	inp.split("").each {|c|
-		binrep=c.ord.to_s(2)
-		unless binrep.length==8 then
+	#inp.split("").each {|c|
+		#binrep=c.ord.to_s(2)
+		#unless binrep.length==8 then
+		#	binrep="0"+binrep
+		#end
+		#out.push binrep
+		#.force_encoding("ISO-8859-1")
+	(inp.bytes.to_a).each{|c|
+		binrep=c.to_s(2)
+		until binrep.length==8 do
 			binrep="0"+binrep
 		end
 		out.push binrep
