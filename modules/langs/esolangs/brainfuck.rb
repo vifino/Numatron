@@ -4,7 +4,7 @@ require 'timeout'
 def bf(insts,input="") # This one works! (TM)
 	str="o='';a=Array.new(256,0);p=0;"
 	insts.gsub(/./){|inst|
-		str = str+"a[p]=a[p]||0;if a[p]>=256 then;a[p]=0; end;if a[p]<0 then; a[p]=255; end;"
+		#str = str+"if a[p]>=256 then;a[p]=0; end;if a[p]<0 then; a[p]=255; end;"
 		case inst
 			when "+"
 				str+="if a[p]<=256 then; a[p]+=1;else;a[p]=0;end;"
@@ -12,9 +12,9 @@ def bf(insts,input="") # This one works! (TM)
 				#str+="if a[p]<=0 then;a[p]-=1;end;"
 				str+="if a[p]<0 then; a[p]=255;else; a[p]-=1;end;"
 			when ">"
-				str+="p+=1;"
+				str+="p+=1;a[p]=a[p]||0;"
 			when "<"
-				str+="p-=1;"
+				str+="p-=1;a[p]=a[p]||0;"
 			when "."
 				str+="o+=a[p].chr;"
 			when "["

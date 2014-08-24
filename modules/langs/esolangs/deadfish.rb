@@ -4,7 +4,7 @@ require 'timeout'
 def deadfish(insts)
 	str="o='';i=0;"
 	insts.gsub(/./){|inst|
-		str = str+"if i>=256 then;i=0; end;if i<0 then; i=255; end;"
+		str = str+"if i>=256 then;i=0;end;if i<0 then;i=255;end;"
 		case inst
 			when "i"
 				str+="i+=1;"
