@@ -9,12 +9,12 @@ To make a module, make a file in `modules/`, and if you like, in subdirectories 
 def myfunc(args,nick,channel,rawargs="",pipeargs="")
 	return "Hello World! :D"
 end
-$commands["myfunc"] = :myfunc
+addCommand("myfunc",:myfunc,"Help for my command! :D ")
 ```
 Thats a very basic module, of course you can make things more complicated than that.
 But your plain "Hello World" can be made quicker.
 ```
-$commands["hello"]="Hello World!"
+addCommand("hello","Hello World!")
 ```
 That's it!
 There is also the way to use lambdas instead of symbols, if you prefer them, use them!
