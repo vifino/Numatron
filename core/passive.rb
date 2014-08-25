@@ -194,6 +194,9 @@ def passive_process(raw)
 			@passivedata["users"][chan] = (@passivedata["users"][nick] or {})
 			#@passivedata.delete_at nick
 			@passivedata["users"] = @passivedata["users"].reject{|k|k==nick}
+			@passivedata["chans"].each{|c|
+				@passivedata["chans"][c]=@passivedata["chans"][c].reject{|k|k==nick}
+			}
 			@passivedata["users"][chan]["user"] = username
 			@passivedata["users"][chan]["host"] = hostname
 		rescue => e
