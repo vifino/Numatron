@@ -73,7 +73,14 @@ def passive_process(raw)
 				puts retdata
 				if chan==@bot.nick then chan=nick end
 				#@bot.msg(chan,"\x01PONG #{retdata}\x01")
-				@bot.notice(chan,"\x01PONG #{retdata}\x01")
+				ret=nil
+				tme=retdata.split(" ").first.to_i
+				if not tme=0 then
+					ret=(Time.now.to_i-tme).to_s
+				else
+					ret=retdata
+				end
+				@bot.notice(chan,"\x01PING #{ret}\x01")
 			end
 		rescue => e
 			puts e

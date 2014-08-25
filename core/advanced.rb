@@ -36,7 +36,7 @@ def ifcmd(args="",nick="",chan="",rawargs="",pipeargs="")
 	if res==true then # aka the upper logic fits
 		return commandRunner(argst[1],nick,chan)
 	else
-		# tbd
+		# tbd?
 	end
 end
 addCommand("if",:ifcmd,"Evaluates an if statement.")
