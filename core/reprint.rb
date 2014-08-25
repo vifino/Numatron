@@ -14,14 +14,7 @@ def reprintinit
 		@lastline=t.to_s
 	end
 	def p(t)
-		t=t.inspect.chomp||""
-		if @written==nil then
-			print "#{t}"
-		else
-			print "\n#{t}"
-		end
-		@written=true
-		@lastline=t.inspect
+		puts t.inspect
 	end
 	def reprint(t)
 		if t!=nil then
