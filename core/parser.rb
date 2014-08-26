@@ -88,7 +88,7 @@ def commandRunner(cmd,nick,chan)
 	rescue => e
 		puts e
 	end
-	cmdarray = cmd.scan(/(?:[^|\\]|\\.)+/) or [cmd]
+	#cmdarray = cmd.scan(/(?:[^|\\]|\\.)+/) or [cmd]
 	#func, args = cmd.lstrip().split(' ', 2)
 	runtimes=0
 	cmdarray.each {|cmd|
