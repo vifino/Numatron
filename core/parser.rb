@@ -82,7 +82,7 @@ def commandRunner(cmd,nick,chan)
 		if $commandNP[func.downcase] then
 			cmdarray=[cmd]
 		else
-			cmd = argParser((cmd.to_s or ""),nick,chan)
+			cmd = argParser(((cmd or "").to_s),nick,chan)
 			cmdarray = cmd.scan(/(?:[^|\\]|\\.)+/) or [cmd]
 		end
 	rescue => e
@@ -96,7 +96,7 @@ def commandRunner(cmd,nick,chan)
 		if cmd then
 			func, args = cmd.split(' ', 2)
 			if $commandNP[func.downcase.strip]==true then
-				args=(args.to_s or "")
+				args=(args or "").to_s
 			else
 				cmd = cmd.gsub("\\|","|")
 				#args = argParser((args.to_s or ""),nick,chan)
@@ -105,7 +105,7 @@ def commandRunner(cmd,nick,chan)
 			nargs=""
 			if retLast.class==Array then
 				nargs=retLast
-				if !args.empty? then
+				if !nargs.empty? then
 					nargs.push args
 				end
 			elsif retLast.class==String
