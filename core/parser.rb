@@ -76,6 +76,7 @@ def commandRunner(cmd,nick,chan)
 	retFinal=""
 	retLast=""
 	rnd= ('a'..'z').to_a.shuffle[0,8].join
+	cmdarray=nil
 	#retLast=rnd
 	begin
 		func, args = cmd.split(' ', 2)
@@ -105,7 +106,7 @@ def commandRunner(cmd,nick,chan)
 			nargs=""
 			if retLast.class==Array then
 				nargs=retLast
-				if !nargs.empty? then
+				if !(args or "").empty? then
 					nargs.push args
 				end
 			elsif retLast.class==String

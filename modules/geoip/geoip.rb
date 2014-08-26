@@ -72,7 +72,7 @@ def geoip_countryWrapper(addresses,nick,chan,rawargs="",pipeargs="")
 		return "Invalid type of input."
 	end
 	addrs.each {|addr|
-		addr = addr.lstrip().rstrip()
+		addr = (addr or "").to_s.strip
 		res.push geoip_country(addr)
 	}
 	return res
@@ -88,7 +88,7 @@ def geoip_cityWrapper(addresses,nick,chan,rawargs="",pipeargs="")
 	end
 	addrs.each {|addr|
 		p addr
-		addr = addr.lstrip().rstrip()
+		addr = (addr or "").to_s.strip
 		res.push geoip_city(addr)
 	}
 	return res
@@ -103,7 +103,7 @@ def geomapsWrapper(addresses,nick,chan,rawargs="",pipeargs="")
 		return "Invalid type of input."
 	end
 	addrs.each {|addr|
-		addr = addr.lstrip().rstrip()
+		addr = (addr or "").to_s.strip
 		res.push geomaps(addr)
 	}
 	return res

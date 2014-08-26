@@ -75,7 +75,7 @@ def passive_process(raw)
 				#@bot.msg(chan,"\x01PONG #{retdata}\x01")
 				ret=nil
 				tme=retdata.split(" ").first.to_i
-				if not tme=0 then
+				if not tme==0 then
 					ret=(Time.now.to_i-tme).to_s
 				else
 					ret=retdata
