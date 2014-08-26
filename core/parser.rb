@@ -72,7 +72,7 @@ def outconv(input)
 	end
 end
 def commandRunner(cmd,nick,chan)
-	cmd=cmd.lstrip
+	cmd=(cmd or "").to_s.lstrip
 	retFinal=""
 	retLast=""
 	rnd= ('a'..'z').to_a.shuffle[0,8].join
@@ -92,7 +92,7 @@ def commandRunner(cmd,nick,chan)
 	#func, args = cmd.lstrip().split(' ', 2)
 	runtimes=0
 	cmdarray.each {|cmd|
-		cmd=cmd.lstrip
+		cmd=(cmd or "").to_s.lstrip
 		if cmd then
 			func, args = cmd.split(' ', 2)
 			if $commandNP[func.downcase.strip]==true then
