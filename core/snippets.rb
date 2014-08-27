@@ -11,7 +11,7 @@ end
 Array.class_eval do
     def includeV? keyword
       o={}
-      self.each_with_index{|i,k|
+      self.each_with_index{|k,i|
         if k.to_s.include? keyword then
           o[i]=k
         end
