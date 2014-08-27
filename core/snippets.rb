@@ -8,6 +8,17 @@ String.class_eval do
         false
     end
 end
+Array.class_eval do
+    def includeV? keyword
+      o={}
+      self.each_with_index{|i,k|
+        if k.to_s.include? keyword then
+          o[i]=k
+        end
+      }
+      o
+    end
+end
 class OS
   def windows?
     (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
@@ -18,11 +29,11 @@ class OS
   end
 
   def unix?
-    !OS.windows?
+    !windows?
   end
 
   def linux?
-    OS.unix? and not OS.mac?
+    unix? and not mac?
   end
 end
 def getMemUsage(pid=nil) # Mac only? :< I dont think so...
