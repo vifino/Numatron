@@ -17,8 +17,8 @@ def ctcpping(usr)
 				username = data[4]
 				hostname = data[5]
 				if type=="notice" and nick=usr then#msg.match(/^\x01PING(.*)$\x01/)
-					#ret=msg
-					if tmestmp=msg
+					ret=msg
+					#if tmestmp=msg
 					break
 				end
 			end
