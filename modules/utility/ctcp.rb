@@ -2,9 +2,10 @@
 # Made by vifino
 require 'timeout'
 def ctcpping(usr)
-	@bot.ctcp(usr,"PING POTATO")
+	@bot.ctcp(usr,"PING "+Time.now.to_i.to_s)
 	isResponse=false
 	t1=Time.now
+	ret=""
 	begin
 		Timeout::timeout(5) do
 			while true do
@@ -16,10 +17,11 @@ def ctcpping(usr)
 				username = data[4]
 				hostname = data[5]
 				if type=="notice" and nick=usr then#msg.match(/^\x01PING(.*)$\x01/)
+					ret=msg
 					break
 				end
 			end
-			return (Time.now-t1).to_s+" Seconds." # ....?
+			return "Returned: #{ret}. #{(Time.now-t1).to_s} Seconds passed." # ....?
 		end
 	rescue => e
 		return "Timeout."
