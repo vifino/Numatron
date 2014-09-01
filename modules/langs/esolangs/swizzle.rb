@@ -90,9 +90,10 @@ def swencode(txt)
 	txt.gsub /./ do |char|
 		c=char.ord
 		out+=swrel(c,i)
+		out+="."
 		i=c
 	end
-	return out
+	return out+"+[-]"
 end
 addCommand("swzenc",->(args="",nick="",chan="",rawargs="",pipeargs=""){swencode(args.to_s)},"Encode a string to Swizzle code.")
 addCommand("swizzleencoder",->(args="",nick="",chan="",rawargs="",pipeargs=""){swencode(args.to_s)},"Encode a string to Swizzle code.")
