@@ -74,3 +74,24 @@ def sw_cmd(args="",nick="",chan="",rawargs="",pipeargs="")
 end
 addCommand("swz",:sw_cmd,"Run Swizzle code.")
 addCommand("swizzle",:sw_cmd,"Run Swizzle code.")
+def swrel(goal,i)
+	rel=goal-i
+	if rel>0 then # positive
+		return "+"*rel
+	elsif rel<0 then # negative
+		return "-"*rel
+	else
+		return ""
+	end
+end
+def swencode(txt)
+	i=0
+	out=""
+	out=text.gsub /./ do |char|
+		c=char.ord
+		out+=swrel(c,i)
+		i=c
+	end
+end
+addCommand("swzenc",->(args="",nick="",chan="",rawargs="",pipeargs=""){swencode(args.to_s)},"Encode a string to Swizzle code.")
+addCommand("swizzleencoder",->(args="",nick="",chan="",rawargs="",pipeargs=""){swencode(args.to_s)},"Encode a string to Swizzle code.")
