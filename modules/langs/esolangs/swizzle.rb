@@ -82,7 +82,7 @@ def swrel(goal,i)
 			if (goal-(i*i))<(goal-i) and (goal-(i*i))>=(goal-(i+i)) then # if i^2 is closer to goal then normal i and closer than that below
 				out+="^"
 				i=i*i
-			elsif (goal-(i+i))<(goal-i) and (goal-(i+i))>=(goal-(i*i)) then # if double of i is closer to goal then normal i
+			elsif (goal-(i+i))<(goal-i) then # if double of i is closer to goal then normal i
 				out+="d"
 				i+=i
 			else
