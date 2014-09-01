@@ -79,7 +79,7 @@ def swrel(goal,i)
 	if rel>0 then # positive
 		return "+"*rel
 	elsif rel<0 then # negative
-		return "-"*rel
+		return "-"*-rel
 	else
 		return ""
 	end
