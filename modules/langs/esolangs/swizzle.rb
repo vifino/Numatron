@@ -42,7 +42,7 @@ def swizzle(insts,input="")
 				str+="i=i**2;"
 			when "d" # Dupe
 				str+="i+=i;"
-			when "h" # Halve
+			when "h" # Half
 				str+="i=i/2;"
 			when "," # Read from input
 				str+="if c=input[0] then;i=c.ord;else;i=0;end;input=input[1..-1];"
@@ -79,7 +79,10 @@ def swrel(goal,i)
 	while i!=goal do
 		rel=goal-i
 		if rel>0 then # positive
-			if (goal-(i+i))<(goal-i) then
+			if (goal-(i*i))<(goal-i) then # if i^2 is closer to goal then normal i
+				out+="^"
+				i=i*i
+			elsif (goal-(i+i))<(goal-i) then # if double of i is closer to goal then normal i
 				out+="d"
 				i+=i
 			else
@@ -87,7 +90,7 @@ def swrel(goal,i)
 				i+=1
 			end
 		elsif rel<0 then # negative
-			if (goal-(i/2))<(goal-i) then
+			if (goal-(i/2))<(goal-i) then # if half of i is closer to goal then normal i
 				out+="h"
 				i=i/2
 			else
