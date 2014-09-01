@@ -76,26 +76,42 @@ addCommand("swz",:sw_cmd,"Run Swizzle code.")
 addCommand("swizzle",:sw_cmd,"Run Swizzle code.")
 def swrel(goal,i)
 	out=""
+	lastinst=""
 	while i!=goal do
 		rel=goal-i
 		if rel>0 then # positive
-			if (goal-(i*i))<rel and (goal-(i*i))>=(goal-(i+i)) then # if i^2 is closer to goal then normal i and closer than that below
+			if rel > (goal-(i*i)) and (goal-(i*i))>=(goal-(i+i)) then # if i^2 is closer to goal then normal i and closer than that below
 				out+="^"
 				i=i*i
-			elsif (goal-(i+i))<rel then # if double of i is closer to goal then normal i
+				lastinst="^"
+			elsif rel.abs>(goal-(i+i)).abs and (goal-(i/2)).abs>(goal-(i+i).abs) then
+				puts "d"
+				puts goal
+				puts i
+				puts (goal-(i+i))
+				puts rel
 				out+="d"
 				i+=i
+				lastinst="d"
 			else
 				out+="+"
 				i+=1
+				lastinst="+"
 			end
 		elsif rel<0 then # negative
-			if (goal-(i/2))<rel then # if half of i is closer to goal then normal i
+			if (goal-(i/2)).abs>rel.abs and (goal-(i/2)).abs<(goal-(i+i).abs) then
+				puts "h"
+				puts goal
+				puts i
+				puts (goal-(i/2))
+				puts rel
 				out+="h"
 				i=i/2
+				lastinst="h"
 			else
 				out+="-"
 				i-=1
+				lastinst="-"
 			end
 		else
 			break # If this case ever comes...
