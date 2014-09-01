@@ -87,7 +87,7 @@ end
 def swencode(txt)
 	i=0
 	out=""
-	out=text.gsub /./ do |char|
+	out=txt.gsub /./ do |char|
 		c=char.ord
 		out+=swrel(c,i)
 		i=c
