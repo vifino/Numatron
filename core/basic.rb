@@ -46,6 +46,14 @@ def part(args,nick,chan,rawargs="",pipeargs="")
 		@bot.part(args)
 	end
 end
+def reload(args,nick,chan,rawargs="",pipeargs="")
+	if isPrivileged? nick then
+		runDir "core"
+		runDir "modules"
+		"Reloaded."
+	end
+end
+addCommand("reload",:reload,"Reloads the codebase, Admin only!")
 addCommand("join",:join,"Joins a channel, Admin only!")
 addCommand("part",:part,"Parts a channel, Admin only!")
 addCommand("inspect",->(args,nick,chan,rawargs="",pipeargs=""){args.inspect},"Inspects the input.")
