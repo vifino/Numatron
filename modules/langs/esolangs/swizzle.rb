@@ -79,10 +79,10 @@ def swrel(goal,i)
 	while i!=goal do
 		rel=goal-i
 		if rel>0 then # positive
-			if (goal-(i*i))<(goal-i) and (goal-(i*i))>=(goal-(i+i)) then # if i^2 is closer to goal then normal i and closer than that below
+			if (goal-(i*i))<rel and (goal-(i*i))>=(goal-(i+i)) then # if i^2 is closer to goal then normal i and closer than that below
 				out+="^"
 				i=i*i
-			elsif (goal-(i+i))<(goal-i) then # if double of i is closer to goal then normal i
+			elsif (goal-(i+i))<rel then # if double of i is closer to goal then normal i
 				out+="d"
 				i+=i
 			else
@@ -90,7 +90,7 @@ def swrel(goal,i)
 				i+=1
 			end
 		elsif rel<0 then # negative
-			if (goal-(i/2))<(goal-i) then # if half of i is closer to goal then normal i
+			if (goal-(i/2))<rel then # if half of i is closer to goal then normal i
 				out+="h"
 				i=i/2
 			else
@@ -101,16 +101,15 @@ def swrel(goal,i)
 			break # If this case ever comes...
 		end
 	end
-	return out
+	return out,i
 end
 def swencode(txt)
 	i=0
 	out=""
 	txt.gsub /./ do |char|
 		c=char.ord
-		out+=swrel(c,i)
-		out+="."
-		i=c
+		o,i=swrel(c,i)
+		out+=o+"."
 	end
 	return out+"+[-]"
 end
