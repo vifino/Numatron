@@ -87,11 +87,12 @@ end
 def swencode(txt)
 	i=0
 	out=""
-	out=txt.gsub /./ do |char|
+	txt.gsub /./ do |char|
 		c=char.ord
 		out+=swrel(c,i)
 		i=c
 	end
+	return out
 end
 addCommand("swzenc",->(args="",nick="",chan="",rawargs="",pipeargs=""){swencode(args.to_s)},"Encode a string to Swizzle code.")
 addCommand("swizzleencoder",->(args="",nick="",chan="",rawargs="",pipeargs=""){swencode(args.to_s)},"Encode a string to Swizzle code.")
