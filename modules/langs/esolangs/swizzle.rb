@@ -75,14 +75,30 @@ end
 addCommand("swz",:sw_cmd,"Run Swizzle code.")
 addCommand("swizzle",:sw_cmd,"Run Swizzle code.")
 def swrel(goal,i)
-	rel=goal-i
-	if rel>0 then # positive
-		return "+"*rel
-	elsif rel<0 then # negative
-		return "-"*-rel
-	else
-		return ""
+	out=""
+	while i!=goal do
+		rel=goal-i
+		if rel>0 then # positive
+			if (goal-(i+i))<(goal-i) then
+				out+="d"
+				i+=i
+			else
+				out+="+"
+				i+=1
+			end
+		elsif rel<0 then # negative
+			if (goal-(i/2))<(goal-i) then
+				out+="h"
+				i=i/2
+			else
+				out+="-"
+				i-=1
+			end
+		else
+			break # If this case ever comes...
+		end
 	end
+	return out
 end
 def swencode(txt)
 	i=0
