@@ -30,10 +30,6 @@ def swizzle(insts,input="")
 				str+="if i>=1 then;"
 			when ")" # End
 				str+="end;"
-			#when "["
-			#	str+="co=cn;cn=a[p];until cn>0 do;cn-=1;"
-			#when "]"
-			#	str+="end;cn=co;"
 			when "!" # Write workcell to tape
 				str+="a[p]=i;"
 			when "#" # Read tape
@@ -84,12 +80,7 @@ def swrel(goal,i)
 				out+="^"
 				i=i*i
 				lastinst="^"
-			elsif rel.abs>(goal-(i+i)).abs and (goal-(i/2)).abs>(goal-(i+i).abs) then
-				puts "d"
-				puts goal
-				puts i
-				puts (goal-(i+i))
-				puts rel
+			elsif rel.abs>(goal-(i+i)).abs and ((goal-i/2).abs>(goal-(i+i).abs)) and (goal-i+i).abs>1 then
 				out+="d"
 				i+=i
 				lastinst="d"
@@ -99,12 +90,7 @@ def swrel(goal,i)
 				lastinst="+"
 			end
 		elsif rel<0 then # negative
-			if (goal-(i/2)).abs>rel.abs and (goal-(i/2)).abs<(goal-(i+i).abs) then
-				puts "h"
-				puts goal
-				puts i
-				puts (goal-(i/2))
-				puts rel
+			if (goal-i/2)>rel and ((goal-i/2)>(goal-(i+i))) and (goal-i/2)<=0 then
 				out+="h"
 				i=i/2
 				lastinst="h"

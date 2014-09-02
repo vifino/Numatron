@@ -40,3 +40,18 @@ def ifcmd(args="",nick="",chan="",rawargs="",pipeargs="")
 	end
 end
 addCommand("if",:ifcmd,"Evaluates an if statement.")
+def timeoutcmd(args="",nick="",chan="",rawargs="",pipeargs="")
+	timeout, cmd = args.split(' ', 2)
+	if timeout.to_i and cmd then
+		begin
+			Timeout::timeout(timeout.to_i) do
+				return commandRunner(cmd,nick,chan)
+			end
+		rescue => e
+			return "Timeout"
+		end
+	else
+		return "Missing input."
+	end
+end
+addCommand("timeout",:timeoutcmd,"Limit execution time.",true)
