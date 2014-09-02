@@ -72,92 +72,94 @@ def outconv(input)
 	end
 end
 def commandRunner(cmd,nick,chan)
-	cmd=(cmd or "").to_s.lstrip
-	retFinal=""
-	retLast=""
-	rnd= ('a'..'z').to_a.shuffle[0,8].join
-	cmdarray=nil
-	#retLast=rnd
-	begin
-		func, args = cmd.split(' ', 2)
-		if $commandNP[func.downcase] then
-			cmdarray=[cmd]
-		else
-			cmd = argParser(((cmd or "").to_s),nick,chan)
-			cmdarray = cmd.scan(/(?:[^|\\]|\\.)+/) or [cmd]
-		end
-	rescue => e
-		puts e
-	end
-	#cmdarray = cmd.scan(/(?:[^|\\]|\\.)+/) or [cmd]
-	#func, args = cmd.lstrip().split(' ', 2)
-	runtimes=0
-	cmdarray.each {|cmd|
+	if !cmd.to_s.empty?
 		cmd=(cmd or "").to_s.lstrip
-		if cmd then
-			cmd=cmd.gsub('\\|','|')
+		retFinal=""
+		retLast=""
+		rnd= ('a'..'z').to_a.shuffle[0,8].join
+		cmdarray=nil
+		#retLast=rnd
+		begin
 			func, args = cmd.split(' ', 2)
-			if $commandNP[func.downcase.strip]==true then
-				args=(args or "").to_s
+			if $commandNP[func.downcase] then
+				cmdarray=[cmd]
 			else
-				#cmd = cmd.gsub('\\|','|')
-				#args = argParser((args.to_s or ""),nick,chan)
+				cmd = argParser(((cmd or "").to_s),nick,chan)
+				cmdarray = cmd.scan(/(?:[^|\\]|\\.)+/) or [cmd]
 			end
-			func=func.downcase()
-			nargs=""
-			if retLast.class==Array then
-				nargs=retLast
-				if !(args or "").empty? then
-					nargs.push args
-				end
-			elsif retLast.class==String
-				if (args.to_s or "").empty? then
-					nargs=retLast
-				else
-					nargs=args.to_s+retLast
-				end
-			elsif retLast.class==Number
-					if (args.to_s or "").empty? then
-						nargs=retLast.to_s
-					else
-						nargs=args.to_s+retLast.to_s
-					end
-			else
-				nargs=(args or "")+retLast.to_s
-			end
-			if $commands[func] then
-				if runtimes==0 then # first command
-					if $commands[func].is_a?(Method) then
-						retLast = $commands[func].call(nargs, nick, chan, args, nil)
-					elsif $commands[func].class == Proc then
-						retLast = $commands[func].call(nargs, nick, chan, args, nil)
-					elsif $commands[func].class == Symbol then
-						retLast = self.send($commands[func], nargs, nick, chan, args, nil)
-					elsif
-						retLast = $commands[func]
-					end
-				else
-					if $commands[func].is_a?(Method) then
-						retLast = $commands[func].call(nargs, chan, args, retLast)
-					elsif $commands[func].class == Proc then
-						retLast = $commands[func].call(nargs, chan, args, retLast)
-					elsif $commands[func].class == Symbol then
-						retLast = self.send($commands[func], nargs, nick, chan, args, retLast)
-					elsif
-						retLast = $commands[func]
-					end
-				#retLast=self.send(@commands[func],(args or "")+retLast,nick,chan) or ""
-				end
-			else
-				if @cmdnotfound then
-					retLast = "No such function: '#{func}'"
-				end
-				break
-			end
-			runtimes+=1
+		rescue => e
+			puts e
 		end
-	}
-	return outconv(retLast) if not (retLast==rnd or (retLast.to_s or "").empty?)
+		#cmdarray = cmd.scan(/(?:[^|\\]|\\.)+/) or [cmd]
+		#func, args = cmd.lstrip().split(' ', 2)
+		runtimes=0
+		cmdarray.each {|cmd|
+			cmd=(cmd or "").to_s.lstrip
+			if cmd then
+				cmd=cmd.gsub('\\|','|')
+				func, args = cmd.split(' ', 2)
+				if $commandNP[func.downcase.strip]==true then
+					args=(args or "").to_s
+				else
+					#cmd = cmd.gsub('\\|','|')
+					#args = argParser((args.to_s or ""),nick,chan)
+				end
+				func=func.downcase()
+				nargs=""
+				if retLast.class==Array then
+					nargs=retLast
+					if !(args or "").empty? then
+						nargs.push args
+					end
+				elsif retLast.class==String
+					if (args.to_s or "").empty? then
+						nargs=retLast
+					else
+						nargs=args.to_s+retLast
+					end
+				elsif retLast.class==Number
+						if (args.to_s or "").empty? then
+							nargs=retLast.to_s
+						else
+							nargs=args.to_s+retLast.to_s
+						end
+				else
+					nargs=(args or "")+retLast.to_s
+				end
+				if $commands[func] then
+					if runtimes==0 then # first command
+						if $commands[func].is_a?(Method) then
+							retLast = $commands[func].call(nargs, nick, chan, args, nil)
+						elsif $commands[func].class == Proc then
+							retLast = $commands[func].call(nargs, nick, chan, args, nil)
+						elsif $commands[func].class == Symbol then
+							retLast = self.send($commands[func], nargs, nick, chan, args, nil)
+						elsif
+							retLast = $commands[func]
+						end
+					else
+						if $commands[func].is_a?(Method) then
+							retLast = $commands[func].call(nargs, chan, args, retLast)
+						elsif $commands[func].class == Proc then
+							retLast = $commands[func].call(nargs, chan, args, retLast)
+						elsif $commands[func].class == Symbol then
+							retLast = self.send($commands[func], nargs, nick, chan, args, retLast)
+						elsif
+							retLast = $commands[func]
+						end
+					#retLast=self.send(@commands[func],(args or "")+retLast,nick,chan) or ""
+					end
+				else
+					if @cmdnotfound then
+						retLast = "No such function: '#{func}'"
+					end
+					break
+				end
+				runtimes+=1
+			end
+		}
+		return outconv(retLast) if not (retLast==rnd or (retLast.to_s or "").empty?)
+	end
 end
 def commandParser(cmd,nick,chan) # This is the entry point.
 	#job_parser = fork do
