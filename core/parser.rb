@@ -95,11 +95,12 @@ def commandRunner(cmd,nick,chan)
 	cmdarray.each {|cmd|
 		cmd=(cmd or "").to_s.lstrip
 		if cmd then
+			cmd=cmd.gsub('\\|','|')
 			func, args = cmd.split(' ', 2)
 			if $commandNP[func.downcase.strip]==true then
 				args=(args or "").to_s
 			else
-				cmd = cmd.gsub("\\|","|")
+				#cmd = cmd.gsub('\\|','|')
 				#args = argParser((args.to_s or ""),nick,chan)
 			end
 			func=func.downcase()
