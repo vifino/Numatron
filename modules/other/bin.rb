@@ -22,7 +22,7 @@ end
 addCommand("tobin",->(args="",nick="",chan="",rawargs="",pipeargs=""){str2bin args},"Convert strings to binary strings.")
 def bin2str(inp)
 	str=inp.strip.gsub(/([^10])/,"")
-	str.gsub(/......../){|binrep|
+	str.gsub!(/......../){|binrep|
 		#puts binrep.to_i(2)
 		begin
 			binrep.to_i(2).chr
@@ -31,5 +31,6 @@ def bin2str(inp)
 			""
 		end
 	}
+	str.delete("\r\n")
 end
 addCommand("frombin",->(args="",nick="",chan="",rawargs="",pipeargs=""){bin2str args},"Convert binary strings to normal strings.")
