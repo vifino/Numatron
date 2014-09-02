@@ -22,7 +22,7 @@ end
 addCommand("tobin",->(args="",nick="",chan="",rawargs="",pipeargs=""){str2bin args},"Convert strings to binary strings.")
 def bin2str(inp)
 	str=inp.strip.gsub(/([^10])/,"")
-	str.gsub! /......../,/\0/
+	str.gsub! /......../,'\0'
 	str.gsub!(/......../){|binrep|
 		#puts binrep.to_i(2)
 		begin
