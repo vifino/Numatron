@@ -38,7 +38,7 @@ class OS
 end
 def getMemUsage(pid=nil) # Mac only? :< I dont think so...
   #`ps -o rss= -p #{(pid or Process.pid)}`.to_s.chomp.strip+"k"
-  `ps -o rss= -p #{(Process.pid)}`.chomp.to_i/1024.0
+  `ps -o rss= -p #{(pid or Process.pid)}`.chomp.to_i/1024.0
 end
 def konamicode
   return "↑ ↑ ↓ ↓ ← → ← → B A"
