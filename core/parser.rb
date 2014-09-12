@@ -36,7 +36,7 @@ def argParser(args="",nick,chan)
 	#args=args.gsub(/\$<(.*?)>/) {|var|
 	args=args.gsub(/<(.*?)>/) {|var=""|
 		if not var.empty? then
-			nme=(var or "< >").strip.gsub(/^</,"").gsub(/>$/,"")#.split(" ")[0]
+			nme=(var.downcase or "< >").strip.gsub(/^</,"").gsub(/>$/,"")#.split(" ")[0]
 			"<>" if (nme or "").empty?
 			if $variables[nme] then
 				if not $variables[nme.downcase]=="" then
