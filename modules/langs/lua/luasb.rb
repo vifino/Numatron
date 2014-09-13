@@ -162,12 +162,12 @@ def luasb(args, nick, chan,rawargs="",pipeargs)
 				returnval = @luasb.eval("return (lua(ths,code))")
 			end
 		rescue => detail
-				#return "Error: Took too long."
+				return "Error: Took too long."
 				#begin
 				#returnval = @luasb.eval("return lua('return ('..code..')")
 				#rescue => detail2
 				#end
-				return detail.to_s
+				#return detail.to_s
 		end
 					#$bot.irc.msg(chan, detail.message())
 		if returnval != nil and returnval !="" then #or not @output.empty? then
