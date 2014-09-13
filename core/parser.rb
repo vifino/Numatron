@@ -117,7 +117,7 @@ def commandRunner(cmd,nick,chan)
 					else
 						nargs=args.to_s+retLast
 					end
-				elsif retLast.class==Number
+				elsif retLast.class==Fixnum or retLast.class==Bignum
 						if (args.to_s or "").empty? then
 							nargs=retLast.to_s
 						else
