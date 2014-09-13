@@ -155,7 +155,7 @@ def luasb(args, nick, chan,rawargs="",pipeargs)
 			@luasb["code"]=rawargs.to_s
 			@luasb["channel"]=chan
 			@luasb["nick"]=nick
-			@luasb["ths"]=nil
+			@luasv.eval('ths=nil')
 			if !pipeargs.to_s.empty? then
 				@luasb["ths"]=pipeargs.to_s
 			end
