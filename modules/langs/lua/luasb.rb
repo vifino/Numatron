@@ -116,12 +116,8 @@ do
 		sbox._G=sbox
 	end
 	rst()
-	lua=function(ths,txt,nick,chan)
-		local user={nick=nick,chan=chan}
-		usr=user
+	lua=function(ths,txt)
 		out=""
-		sbox["nick"] = nick
-		sbox["channel"] = chan
 		sbox["this"]=ths
 		local func,err=loadstring("return "..txt,"=lua")
 		if not func then
@@ -155,10 +151,8 @@ def luasb(args, nick, chan,rawargs="",pipeargs)
 		returnval=""
 		begin
 			@luasb["code"]=rawargs.to_s
-			if pipeargs then
-				@luasb["ths"]=pipeargs.to_s
-			end
-			Timeout::timeout(0.1) do
+			@luasb["ths"]=pipeargs
+			Timeout::timeout(0.5) do
 				returnval = @luasb.eval("return (ths,lua(code))")
 			end
 		rescue => detail
