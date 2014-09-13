@@ -155,7 +155,7 @@ def luasb(args, nick, chan,rawargs="",pipeargs)
 			@luasb["code"]=rawargs.to_s
 			@luasb["channel"]=chan
 			@luasb["nick"]=nick
-			@luasb["ths"]=pipeargs
+			@luasb["ths"]=pipeargs.to_s
 			Timeout::timeout(0.5) do
 				returnval = @luasb.eval("return (ths,lua(code))")
 			end
