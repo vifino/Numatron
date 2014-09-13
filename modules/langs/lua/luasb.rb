@@ -157,7 +157,7 @@ def luasb(args, nick, chan,rawargs="",pipeargs)
 			@luasb["nick"]=nick
 			@luasb["ths"]=pipeargs.to_s
 			Timeout::timeout(0.5) do
-				returnval = @luasb.eval("return (ths,lua(code))")
+				returnval = @luasb.eval("return (lua(ths,code))")
 			end
 		rescue => detail
 				#return "Error: Took too long."
