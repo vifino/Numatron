@@ -119,6 +119,8 @@ do
 	lua=function(ths,txt)
 		out=""
 		sbox["this"]=ths
+		sbox["nick"]=nick
+		sbox["channel"]=channel
 		local func,err=loadstring("return "..txt,"=lua")
 		if not func then
 			func,err=loadstring(txt,"=lua")
@@ -151,17 +153,19 @@ def luasb(args, nick, chan,rawargs="",pipeargs)
 		returnval=""
 		begin
 			@luasb["code"]=rawargs.to_s
+			@luasb["channel"]=chan
+			@luasb["nick"]=nick
 			@luasb["ths"]=pipeargs
 			Timeout::timeout(0.5) do
 				returnval = @luasb.eval("return (ths,lua(code))")
 			end
 		rescue => detail
-				return "Error: Took too long."
+				#return "Error: Took too long."
 				#begin
 				#returnval = @luasb.eval("return lua('return ('..code..')")
 				#rescue => detail2
 				#end
-				puts error
+				return error.to_s
 		end
 					#$bot.irc.msg(chan, detail.message())
 		if returnval != nil and returnval !="" then #or not @output.empty? then
