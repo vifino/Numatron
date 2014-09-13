@@ -3,13 +3,13 @@
 addCommand("say",->(args,nick,chan,rawargs="",pipeargs=""){args},"Returns the input.")
 addCommand("echo",->(args,nick,chan,rawargs="",pipeargs=""){args},"Returns the input.")
 def rb(args,nick,chan,rawargs="",pipeargs="")
-	if isPrivileged? nick and args != nil then
+	if isPrivileged? nick and rawargs != nil then
 		begin
 			this=nil
 			if !pipeargs.to_s.empty?
 				this=pipeargs
 			end
-			returnval = eval args.to_s
+			returnval = eval rawargs.to_s
 			return (returnval.inspect or "nil")
 		rescue Exception => detail
 			#@bot.msg(chan,detail.message())
@@ -19,13 +19,13 @@ def rb(args,nick,chan,rawargs="",pipeargs="")
 end
 addCommand(">>",:rb,"Executes Ruby code, Admin only!")
 def rb2(args,nick,chan,rawargs="",pipeargs="")
-	if isPrivileged? nick and args != nil then
+	if isPrivileged? nick and rawargs != nil then
 		begin
 			this=nil
 			if !pipeargs.to_s.empty?
 				this=pipeargs
 			end
-			return (eval args.to_s)
+			return (eval rawargs.to_s)
 		rescue Exception => detail
 			#@bot.msg(chan,detail.message())
 			return detail.message
@@ -33,6 +33,17 @@ def rb2(args,nick,chan,rawargs="",pipeargs="")
 	end
 end
 addCommand(">>>",:rb2,"Executes Ruby code, Admin only!")
+def rbeval(args,nick,chan,rawargs="",pipeargs="")
+	if isPrivileged? nick and args != nil then
+		begin
+			return (eval args.to_s)
+		rescue Exception => detail
+			#@bot.msg(chan,detail.message())
+			return detail.message
+		end
+	end
+end
+addCommand("eval",:rbeval,"Executes Ruby code, Admin only!")
 def cmd_append(args,nick,chan,rawargs="",pipeargs="")
 	return (pipeargs.to_s or "")+(rawargs.to_s or "")
 end
