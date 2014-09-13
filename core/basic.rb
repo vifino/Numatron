@@ -5,6 +5,10 @@ addCommand("echo",->(args,nick,chan,rawargs="",pipeargs=""){args},"Returns the i
 def rb(args,nick,chan,rawargs="",pipeargs="")
 	if isPrivileged? nick and args != nil then
 		begin
+			this=nil
+			if !pipeargs.to_s.empty?
+				this=pipeargs
+			end
 			returnval = eval args.to_s
 			return (returnval.inspect or "nil")
 		rescue Exception => detail
@@ -17,7 +21,11 @@ addCommand(">>",:rb,"Executes Ruby code, Admin only!")
 def rb2(args,nick,chan,rawargs="",pipeargs="")
 	if isPrivileged? nick and args != nil then
 		begin
-		 return (eval args.to_s)
+			this=nil
+			if !pipeargs.to_s.empty?
+				this=pipeargs
+			end
+			return (eval args.to_s)
 		rescue Exception => detail
 			#@bot.msg(chan,detail.message())
 			return detail.message
