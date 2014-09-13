@@ -116,12 +116,13 @@ do
 		sbox._G=sbox
 	end
 	rst()
-	lua=function(txt,nick,chan)
+	lua=function(ths,txt,nick,chan)
 		local user={nick=nick,chan=chan}
 		usr=user
 		out=""
 		sbox["nick"] = nick
 		sbox["channel"] = chan
+		sbox["this"]=ths
 		local func,err=loadstring("return "..txt,"=lua")
 		if not func then
 			func,err=loadstring(txt,"=lua")
@@ -149,13 +150,14 @@ end
 	@luasb[:to_ruby] = false
 end
 luasb_reset
-def luasb(args, nick, chan,rawargs="",pipeargs="")
+def luasb(args, nick, chan,rawargs="",pipeargs)
 	if args != nil then
 		returnval=""
 		begin
-			@luasb["code"]=args.to_s
+			@luasb["code"]=rawargs.to_s
+			@luasb["ths"]=pipeargs.to_s if pipeargs
 			Timeout::timeout(0.1) do
-				returnval = @luasb.eval("return (lua(code))")
+				returnval = @luasb.eval("return (ths,lua(code))")
 			end
 		rescue => detail
 				return "Error: Took too long."
