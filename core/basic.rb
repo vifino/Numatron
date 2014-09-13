@@ -6,7 +6,7 @@ def rb(args,nick,chan,rawargs="",pipeargs="")
 	if isPrivileged? nick and args != nil then
 		begin
 			returnval = eval args.to_s
-				return (returnval.inspect or "nil")
+			return (returnval.inspect or "nil")
 		rescue Exception => detail
 			#@bot.msg(chan,detail.message())
 			return detail.message
@@ -17,8 +17,7 @@ addCommand(">>",:rb,"Executes Ruby code, Admin only!")
 def rb2(args,nick,chan,rawargs="",pipeargs="")
 	if isPrivileged? nick and args != nil then
 		begin
-			returnval = eval args.to_s
-				return (returnval.to_s or "nil")
+		 return (eval args.to_s)
 		rescue Exception => detail
 			#@bot.msg(chan,detail.message())
 			return detail.message
