@@ -165,7 +165,7 @@ def luasb(args, nick, chan,rawargs="",pipeargs)
 				#returnval = @luasb.eval("return lua('return ('..code..')")
 				#rescue => detail2
 				#end
-				return error.to_s
+				return detail.to_s
 		end
 					#$bot.irc.msg(chan, detail.message())
 		if returnval != nil and returnval !="" then #or not @output.empty? then
