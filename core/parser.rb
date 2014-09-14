@@ -76,6 +76,7 @@ def commandRunner(cmd,nick,chan)
 		cmd=(cmd or "").to_s.lstrip
 		retFinal=""
 		retLast=""
+		retbef=""
 		rnd= ('a'..'z').to_a.shuffle[0,8].join
 		cmdarray=nil
 		#retLast=rnd
@@ -100,17 +101,19 @@ def commandRunner(cmd,nick,chan)
 				func, args = cmd.split(' ', 2)
 				if $commandNP[func.downcase.strip]==true then
 					args=(args or "").to_s
-				else
+				#else
 					#cmd = cmd.gsub('\\|','|')
 					#args = argParser((args.to_s or ""),nick,chan)
 				end
 				func=func.downcase()
 				nargs=""
 				if retLast.class==Array then
-					nargs=retLast
-					if !(args or "").empty? then
-						nargs.push args
-					end
+				#	nargs=retLast
+				#	if !(args or "").empty? then
+				#		nargs.push args
+				#	end
+					nargs=retLast.dup
+					nargs.push args
 				elsif retLast.class==String
 					if (args.to_s or "").empty? then
 						nargs=retLast
@@ -126,6 +129,11 @@ def commandRunner(cmd,nick,chan)
 				else
 					nargs=(args or "")+retLast.to_s
 				end
+				#puts func
+				#puts nargs
+				#puts args
+				#puts retLast
+				#retbef=nil
 				if $commands[func] then
 					if runtimes==0 then # first command
 						if $commands[func].is_a?(Method) then
@@ -149,6 +157,12 @@ def commandRunner(cmd,nick,chan)
 						end
 					#retLast=self.send(@commands[func],(args or "")+retLast,nick,chan) or ""
 					end
+					#if retbef.class==Array then
+					#	if !(retLast or "").to_s.empty? then
+					#		retbef.push retLast
+					#	end
+					#end
+					#retLast=retbef||retLast
 				else
 					if @cmdnotfound then
 						retLast = "No such function: '#{func}'"
