@@ -90,10 +90,10 @@ def logic(raw)
 		if to==@bot.nick then to=nick end
 		puts "#{nick} -> #{to}: "+msg
 		prefix = @prefix or "\?"
-		if msg.match(/^#{Regexp.escape(prefix)}(.*)/) and (!isBlacklisted? nick) then
-			cmdrun "#{$~[1]}",nick,to
-		elsif msg.match(/^#{Regexp.escape(@bot.nick)}.(.*)/) and (!isBlacklisted? nick) then
-			cmdrun "#{$~[1]}",nick,to
+		if msg.match(/^#{Regexp.escape(prefix)}(.*)/) then
+			cmdrun "#{$~[1]}",nick,to if (!isBlacklisted? nick)
+		elsif msg.match(/^#{Regexp.escape(@bot.nick)}.(.*)/) then
+			cmdrun "#{$~[1]}",nick,to if (!isBlacklisted? nick)
 		end
 	elsif type=="invite" then
 		#if not @blacklistChannels.include? msg.strip.downcase then
