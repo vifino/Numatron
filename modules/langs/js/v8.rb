@@ -13,10 +13,11 @@ if not @jruby then
 		@jsvm["Math"]["random"] = lambda {|this| return rand}
 	end
 	jsinit
-	def js(args="",nick="",chan="",rawargs="",pipeargs="") # Considered safe? I hope so.
+	def js(args="",nick="",chan="",rawargs="",pipeargs=nil) # Considered safe? I hope so.
 		@jsout=[]
 		begin
-			returnval = @jsvm.eval(args.to_s)
+			@jsvm["self"]=pipeargs
+			returnval = @jsvm.eval(rawargs.to_s)
 			if returnval!=nil then
 				if returnval.class == "Array" or returnval.class==V8::Object then
 					returnval="[object Object]"

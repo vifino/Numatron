@@ -18,6 +18,15 @@ Array.class_eval do
       }
       o
     end
+    def includeK? keyword
+      o={}
+      self.each_with_index{|i,k|
+        if k.to_s.include? keyword then
+          o[i]=k
+        end
+      }
+      o
+    end
 end
 class OS
   def windows?
