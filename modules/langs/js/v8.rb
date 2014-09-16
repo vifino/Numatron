@@ -20,9 +20,9 @@ if not @jruby then
 			returnval = @jsvm.eval(rawargs.to_s)
 			if returnval!=nil then
 				if returnval.class==V8::Object then
-					returnval="[object Object]"
+					returnval=returnval.to_s.inspect
 				elsif returnval.class==V8::Array then
-					returnval="[Array]"
+					returnval=returnval.to_a.inspect
 				#elsif returnval.class== V8::Array then
 				#	returnval="[]"
 				elsif returnval.class==V8::Function then
@@ -54,9 +54,9 @@ if not @jruby then
 			returnval = @jsvm.eval(rawargs.to_s)
 			if returnval!=nil then
 				if returnval.class==V8::Object then
-					returnval="[object Object]"
+					returnval=returnval.to_s
 				elsif returnval.class==V8::Array then
-					returnval="[Array]"
+					returnval=returnval.to_a
 				elsif returnval.class==V8::Function then
 					returnval="[Function]"
 				else
