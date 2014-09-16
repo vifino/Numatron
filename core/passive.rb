@@ -107,14 +107,14 @@ def passive_process(raw)
 		end
 	elsif match = raw.match(/^:(.*) 353 (.*?) (.*?) (.*?) :(.*)/) # NAMES
 		begin
-			puts "NAMES"
+			#puts "NAMES"
 			if not @passivedata["users"] then @passivedata["users"] = {} end
 			chan2 = match[4]
 			mode = match[3]
 			names = match[5]
 			names.split(" ").each {|name2|
 				name = name2.strip.gsub("@","").gsub("+","")
-				puts name
+				#puts name
 				@passivedata["users"][name]||= {}
 				@passivedata["users"][name]["chan"] ||= {}
 				if not @passivedata["users"][name]["chan"][chan2] then @passivedata["users"][name]["chan"][chan2]="" end
