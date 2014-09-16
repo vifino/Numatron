@@ -25,7 +25,7 @@ if not @jruby then
 				if returnval.class==V8::Function then
 					returnval="[Function]"
 				else
-					returnval=returnval.inspect
+					returnval=returnval#.inspect
 				end
 			end
 			returnval=returnval.gsub("[\r\n]+"," | ") if returnval
