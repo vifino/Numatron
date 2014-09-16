@@ -20,7 +20,7 @@ if not @jruby then
 			returnval = @jsvm.eval(rawargs.to_s)
 			if returnval!=nil then
 				if returnval.class==V8::Object then
-					returnval=returnval.to_s.inspect
+					returnval=returnval.to_s
 				elsif returnval.class==V8::Array then
 					returnval=returnval.to_a.inspect
 				#elsif returnval.class== V8::Array then
