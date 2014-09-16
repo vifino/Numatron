@@ -19,8 +19,10 @@ if not @jruby then
 			@jsvm["self"]=pipeargs
 			returnval = @jsvm.eval(rawargs.to_s)
 			if returnval!=nil then
-				if returnval.class==V8::Array then
+				if returnval.class==V8::Object then
 					returnval="[object Object]"
+				elsif returnval.class==V8::Array then
+					returnval="[Array]"
 				#elsif returnval.class== V8::Array then
 				#	returnval="[]"
 				elsif returnval.class==V8::Function then
@@ -51,8 +53,10 @@ if not @jruby then
 			@jsvm["self"]=pipeargs
 			returnval = @jsvm.eval(rawargs.to_s)
 			if returnval!=nil then
-				if returnval.class==V8::Array then
+				if returnval.class==V8::Object then
 					returnval="[object Object]"
+				elsif returnval.class==V8::Array then
+					returnval="[Array]"
 				elsif returnval.class==V8::Function then
 					returnval="[Function]"
 				else
