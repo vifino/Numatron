@@ -87,6 +87,7 @@ def passive_process(raw)
 		end
 	elsif type=="notice" then
 		begin
+			puts "--- #{nick} -> #{chan}: #{msg}"
 			if not @passivedata["users"] then @passivedata["users"] = {} end
 			if nick == "NickServ" then
 				if ret = raw.match(/:Information on (.*?) \(account (.*?)\)/) then

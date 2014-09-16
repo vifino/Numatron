@@ -101,8 +101,8 @@ def logic(raw)
 			who msg
 			@bot.msg msg,"Hello! :3"
 		#end
-	else
-		puts raw
+	#else
+		#puts raw
 	end
 end
 def run
