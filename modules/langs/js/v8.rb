@@ -19,13 +19,14 @@ if not @jruby then
 			@jsvm["self"]=pipeargs
 			returnval = @jsvm.eval(rawargs.to_s)
 			if returnval!=nil then
-				#if returnval.class == "Array" or returnval.class==V8::Object then
-				#	returnval="[object Object]"
-				#els
-				if returnval.class==V8::Function then
+				if returnval.class == "Array" or returnval.class==V8::Array then
+					returnval="[Array]"
+				#elsif returnval.class== V8::Array then
+				#	returnval="[]"
+				elsif returnval.class==V8::Function then
 					returnval="[Function]"
 				else
-					returnval=returnval#.inspect
+					returnval=returnval.inspect
 				end
 			end
 			returnval=returnval.gsub("[\r\n]+"," | ") if returnval
@@ -44,4 +45,27 @@ if not @jruby then
 		end
 	end
 	addCommand("js",:js,"Execute Javascript code!")
+	def jsa(args="",nick="",chan="",rawargs="",pipeargs=nil) # Considered safe? I hope so.
+		@jsout=[]
+		begin
+			@jsvm["self"]=pipeargs
+			returnval = @jsvm.eval(rawargs.to_s)
+			if returnval!=nil then
+				#if returnval.class == "Array" or returnval.class==V8::Object then
+				#	returnval="[object Object]"
+				#els
+				if returnval.class==V8::Function then
+					returnval="[Function]"
+				else
+					returnval=returnval#.inspect
+				end
+			end
+			#returnval=returnval.gsub("[\r\n]+"," | ") if returnval
+			returnval||="null"
+			return returnval
+		rescue => detail
+			return detail.message
+		end
+	end
+	addCommand("js>",:jsa,"Execute Javascript code!")
 end
