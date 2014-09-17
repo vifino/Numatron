@@ -4,7 +4,7 @@ class	Stash
 		@stack=stack
 	end
 	def sof
-		raise("Stack underflow")
+		raise("STACK UNDERFLOW")
 	end
 	def pop
 		@stack.pop||sof
@@ -17,6 +17,7 @@ class	Stash
 		out=[]
 		chrbuf=""
 		insts.split(" ").each{|i|
+			i=i.upcase
 			next if skip&&i!="FI"
 			case
 				when i=='IF'
@@ -80,7 +81,7 @@ class	Stash
 				when i.to_i.to_s==i.to_s.strip # number
 					push i.to_i
 				else
-					raise 'UNKNOWN WORD'
+					raise 'UNKNOWN WORD: #{i}'
 			end
 		}
 		if out.empty?
