@@ -49,7 +49,7 @@ class	Stash
 		if out.empty?
 			out.push @stack[@stack.length]
 		end
-		return out,stack
+		return out,@stack
 	end
 end
 @stash=Stash.new
