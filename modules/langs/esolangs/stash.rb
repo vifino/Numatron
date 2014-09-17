@@ -37,6 +37,7 @@ class	Stash
 					(word=[];raise("EMPTY WORD DEFINITION")) unless word && word.size>1
 					(word=[];raise("NESTED WORD DEFINITION")) if word.include? ':'
 					name, code = word.shift, word.join(' ')
+					(word=[];raise("FUNCTION CALLS ITSELF")) if word.include? name
 					@userwords[name.upcase] = lambda{puts @stack;puts code;run code;puts @stack}
 					word = []
 				when i=='POP'
@@ -129,7 +130,7 @@ def stash(insts)
 		#puts stack
 		return ret
 	rescue => e
-		e.to_s
+		'ERROR: '+e.to_s
 	end
 end
 addCommand('stash',->(args="",nick="",chan="",rawargs="",pipeargs=""){
