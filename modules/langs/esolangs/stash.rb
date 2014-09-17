@@ -7,7 +7,7 @@ class	Stash
 		raise("Stack underflow")
 	end
 	def pop
-		@stack.pop || sof
+		@stack.pop||sof
 	end
 	def push(a)
 		@stack<<a
@@ -77,7 +77,7 @@ class	Stash
 					out.push pop
 				when i=='PRNTBUF'
 					out.push chrbuf
-				when i.to_i.to_s==i.strip # number
+				when i.to_i.to_s==i.to_s.strip # number
 					push i.to_i
 				else
 					raise 'UNKNOWN WORD'
