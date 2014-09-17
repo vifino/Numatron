@@ -78,6 +78,13 @@ class	Stash
 					out.push pop
 				when i=='PRNTBUF'
 					out.push chrbuf
+				when i=='ERROR'
+					raise 'ERROR'
+				when i=='BREAK'
+					if out.empty?
+						out.push @stack[-1] if @stack[-1]
+					end
+					return out,@stack
 				when i.to_i.to_s==i.to_s.strip # number
 					push i.to_i
 				else
