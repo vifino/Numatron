@@ -32,15 +32,15 @@ class	Stash
 					b=pop
 					push b-a
 				when i=='='
-					push pop==pop?1:0
+					push (pop==pop)?1:0
 				when i=='>'
-					push pop<pop?1:0
+					push (pop<pop)?1:0
 				when i=='<'
-					push pop>pop?1:0
+					push (pop>pop)?1:0
 				when i=='&'
-					push pop&pop?1:0
+					push (pop&pop)?1:0
 				when i=='|'
-					push pop|pop?1:0
+					push (pop|pop)?1:0
 				when i=='NOT'
 					push pop==0?1:0
 				when i=='NEG'
