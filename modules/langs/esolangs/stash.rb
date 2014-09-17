@@ -98,6 +98,6 @@ def stash(insts)
 		e.to_s
 	end
 end
-addCommand('stash',-(args="",nick="",chan="",rawargs="",pipeargs=""){
+addCommand('stash',->(args="",nick="",chan="",rawargs="",pipeargs=""){
 	stash args.to_s
 	},"Run stash code. (A language similar to Forth.)")
