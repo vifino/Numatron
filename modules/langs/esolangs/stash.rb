@@ -47,7 +47,7 @@ class	Stash
 			end
 		}
 		if out.empty?
-			out.push @stack[@stack.length]
+			out.push @stack[@stack.length] if @stack[@stack.length]
 		end
 		return out,@stack
 	end
