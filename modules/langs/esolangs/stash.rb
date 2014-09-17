@@ -89,4 +89,15 @@ class	Stash
 		return out,@stack
 	end
 end
-@stash=Stash.new
+def stash(insts)
+	stash=Stash.new
+	begin
+		ret,stack=stash.eval insts
+		return ret
+	rescue => e
+		e.to_s
+	end
+end
+addCommand('stash',-(args="",nick="",chan="",rawargs="",pipeargs=""){
+	stash args.to_s
+	},"Run stash code. (A language similar to Forth.)")
