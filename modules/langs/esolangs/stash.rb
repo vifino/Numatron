@@ -91,9 +91,9 @@ class	Stash
 					chrbuf+=pop.chr
 				when i=='BUF'
 					chrbuf+=pop.to_s
-				when i=='PRINT' or i=="."
+				when (i=='PRINT' or i==".")
 					out.push pop
-				when i=='PRNTBUF' or i=="EMIT"
+				when (i=='PRNTBUF' or i=="EMIT")
 					out.push chrbuf
 				when i=='ERROR'
 					raise 'ERROR'
