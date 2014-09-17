@@ -92,7 +92,7 @@ end
 def stash(insts)
 	stash=Stash.new
 	begin
-		ret,stack=stash.eval insts
+		ret,stack=stash.eval(insts.to_s)
 		return ret
 	rescue => e
 		e.to_s

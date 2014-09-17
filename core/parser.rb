@@ -64,7 +64,7 @@ def outconv(input)
 		#input.to_s.gsub("^[","").gsub("]$","")
 		output=""
 		input.each {|c|
-			output+=c+"; "
+			output+=c.to_s+"; "
 		}
 		output.strip.strip.chomp(";")
 	else
