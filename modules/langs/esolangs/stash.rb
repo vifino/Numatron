@@ -87,14 +87,14 @@ class	Stash
 					b=pop
 					push b**a
 				when i=='CLRBUF'
+					chrbuf=""
+				when (i=='CHRBUF' or i=="EMIT")
 					chrbuf+=pop.chr
-				when i=='CHRBUF'
-					chrbuf+=pop.chr
-				when i=='BUF'
+				when (i=='BUF' or i==".")
 					chrbuf+=pop.to_s
-				when (i=='PRINT' or i==".")
+				when i=='PRINT'
 					out.push pop
-				when (i=='PRNTBUF' or i=="EMIT")
+				when i=='PRNTBUF'
 					out.push chrbuf
 				when i=='ERROR'
 					raise 'ERROR'
