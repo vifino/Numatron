@@ -6,7 +6,7 @@ class	Stash
 		@userwords={}
 	end
 	def sof
-		raise("STACK UNDERFLOW")
+		raise('ERROR: STACK UNDERFLOW')
 	end
 	def pop
 		@stack.pop||sof
@@ -34,10 +34,10 @@ class	Stash
 					word=[]
 				when i==";"
 					worddef=false
-					(word=[];raise("EMPTY WORD DEFINITION")) unless word && word.size>1
-					(word=[];raise("NESTED WORD DEFINITION")) if word.include? ':'
+					(word=[];raise('ERROR: EMPTY WORD DEFINITION')) unless word && word.size>1
+					(word=[];raise('ERROR: NESTED WORD DEFINITION')) if word.include? ':'
 					name, code = word.shift, word.join(' ')
-					(word=[];raise("FUNCTION CALLS ITSELF")) if word.include? name
+					(word=[];raise('ERROR: FUNCTION CALLS ITSELF')) if word.include? name
 					@userwords[name.upcase] = lambda{puts @stack;puts code;run code;puts @stack}
 					word = []
 				when i=='POP'
@@ -110,7 +110,7 @@ class	Stash
 						puts 'MATCH'
 						@userwords[i].call
 					else
-						raise "UNKNOWN WORD: #{i}"
+						raise "ERROR: UNKNOWN WORD: #{i}"
 					end
 			end
 		}
@@ -130,7 +130,7 @@ def stash(insts)
 		#puts stack
 		return ret
 	rescue => e
-		'ERROR: '+e.to_s
+		e.to_s
 	end
 end
 addCommand('stash',->(args="",nick="",chan="",rawargs="",pipeargs=""){
