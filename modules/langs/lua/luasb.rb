@@ -1,5 +1,6 @@
 # LuaSB
 # Made by Sorroko and vifino
+require 'rufus-lua'
 def luasb_reset(args="",nick="",chan="",rawargs="",pipeargs="")
 	@output = ""
 	@luasb = Rufus::Lua::State.new

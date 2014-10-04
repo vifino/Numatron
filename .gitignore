@@ -5,3 +5,4 @@ bundle*
 pipes/*
 
 modules/other/cookie.rb
+*.swp
