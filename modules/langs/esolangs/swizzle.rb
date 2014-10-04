@@ -59,13 +59,12 @@ def sw_cmd(args="",nick="",chan="",rawargs="",pipeargs="")
 			ret=swizzle(args.to_s,pipeargs.to_s)
 			return (ret or "").delete("\r\n")
 		end
-		if ret.class == String
-		else
-			"Error: Took too long."
+		if ret.class != String
+			"ERROR: TOOK TOO LONG"
 		end
 	rescue => e
-		puts e.to_s
-		return "Error: Took too long."
+		#puts e.to_s
+		return "ERROR: TOOK TOO LONG"
 	end
 end
 addCommand("swz",:sw_cmd,"Run Swizzle code.")
