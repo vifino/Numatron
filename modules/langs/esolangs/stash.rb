@@ -126,11 +126,21 @@ end
 def stash(insts)
 	@stash=Stash.new
 	begin
-		ret,stack=@stash.eval(insts.to_s)
-		#puts stack
-		return ret
+		#safetimeout(2) do
+		Timeout::timeout(2) do
+			begin
+				ret,stack=@stash.eval(insts.to_s)
+				#puts stack
+				return ret
+			end	
+		end
 	rescue => e
-		e.to_s
+		#"ERROR: EXECUTION EXPIRED"
+		if e.class == Timeout::Error then
+			"ERROR: EXECUTION EXPIRED"
+		else
+			e.to_s
+		end
 	end
 end
 addCommand('stash',->(args="",nick="",chan="",rawargs="",pipeargs=""){

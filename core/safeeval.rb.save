@@ -1,21 +1,19 @@
-# Prototype, to make a timeout that really kills things. Maybe. I have no clue.
+# Prototype, to make a timeout that really kills things.
 require 'timeout'
 def safetimeout(sec)
 	read, write = IO.pipe
 	pid = fork do
 		read.close
-		Signal.trap("HUP") { exit!(0) } 
+		Signal.trap("HUP") { exit } 
 		begin
 			res = yield
 			Marshal.dump(res, write)
 		rescue => e
 			Marshal.dump(e, write)
-		ensure
-			puts "Exit."
-			exit!(0)
 		end
+		exit!(0)
 	end
-	thr = Process.detach pid
+	Process.detach pid
 	write.close
 	#result=read.read
 	begin
@@ -30,7 +28,6 @@ def safetimeout(sec)
 		end
 	rescue => e
 		puts "Error"
-		Thread.kill thr
 		Process.kill "HUP",pid
 		return e
 	end
