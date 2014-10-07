@@ -113,7 +113,7 @@ def commandRunner(cmd,nick,chan)
 				#		nargs.push args
 				#	end
 					nargs=retLast.dup
-					nargs.push args
+					nargs.push args if args and !args.to_s.empty?
 				elsif retLast.class==String
 					if (args.to_s or "").empty? then
 						nargs=retLast

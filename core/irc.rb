@@ -35,7 +35,7 @@ class IRC
 		until initialised
 			msg = @socket.gets
 			if msg then
-				puts msg
+				puts msg.chomp
 				if msg.match(/^PING :(.*)$/)
 					@socket.puts "PONG #{$~[1]}"
 				end
