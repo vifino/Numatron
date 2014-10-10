@@ -6,3 +6,4 @@ pipes/*
 
 modules/other/cookie.rb
 *.swp
+*.save
