@@ -182,7 +182,7 @@ def commandParser(cmd,nick,chan) # This is the entry point.
 			ret=commandRunner(cmd, nick, chan)
 			if ret then
 				if ret.to_s.length > 200 then
-					@bot.msg(chan,"> Output: "+putHB(sanitizer(ret.to_s)))
+					@bot.msg(chan,"> Output: "+putIO(sanitizer(ret.to_s)))
 				else
 					@bot.msg(chan,"> "+sanitizer(ret.to_s))
 				end
