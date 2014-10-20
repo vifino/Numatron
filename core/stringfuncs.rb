@@ -28,10 +28,10 @@ def cmd_rainwords(args,nick,chan,rawargs="",pipeargs="")
                 str = ""
                 args.to_s.lstrip.split(" ").each {|char|
                         if c==colors.length then c=0 end
-                str+="\u0003"+colors[c]+char
+                str+="\u0003"+colors[c]+char+" "
                         c+=1
                 }
-                return str+"\u000F"
+                return (str+"\u000F").strip
         end
 end
 addCommand("rainwords",:cmd_rainwords,"\u000308R\u000309A\u000310A\u000312A\u000306A\u000305I\u000307N\u000308B\u000309O\u000310W\u000312!\u000306$")
