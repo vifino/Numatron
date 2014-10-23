@@ -43,6 +43,6 @@ def testai(raw)# this isnt even an ai q_q
 		end
 	end
 end
-if not @rawhooks.include? :testai then
-	@rawhooks.push :testai
-end
+#if not @rawhooks.include? :testai then
+#	@rawhooks.push :testai
+#end
