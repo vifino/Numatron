@@ -9,6 +9,14 @@ end
 
 if not aimlfiles.empty?
 	$aiml = ProgramR::Facade.new
-	$aiml.learn aimlfiles
+	aimlfiles.each do |file|
+		begin
+			puts "Learning file #{file}..."
+			$aiml.learn [file]
+			puts "Done!"
+		rescue => e
+			puts "Error in file #{file}: #{e.to_s}"
+		end
+	end
 	addCommand("ai",:aiml,"Query an AI")
 end
