@@ -7,7 +7,7 @@ addCommand("please",->(args="",nick="",chan="",rawargs="",pipeargs="") {
 		end
 		act = req.first
 		rst = req.last
-		@bot.action("#{req}s #{rst.strip}")
+		@bot.action(chan,"#{req}s #{rst.strip}")
 		return nil
 	else
 		"No! >:D"
