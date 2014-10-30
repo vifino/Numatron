@@ -68,7 +68,10 @@ class	Stash
 					push $stack[-2]||sof
 				when i=='SWAP'
 					begin
-						$stack[-2,2] = $stack[-2,2].reverse
+						a= pop
+						b= pop
+						push a
+						push b
 					rescue
 						sof
 					end
