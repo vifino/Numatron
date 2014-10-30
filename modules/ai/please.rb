@@ -5,9 +5,9 @@ addCommand("please",->(args="",nick="",chan="",rawargs="",pipeargs="") {
 		if req.empty? then
 			return "PLEASE WHAT?!"
 		end
-		act = req.first
-		rst = req.last
-		@bot.action(chan,"#{req}s #{rst.strip}")
+		act = req[0]
+		rst = req[1]
+		@bot.action(chan,"#{act}s #{rst.strip}")
 		return nil
 	else
 		"No! >:D"
