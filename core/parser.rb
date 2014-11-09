@@ -1,14 +1,33 @@
-# The command Parser
+# The command Parser# Made by vifino
 # Made by vifino
 $commands ||= Hash.new()
-$commandNP ||= Hash.new()
+$commandsL||= Hash.new()
+$commandNP||= Hash.new()
 $helpdata ||= Hash.new()
-$variables ||= Hash.new()
+$variables||= Hash.new()
 def addCommand(nme,val,help="No help for this command available.",nopipes=false)
+	$commands[nme]=->(nick, chan, args, pipein, pipeout){
+		if $commandsL[nme].is_a?(Method) then
+			pipeout.write commands[nme].call(nargs, nick, chan, args, nil)
+		elsif $commandsL[nme].class == Proc then
+			pipeout.write $commandsL[nme].call(nargs, nick, chan, args, nil)
+		elsif $commandsL[nme].class == Symbol then
+			pipeout.write self.send($commandsL[nme], nargs, nick, chan, args, nil)
+		elsif
+			pipeout.write $commandsL[nme]
+		end
+	}
+	$commandNP[nme]=nopipes
+	$helpdata[nme]=help
+end
+
+def addCommandN(nme,val,help="No help for this command available.",nopipes=false)
 	$commands[nme]=val
 	$commandNP[nme]=nopipes
 	$helpdata[nme]=help
 end
+
+
 def help(topicorig="",nick="",chan="",rawargs="",pipeargs="")
 	if not topicorig.empty? then
 		topic=topicorig.split(" ").first.downcase
@@ -74,12 +93,10 @@ end
 def commandRunner(cmd,nick,chan)
 	if !cmd.to_s.empty?
 		cmd=(cmd or "").to_s.lstrip
-		retFinal=""
-		retLast=""
-		retbef=""
+		pipein,pipeout=IO.pipe
+		newpipeout = nil # Just initialize.
 		rnd= ('a'..'z').to_a.shuffle[0,8].join
 		cmdarray=nil
-		#retLast=rnd
 		begin
 			func, args = cmd.split(' ', 2)
 			if $commandNP[func.downcase] then
@@ -106,73 +123,34 @@ def commandRunner(cmd,nick,chan)
 					#args = argParser((args.to_s or ""),nick,chan)
 				end
 				func=func.downcase()
-				nargs=""
-				if retLast.class==Array then
-				#	nargs=retLast
-				#	if !(args or "").empty? then
-				#		nargs.push args
-				#	end
-					nargs=retLast.dup
-					nargs.push args if args and !args.to_s.empty?
-				elsif retLast.class==String
-					if (args.to_s or "").empty? then
-						nargs=retLast
-					else
-						nargs=args.to_s+retLast
-					end
-				elsif retLast.class==Fixnum or retLast.class==Bignum
-						if (args.to_s or "").empty? then
-							nargs=retLast.to_s
-						else
-							nargs=args.to_s+retLast.to_s
-						end
-				else
-					nargs=(args or "")+retLast.to_s
+				execCommand(nick, chan, func, args, pipein, pipeout)
+				pipein = pipeout
+				pipeout, newpipein = IO.pipe
+			else
+				if @cmdnotfound then
+					retLast = "No such function: '#{func}'"
 				end
-				#puts func
-				#puts nargs
-				#puts args
-				#puts retLast
-				#retbef=nil
-				if $commands[func] then
-					if runtimes==0 then # first command
-						if $commands[func].is_a?(Method) then
-							retLast = $commands[func].call(nargs, nick, chan, args, nil)
-						elsif $commands[func].class == Proc then
-							retLast = $commands[func].call(nargs, nick, chan, args, nil)
-						elsif $commands[func].class == Symbol then
-							retLast = self.send($commands[func], nargs, nick, chan, args, nil)
-						elsif
-							retLast = $commands[func]
-						end
-					else
-						if $commands[func].is_a?(Method) then
-							retLast = $commands[func].call(nargs, chan, args, retLast)
-						elsif $commands[func].class == Proc then
-							retLast = $commands[func].call(nargs, chan, args, retLast)
-						elsif $commands[func].class == Symbol then
-							retLast = self.send($commands[func], nargs, nick, chan, args, retLast)
-						elsif
-							retLast = $commands[func]
-						end
-					#retLast=self.send(@commands[func],(args or "")+retLast,nick,chan) or ""
-					end
-					#if retbef.class==Array then
-					#	if !(retLast or "").to_s.empty? then
-					#		retbef.push retLast
-					#	end
-					#end
-					#retLast=retbef||retLast
-				else
-					if @cmdnotfound then
-						retLast = "No such function: '#{func}'"
-					end
-					break
-				end
-				runtimes+=1
+				break
 			end
 		}
+		returnval = pipeout.read
 		return outconv(retLast) if not (retLast==rnd or (retLast.to_s or "").empty?)
+	end
+end
+
+def execCommand(nick, chan, func, args, pipein, pipeout)
+	Thread.new do
+		if $commands[func] then
+			if $commands[func].is_a?(Method) then
+				retLast = $commands[func].call(nick, chan, args, pipein, pipeout)
+			elsif $commands[func].class == Proc then
+				retLast = $commands[func].call(nargs, nick, chan, args, pipein, pipeout)
+			elsif $commands[func].class == Symbol then
+				retLast = self.send($commands[func], nick, chan, args, pipein, pipeout)
+			elsif
+				retLast = $commands[func]
+			end
+		end
 	end
 end
 def commandParser(cmd,nick,chan) # This is the entry point.
