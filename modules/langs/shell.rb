@@ -25,5 +25,7 @@ def tinycore(code)
 end
 
 if not `which docker`.strip.chomp == "" then
-	
+	addCommand("tinycore",->(args,nick="",chan="",rawargs="",pipeargs="") {
+		tinycore(args) if !args.empty?
+	}, "Run shell code in a Tinycore VM.")
 end
