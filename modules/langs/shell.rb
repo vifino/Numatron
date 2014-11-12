@@ -6,13 +6,13 @@
 
 def tinycore(code)
 	header = ""
-	["/bin/mount", "/bin/dd", "/bin/ping", "/bin/ping6", "/bin/vi","/bin/dmesg", "/bin/mount","/usr/bin/passwd"].each { |file|
+	["/bin/mount", "/bin/dd", "/bin/ping", "/bin/ping6", "/bin/vi","/bin/dmesg"].each { |file|
 		header +="/bin/rm #{file} ; "
 	}
 	header += "echo \"\"|adduser eval > /dev/null ; "
 	header += "sudo -u eval /bin/sh ; "
 	#header += "timeout -t 10 sh -c \'" + code.gsub(/'/,'\\\'').gsub(/\\/,'\\\\') + "\' ; "
-	header += "timeout -t 3 sh -c \'cat > file ; sh file\' ; " 
+	header += "timeout -t 2 sh -c \'cat > file ; sh file\' ; " 
 	header += "exit ; "
 	rnd= ('a'..'z').to_a.shuffle[0,8].join
 	`touch /tmp/tinycore_#{rnd}`
