@@ -11,7 +11,7 @@ def tinycore(code)
 	header += "echo \"\"|adduser eval > /dev/null ; "
 	header += "sudo -u eval /bin/sh ; "
 	#header += "timeout -t 10 sh -c \'" + code.gsub(/'/,'\\\'').gsub(/\\/,'\\\\') + "\' ; "
-	header += "timeout -t 10 sh -c \'cat > file ; sh file\' ; " 
+	header += "timeout -t 3 sh -c \'cat > file ; sh file\' ; " 
 	header += "exit ; "
 	rnd= ('a'..'z').to_a.shuffle[0,8].join
 	`touch /tmp/tinycore_#{rnd}`
