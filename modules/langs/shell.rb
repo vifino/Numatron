@@ -1,11 +1,12 @@
 # Run shell code, using docker.
 # Code will be run in a tinycore environment. Small, rather fast.
+# You might have to add 'cgroup_enable=memory swapaccount=1' to your GRUB_CMDLINE_LINUX_DEFAULT in /etc/default/grub
 # 64 bit only.
 # Made by vifino
 
 def tinycore(code)
 	header = ""
-	["/bin/mount", "/bin/dd", "/bin/ping", "/bin/ping6", "/bin/vi","/bin/dmesg"].each { |file|
+	["/bin/mount", "/bin/dd", "/bin/ping", "/bin/ping6", "/bin/vi","/bin/dmesg", "/bin/mount","/usr/bin/passwd"].each { |file|
 		header +="/bin/rm #{file} ; "
 	}
 	header += "echo \"\"|adduser eval > /dev/null ; "
