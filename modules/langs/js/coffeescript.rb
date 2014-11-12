@@ -10,7 +10,7 @@ def coffee2js(code)
 	f.close
 	`cat /tmp/coffee_#{rnd}|coffee -sc` # "Compiled" coffee to js will be the output.
 end
-if not `which coffee`.strip.chomp.match("coffee not found") then
+if not `which coffee`.strip.chomp == "" then
 	addCommand("coffeecompiler",->(args,nick="",chan="",rawargs="",pipeargs=""){
 		coffee2js(args.to_s.strip)
 	},"Compile Coffeescript code to javascript.")
