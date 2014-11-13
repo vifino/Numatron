@@ -1,6 +1,5 @@
 # Run shell code, using docker.
 # Code will be run in a tinycore environment. Small, rather fast.
-# You might have to add 'cgroup_enable=memory swapaccount=1' to your GRUB_CMDLINE_LINUX_DEFAULT in /etc/default/grub
 # 64 bit only.
 # Made by vifino
 
