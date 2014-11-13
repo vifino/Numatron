@@ -184,7 +184,7 @@ def commandParser(cmd,nick,chan) # This is the entry point.
 				if ret.to_s.chomp.gsub(/[\r\n]+/," "*100).length > 200 then
 					@bot.msg(chan,"> Output: "+putHB(sanitizer(ret.to_s)))
 				else
-					@bot.msg(chan,"> "+sanitizer(ret.to_s.gsub(/[\r\n]+/,"\n| ))
+					@bot.msg(chan,"> "+sanitizer(ret.to_s.gsub(/[\r\n]+/,"\n|"))
 				end
 			end
 		rescue Exception => detail
