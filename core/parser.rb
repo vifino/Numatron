@@ -181,7 +181,7 @@ def commandParser(cmd,nick,chan) # This is the entry point.
 		begin
 			ret=commandRunner(cmd, nick, chan)
 			if ret then
-				if ret.to_s.chomp.gsub(/[\r\n]+/," "*100).length > 200 then
+				if ret.to_s.chomp.gsub(/[\r\n]+/," "*80).length > 200 then
 					@bot.msg(chan,"> Output: "+putHB(sanitizer(ret.to_s)))
 				else
 					@bot.msg(chan,"> "+sanitizer(ret.to_s.chomp.gsub(/[\r\n]+/,"\n| ")))
