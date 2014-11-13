@@ -21,7 +21,7 @@ def tinycore(code)
 	f=File.open "/tmp/tinycore_#{rnd}","w"
 	f.write code
 	f.close
-	o=`cat /tmp/tinycore_#{rnd}| docker run --memory="64m" --rm -i zoobab/tinycore-x64 /bin/sh -c #{header.inspect} 2>&1`
+	o=`cat /tmp/tinycore_#{rnd}| docker run --rm -i zoobab/tinycore-x64 /bin/sh -c #{header.inspect} 2>&1`
 	`rm /tmp/tinycore_#{rnd}`
 	return o
 end
