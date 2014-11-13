@@ -14,7 +14,7 @@ def tinycore(code)
 	header += "sudo -u skiddie /bin/sh ; "
 	#header += "timeout -t 10 sh -c \'" + code.gsub(/'/,'\\\'').gsub(/\\/,'\\\\') + "\' ; "
 	#header += "timeout -t 2 \'cat > file ; sh file\' ; "
-	header += "timeout -t 2 /bin/sh code ; "
+	header += "timeout -t 1 /bin/sh code ; "
 	header += "exit ; "
 	rnd= ('a'..'z').to_a.shuffle[0,8].join
 	`touch /tmp/tinycore_#{rnd}`
