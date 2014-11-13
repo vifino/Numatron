@@ -10,7 +10,7 @@ def tinycore(code)
 	}
 	header += "echo \"\"|adduser skiddie > /dev/null ; "
 	header += "cat > code ; "
-	header += "ifconfig eth0 down ; rm /sbin/ifconfig"
+	#header += "ifconfig eth0 down ; rm /sbin/ifconfig"
 	#header += "sudo -u skiddie /bin/sh -c 'timeout -t 1 ' ; "
 	#header += "timeout -t 10 sh -c \'" + code.gsub(/'/,'\\\'').gsub(/\\/,'\\\\') + "\' ; "
 	#header += "timeout -t 2 \'cat > file ; sh file\' ; "
