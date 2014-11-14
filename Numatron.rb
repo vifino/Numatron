@@ -42,7 +42,7 @@ def loadSettings(file = "settings.rb")
 	end
 	begin
 		@afternick = @settings["afternick"] || @settings["nickname"]
-	rescue =>
+	rescue => e
 		@afternick = @settings["nickname"]
 	end
 end
