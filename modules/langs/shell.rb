@@ -3,19 +3,19 @@
 # 64 bit only.
 # Made by vifino
 
-def tinycore(code)
+def tinycore(code, user="skiddie")
 	header = ""
 	["/bin/mount", "/bin/dd", "/bin/ping", "/bin/ping6", "/bin/vi","/bin/dmesg", "/usr/bin/wget"].each { |file|
 		header +="/bin/rm #{file} ; "
 	}
-	header += "echo \"\"|adduser skiddie > /dev/null ; "
+	header += "echo \"\"|adduser #{user} > /dev/null ; "
 	header += "cat > code ; "
 	#header += "ifconfig eth0 down ; rm /sbin/ifconfig"
 	#header += "sudo -u skiddie /bin/sh -c 'timeout -t 1 ' ; "
 	#header += "timeout -t 10 sh -c \'" + code.gsub(/'/,'\\\'').gsub(/\\/,'\\\\') + "\' ; "
 	#header += "timeout -t 2 \'cat > file ; sh file\' ; "
 	#header += "timeout -t 1 /bin/sh code ; "
-	header += 'exec timeout -t 1 sudo -u skiddie sh code ; '
+	header += "exec timeout -t 1 sudo -u #{user} sh code ; "
 	#header += "exit ; "
 	rnd= ('a'..'z').to_a.shuffle[0,8].join
 	`touch /tmp/tinycore_#{rnd}`
@@ -29,6 +29,6 @@ end
 
 if not `which docker`.strip.chomp == "" then
 	addCommand("tinycore",->(args,nick="",chan="",rawargs="",pipeargs="") {
-		tinycore(args) if !args.empty?
+		tinycore(args, nick.gsub(/[^0-9a-z]/i, '')) if !args.empty?
 	}, "Run shell code in a Tinycore VM.")
 end
