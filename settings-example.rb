@@ -5,6 +5,7 @@
 	'ssl' => true,							 # Whether to use, or not to use ssl
 	'nickname'=> 'MyBot',				 # Nickname
 	'username'=> 'MyBot',				 # Username
+	'afternick'=>'FancyBot'			 # Nickname to set after initialization.
 	'realname'=> 'MyBot',				 # Realname
 	'password'=> 'MyPass',			 # Password
 	'admins'  => ["vifino"],		 # The admins that have complete control, use with caution, lowercase

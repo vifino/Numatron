@@ -40,6 +40,11 @@ def loadSettings(file = "settings.rb")
 	rescue => e
 		@ssl=false
 	end
+	begin
+		@afternick = @settings["afternick"] || @settings["nickname"]
+	rescue =>
+		@afternick = @settings["nickname"]
+	end
 end
 def init_fifos # not used anymore...
 	@fifopassive = open("pipes/passive","w+")
@@ -120,6 +125,9 @@ def setup
 	trap("INT"){ @bot.quit; abort }
 	trap("TERM"){ @bot.quit; abort }
 	@bot = IRC.new(@server,@port,@ssl,@nick,@username,@realname,@password)
+	if @afternick then
+		@bot.chnick @afternick
+	end
 	runDir "modules"
 	#sleep(2)
 	@channels.each { |chan|
