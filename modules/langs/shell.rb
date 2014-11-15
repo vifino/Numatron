@@ -40,9 +40,9 @@ def tinycoresb(code, user="skiddie")
 	f.write code
 	f.close
 	o=`cat /tmp/tinycore_#{rnd}| docker run --rm -i zoobab/tinycore-x64 /bin/sh -c #{header.inspect} 2>&1`
-	`rm /tmp/tinycore_#{rnd}`  
+	`rm /tmp/tinycore_#{rnd}`
 	return o
-end				
+end
 
 
 if not `which docker`.strip.chomp == "" then
