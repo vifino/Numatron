@@ -49,7 +49,7 @@ if not `which docker`.strip.chomp == "" then
 	addCommand("tinycore",->(args="",nick="",chan="",rawargs="",pipeargs="") {
 		pipeargs||=""
 		if !rawargs.empty? then
-			if pipeargs.empty? then
+			if pipeargs!="" then
 				return tinycoresb(rawargs, nick.gsub(/[^0-9a-z]/i, ''))
 			else
 				code = "echo #{pipeargs.inspect} | #{rawargs}"
