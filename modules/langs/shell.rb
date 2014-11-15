@@ -3,7 +3,24 @@
 # 64 bit only.
 # Made by vifino
 
-def tinycore(code, user="skiddie")
+def tinycore(code, user="root")
+	header = ""
+	if not user=="root" then
+		header += "echo \"\"|adduser #{user} > /dev/null ; "
+	end
+	header += "cat > code ; "
+	header += "exec sudo -u #{user} sh code ; "
+	rnd= ('a'..'z').to_a.shuffle[0,8].join
+	`touch /tmp/tinycore_#{rnd}`
+	f=File.open "/tmp/tinycore_#{rnd}","w"
+	f.write code
+	f.close
+	o=`cat /tmp/tinycore_#{rnd}| docker run --rm -i zoobab/tinycore-x64 /bin/sh -c #{header.inspect} 2>&1`
+	`rm /tmp/tinycore_#{rnd}`
+	return o
+end
+
+def tinycoresb(code, user="skiddie")
 	header = ""
 	["/bin/mount", "/bin/dd", "/bin/ping", "/bin/ping6", "/bin/vi","/bin/dmesg", "/usr/bin/wget"].each { |file|
 		header +="/bin/rm #{file} ; "
@@ -23,12 +40,13 @@ def tinycore(code, user="skiddie")
 	f.write code
 	f.close
 	o=`cat /tmp/tinycore_#{rnd}| docker run --rm -i zoobab/tinycore-x64 /bin/sh -c #{header.inspect} 2>&1`
-	`rm /tmp/tinycore_#{rnd}`
+	`rm /tmp/tinycore_#{rnd}`  
 	return o
-end
+end				
+
 
 if not `which docker`.strip.chomp == "" then
 	addCommand("tinycore",->(args,nick="",chan="",rawargs="",pipeargs="") {
-		tinycore(args, nick.gsub(/[^0-9a-z]/i, '')) if !args.empty?
+		tinycoresb(args, nick.gsub(/[^0-9a-z]/i, '')) if !args.empty?
 	}, "Run shell code in a Tinycore VM.", true)
 end
