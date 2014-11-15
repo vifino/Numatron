@@ -27,6 +27,7 @@ def tinycoresb(code, user="skiddie")
 	}
 	header += "echo \"\"|adduser #{user} > /dev/null ; "
 	header += "cat > code ; "
+	header += "chmod 0522 /dev/random /dev/urandom ; "
 	#header += "ifconfig eth0 down ; rm /sbin/ifconfig"
 	#header += "sudo -u skiddie /bin/sh -c 'timeout -t 1 ' ; "
 	#header += "timeout -t 10 sh -c \'" + code.gsub(/'/,'\\\'').gsub(/\\/,'\\\\') + "\' ; "
