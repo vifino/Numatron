@@ -47,7 +47,7 @@ end
 def tinycore_command(args="",nick="",chan="",rawargs="",pipeargs="")
 	pipeargs||=""
 	if !rawargs.empty? then
-		if pipeargs!="" then
+		if pipeargs=="" then
 			return tinycoresb(rawargs, nick.gsub(/[^0-9a-z]/i, ''))
 		else
 			code = "echo #{pipeargs.inspect} | #{rawargs}"
