@@ -53,6 +53,7 @@ if not `which docker`.strip.chomp == "" then
 				return tinycoresb(rawargs, nick.gsub(/[^0-9a-z]/i, ''))
 			else
 				code = "echo #{pipeargs.inspect} | #{rawargs}"
+				puts code
 				return tinycoresb(code,nick.gsub(/[^0-9a-z]/i, ''))
 			end
 		end
