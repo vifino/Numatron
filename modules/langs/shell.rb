@@ -57,5 +57,5 @@ if not `which docker`.strip.chomp == "" then
 				return tinycoresb(code,nick.gsub(/[^0-9a-z]/i, ''))
 			end
 		end
-	}, "Run shell code in a Tinycore VM.", true)
+	}, "Run shell code in a Tinycore VM.")
 end
