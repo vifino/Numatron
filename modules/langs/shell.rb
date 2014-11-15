@@ -47,6 +47,13 @@ end
 
 if not `which docker`.strip.chomp == "" then
 	addCommand("tinycore",->(args,nick="",chan="",rawargs="",pipeargs="") {
-		tinycoresb(args, nick.gsub(/[^0-9a-z]/i, '')) if !args.empty?
+		if !rawargs.empty? then
+			if pipeargs.empty? then
+				return tinycoresb(rawargs, nick.gsub(/[^0-9a-z]/i, ''))
+			else
+				code = 'echo ' + pipeargs.inspect + ' | ' + rawargs
+				return tinycoresb(code,nick.gsub(/[^0-9a-z]/i, ''))
+			end
+		end
 	}, "Run shell code in a Tinycore VM.", true)
 end
