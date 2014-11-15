@@ -44,18 +44,19 @@ def tinycoresb(code, user="skiddie")
 	return o
 end
 
+def tinycore_command(args="",nick="",chan="",rawargs="",pipeargs="")
+	pipeargs||=""
+	if !rawargs.empty? then
+		if pipeargs!="" then
+			return tinycoresb(rawargs, nick.gsub(/[^0-9a-z]/i, ''))
+		else
+			code = "echo #{pipeargs.inspect} | #{rawargs}"
+			puts code
+			return tinycoresb(code,nick.gsub(/[^0-9a-z]/i, ''))
+		end
+	end
+end
 
 if not `which docker`.strip.chomp == "" then
-	addCommand("tinycore",->(args="",nick="",chan="",rawargs="",pipeargs="") {
-		pipeargs||=""
-		if !rawargs.empty? then
-			if pipeargs!="" then
-				return tinycoresb(rawargs, nick.gsub(/[^0-9a-z]/i, ''))
-			else
-				code = "echo #{pipeargs.inspect} | #{rawargs}"
-				puts code
-				return tinycoresb(code,nick.gsub(/[^0-9a-z]/i, ''))
-			end
-		end
-	}, "Run shell code in a Tinycore VM.")
+	addCommand("tinycore",:tinycore_command, "Run shell code in a Tinycore VM.")
 end
