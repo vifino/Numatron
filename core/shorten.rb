@@ -7,7 +7,7 @@ def shorten(link)
 		url = "http://"+(link.gsub(/http:\/\//,""))
 		if url.is_valid_url? then
 			url = CGI.escape(url)
-			return open('http://qr.cx/api/?longurl=' + url, {"UserAgent" => "Ruby Script"}).read
+			return open('http://bit.ly/api?url=' + url, {"UserAgent" => "Ruby Script"}).read
 		else
 			return "Invalid URL"
 		end
