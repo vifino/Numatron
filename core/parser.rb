@@ -5,9 +5,9 @@ $commandNP ||= Hash.new()
 $helpdata ||= Hash.new()
 $variables ||= Hash.new()
 def addCommand(nme,val,help="No help for this command available.",nopipes=false)
-	$commands[nme]=val
-	$commandNP[nme]=nopipes
-	$helpdata[nme]=help
+	$commands[nme.lower]=val
+	$commandNP[nme.lower]=nopipes
+	$helpdata[nme.lower]=help
 end
 def help(topicorig="",nick="",chan="",rawargs="",pipeargs="")
 	if not topicorig.empty? then
