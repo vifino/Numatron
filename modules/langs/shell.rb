@@ -60,4 +60,5 @@ end
 
 if not `which docker`.strip.chomp == "" then
 	addCommand("tinycore",:tinycore_command, "Run shell code in a Tinycore VM.")
+	addCommand("vm",:tinycore_command, "Run shell code in a Tinycore VM.")
 end
