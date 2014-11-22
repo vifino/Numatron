@@ -66,25 +66,25 @@ def passive_process(raw)
 		end
 	elsif type=="ctcp" then
 		puts "CTCP"
-		begin
-			if match=msg.strip.match(/^PING(.*)/) then
-				puts "PING"
-				retdata=match[1].strip
-				puts retdata
-				if chan==@bot.nick then chan=nick end
-				#@bot.msg(chan,"\x01PONG #{retdata}\x01")
-				ret=nil
-				tme=retdata.split(" ").first.to_i
-				if not tme==0 then
-					ret=(Time.now.to_i-tme).to_s
-				else
-					ret=retdata
-				end
-				@bot.notice(chan,"\x01PING #{ret}\x01")
-			end
-		rescue => e
-			puts e
-		end
+		#begin
+			#if match=msg.strip.match(/^PING(.*)/) then
+			#	puts "PING"
+			#	retdata=match[1].strip
+			#	puts retdata
+			#	if chan==@bot.nick then chan=nick end
+			#	#@bot.msg(chan,"\x01PONG #{retdata}\x01")
+			#	ret=nil
+			#	tme=retdata.split(" ").first.to_i
+			#	if not tme==0 then
+			#		ret=(Time.now.to_i-tme).to_s
+			#	else
+			#		ret=retdata
+			#	end
+			#	@bot.notice(chan,"\x01PING #{ret}\x01")
+			#end
+		#rescue => e
+		#	puts e
+		#end
 	elsif type=="notice" then
 		begin
 			puts "--- #{nick} -> #{chan}: #{msg}"
