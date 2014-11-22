@@ -33,7 +33,7 @@ def tinycoresb(code, user="skiddie")
 	#header += "timeout -t 10 sh -c \'" + code.gsub(/'/,'\\\'').gsub(/\\/,'\\\\') + "\' ; "
 	#header += "timeout -t 2 \'cat > file ; sh file\' ; "
 	#header += "timeout -t 1 /bin/sh code ; "
-	header += "exec timeout -t 1 sudo -u #{user} sh -c 'sh < /code' ; "
+	header += "exec timeout -t 0.5 sudo -u #{user} sh -c 'sh < /code' ; "
 	#header += "exit ; "
 	rnd= ('a'..'z').to_a.shuffle[0,8].join
 	`touch /tmp/tinycore_#{rnd}`
