@@ -38,7 +38,7 @@ if not @jruby then
 			else
 				txt = ""
 				if returnval!=nil then
-					txt = "\n> "+returnval.to_s.gsub("[\r\n]+","\n> ")
+					txt = "\n"+returnval.to_s.gsub("[\r\n]+","\n")
 				end
 				return @jsout.join("\n").split(/[\r\n]+/).join(" | ").strip+txt.gsub("[\r\n]+"," | ")
 			end
