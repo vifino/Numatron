@@ -90,6 +90,7 @@ do
 					out=out..table.concat({...})
 				end,
 			},
+			coroutine=coroutine,
 			channel = "",
 			nick = "",
 			pcall = pcall,
