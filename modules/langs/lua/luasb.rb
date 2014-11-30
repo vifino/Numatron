@@ -109,7 +109,9 @@ do
 		for k,v in pairs(sbox) do
 			if type(v)=="table" then
 				for n,l in pairs(v) do
-					tsbox[l]=true
+					if type(v)=="function" then
+						tsbox[l]=true
+					end
 				end
 			elseif type(v)=="function" then
 				tsbox[v]=true
@@ -148,6 +150,7 @@ do
 end
 '
 	@luasb[:to_ruby] = false
+	return "Sandbox Reset!"
 end
 luasb_reset
 def luasb(args, nick, chan,rawargs="",pipeargs)
