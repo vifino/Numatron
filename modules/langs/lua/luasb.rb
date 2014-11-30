@@ -160,6 +160,9 @@ def luasb(args, nick, chan,rawargs="",pipeargs)
 			@luasb.eval('ths=nil')
 			if !pipeargs.to_s.empty? then
 				@luasb["ths"]=pipeargs.to_s
+				if rawargs.to_s.empty? then
+					@luasb["code"]=pipeargs.to_s
+				end
 			end
 			Timeout::timeout(0.5) do
 				returnval = @luasb.eval("return (lua(ths,code))")
