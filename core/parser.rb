@@ -137,11 +137,11 @@ def commandRunner(cmd,nick,chan)
 				if $commands[func] then
 					if runtimes==0 then # first command
 						if $commands[func].is_a?(Method) then
-							retLast = $commands[func].call(nargs, nick, chan, args, nil)
+							retLast = $commands[func].call(nargs, nick, chan, args)
 						elsif $commands[func].class == Proc then
-							retLast = $commands[func].call(nargs, nick, chan, args, nil)
+							retLast = $commands[func].call(nargs, nick, chan, args)
 						elsif $commands[func].class == Symbol then
-							retLast = self.send($commands[func], nargs, nick, chan, args, nil)
+							retLast = self.send($commands[func], nargs, nick, chan, args)
 						elsif
 							retLast = $commands[func]
 						end
