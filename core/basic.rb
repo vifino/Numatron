@@ -85,7 +85,7 @@ addCommand("chan",->(args="",nick="",chan="",rawargs="",pipeargs=""){chan},"Retu
 addCommand("channel",->(args="",nick="",chan="",rawargs="",pipeargs=""){chan},"Returns the channel you are currently in.")
 addCommand("msg",->(args="",nick="",chan="",rawargs="",pipeargs=""){
 	if isPrivileged? nick then
-		destination=rawargs.split(" ",2).first||chan
+		destination=rawargs.to_s.split(" ",2).first||chan
 		if !rawargs.split(" ",2).last.to_s.empty? then
 			@bot.msg(destination, rawargs.split(" ",2).last.to_s)
 		else
