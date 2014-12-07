@@ -86,7 +86,7 @@ addCommand("channel",->(args="",nick="",chan="",rawargs="",pipeargs=""){chan},"R
 addCommand("msg",->(args="",nick="",chan="",rawargs="",pipeargs=""){
 	if isPrivileged? nick then
 		destination=rawargs.split(" ",1).first||chan
-		if !args.split(" ",1).last.to_s.empty? then
+		if !rawargs.split(" ",1).last.to_s.empty? then
 			@bot.msg(destination, rawargs.split(" ",1).last.to_s)
 		else
 			@bot.msg(destination, pipeargs) if !pipeargs.empty?
