@@ -89,7 +89,7 @@ addCommand("msg",->(args="",nick="",chan="",rawargs="",pipeargs=""){
 		if !rawargs.split(" ",2).last.to_s.empty? then
 			@bot.msg(destination, rawargs.split(" ",2).last.to_s)
 		else
-			@bot.msg(destination, pipeargs) if !pipeargs.empty?
+			@bot.msg(destination, pipeargs.to_s)
 		end
 		return nil
 	else
