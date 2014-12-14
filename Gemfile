@@ -10,3 +10,6 @@ gem 'nokogiri' # For eval.in
 gem 'json' # For multiple things
 gem 'dnsruby' # for dns.rb
 gem 'programr'
+gem 'htmlentities'
+gem 'hpricot'
+gem 'wikipedia'

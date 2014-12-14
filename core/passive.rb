@@ -60,10 +60,12 @@ def passive_process(raw)
 				@passivedata["users"][nick]["avgchars"] = @passivedata["users"][nick]["chars"] / @passivedata["users"][nick]["lines"]
 				@passivedata["users"][nick]["avgwords"] = @passivedata["users"][nick]["words"] / @passivedata["users"][nick]["lines"]
 				chanProcess(chan,nick)
+			else
+				print "--- #{nick} joined Channel #{chan}"
 			end
 		rescue => e
 			#puts e
-		end
+	end
 	elsif type=="ctcp" then
 		puts "CTCP"
 		#begin
@@ -204,6 +206,7 @@ def passive_process(raw)
 
 		end
 	elsif type=="part" then
+		puts "--- #{nick} left Channel #{chan}"
 		@passivedata["users"] = @passivedata["users"] or {}
 		@passivedata["users"][nick] = (@passivedata["users"][nick] or {})
 		@passivedata["users"][nick]["chan"] = @passivedata["users"][nick]["chan"] or {}
@@ -211,6 +214,8 @@ def passive_process(raw)
 		@passivedata["chans"][chan]["users"]||={}
 		if @passivedata["users"][nick]["chan"][chan] then @passivedata["users"][nick]["chan"].delete(chan) end
 		if @passivedata["chans"][chan]["users"][nick] then @passivedata["chans"][chan]["users"].delete(nick) end
+	elsif type=="action" then
+		puts "--- #{nick} #{msg}"
 	end
 end
 def passive_start
