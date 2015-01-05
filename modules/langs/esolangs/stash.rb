@@ -85,10 +85,10 @@ class	Stash
 					push b%a
 				when i=='*'
 					push pop*pop
-				when i=='^'
-					a=pop
-					b=pop
-					push b**a
+				#when i=='^'
+				#	a=pop
+				#	b=pop
+				#	push b**a
 				when i=='CLRBUF'
 					chrbuf=""
 				when (i=='CHRBUF' or i=="EMIT")
