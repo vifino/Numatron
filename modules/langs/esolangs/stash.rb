@@ -58,6 +58,8 @@ class	Stash
 					push (pop&pop)?1:0
 				when i=='|'
 					push (pop|pop)?1:0
+				when i=="XOR"
+					push pop ^ pop
 				when i=='NOT'
 					push pop==0?1:0
 				when i=='NEG'
