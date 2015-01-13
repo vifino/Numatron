@@ -1,8 +1,8 @@
-# Add an js interpreter
+# Adds an js interpreter
 # Made by vifino
 if @jruby then
 	require 'rhino' # No comment.
-	Rhino::Context.open({:sealed=>true,:restrictable=>true}) do |jsvm|
+	Rhino::Context.open({:restrictable=>true}) do |jsvm|
 		jsvm.timeout_limit = 1
 		jsvm["print"] = lambda {|this, word| @jsout << word.to_s + " "; return word.to_s}
 		jsvm["log"] = lambda {|this, word| @jsout << word.to_s + " "; return word.to_s}
