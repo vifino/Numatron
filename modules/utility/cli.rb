@@ -8,7 +8,7 @@ def cli_init
 			#puts ">> "+(rb((gets or ""),@admins.first,"#Console") or "")
 			begin
 				returnval = eval (gets or "").to_s
-					puts ">> "+(returnval.inspect or "nil")
+				puts ">> "+(returnval.inspect or "nil")
 			rescue Exception => detail
 				#@bot.msg(chan,detail.message())
 				puts ">> "+detail.message
@@ -16,4 +16,4 @@ def cli_init
 		end
 	end
 end
-cli_init if STDIN.tty?
+cli_init if (STDOUT.tty? and STDIN.tty?)
