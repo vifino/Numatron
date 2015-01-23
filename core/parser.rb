@@ -207,4 +207,4 @@ addCommand("let",->(args="",nick="",chan="",rawargs="",pipeargs=""){
 		return "Missing input."
 	end
 },"Assign Values to Variables.")
-addCommand("help",:help,"Shows help on certain topics.")
+addCommand("info",:help,"Shows information on certain topics.")
