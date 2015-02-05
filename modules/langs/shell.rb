@@ -1,9 +1,9 @@
 # Run shell code, using docker.
-# Code will be run in a tinycore environment. Small, rather fast.
+# Code will be run in multiple environments. Small, rather fast.
 # 64 bit only.
 # Made by vifino
 
-def tinycore(code, user="root")
+def tinycore(code, user="root",extradockeroptions="")
 	header = ""
 	if not user=="root" then
 		header += "echo \"\"|adduser #{user} > /dev/null ; "
@@ -15,14 +15,14 @@ def tinycore(code, user="root")
 	f=File.open "/tmp/tinycore_#{rnd}","w"
 	f.write code
 	f.close
-	o=`cat /tmp/tinycore_#{rnd}| docker run --rm -i zoobab/tinycore-x64 /bin/sh -c #{header.inspect} 2>&1`
+	o=`cat /tmp/tinycore_#{rnd}| docker run #{extradockeroptions} --rm -i zoobab/tinycore-x64 /bin/sh -c #{header.inspect} 2>&1`
 	`rm /tmp/tinycore_#{rnd}`
 	return o
 end
 
 def tinycoresb(code, user="skiddie")
 	header = ""
-	["/bin/mount", "/bin/dd", "/bin/ping", "/bin/ping6", "/bin/vi","/bin/dmesg", "/usr/bin/wget"].each { |file|
+	["/bin/mount", "/bin/dd", "/bin/vi","/bin/dmesg"].each { |file|
 		header +="/bin/rm #{file} ; "
 	}
 	header += "echo \"\"|adduser #{user} > /dev/null ; "
@@ -40,7 +40,7 @@ def tinycoresb(code, user="skiddie")
 	f=File.open "/tmp/tinycore_#{rnd}","w"
 	f.write code
 	f.close
-	o=`cat /tmp/tinycore_#{rnd}| docker run --rm -i zoobab/tinycore-x64 /bin/sh -c #{header.inspect} 2>&1`
+	o=`cat /tmp/tinycore_#{rnd}| docker run --net="none" --rm -i zoobab/tinycore-x64 /bin/sh -c #{header.inspect} 2>&1`
 	`rm /tmp/tinycore_#{rnd}`
 	return o
 end
@@ -48,6 +48,7 @@ end
 def tinycore_command(args="",nick="",chan="",rawargs="",pipeargs="")
 	pipeargs||=""
 	if !rawargs.empty? then
+		nick = "skiddie" if nick=="root"
 		if pipeargs=="" then
 			return tinycoresb(rawargs, nick.gsub(/[^0-9a-z]/i, ''))
 		else
@@ -58,7 +59,56 @@ def tinycore_command(args="",nick="",chan="",rawargs="",pipeargs="")
 	end
 end
 
+def arch(code, user="root",extradockeroptions="")
+	header = ""
+	if not user=="root" then
+		header += "echo \"\"|adduser #{user} > /dev/null ; "
+	end
+	header += "cat > code ; "
+	header += "exec sudo -u #{user} bash code ; "
+	rnd= ('a'..'z').to_a.shuffle[0,8].join
+	`touch /tmp/arch_#{rnd}`
+	f=File.open "/tmp/tinycore_#{rnd}","w"
+	f.write code
+	f.close
+	o=`cat /tmp/arch_#{rnd}| docker run #{extradockeroptions} --rm -i dock0/arch /bin/bash -c #{header.inspect} 2>&1`
+	`rm /tmp/arch_#{rnd}`
+	return o
+end
+
+def archsb(code, user="skiddie")
+	header = ""
+	header += "echo \"\"|adduser #{user} > /dev/null ; "
+	header += "cat > code ; "
+	header += "chmod 0522 /dev/random /dev/urandom ; "
+	header += "exec timeout -t 1 sudo -u #{user} bash -c 'bash < /code' ; "
+	rnd= ('a'..'z').to_a.shuffle[0,8].join
+	`touch /tmp/arch_#{rnd}`
+	f=File.open "/tmp/arch_#{rnd}","w"
+	f.write code
+	f.close
+	o=`cat /tmp/arch_#{rnd}| docker run --net="none" --rm -i dock0/arch /bin/sh -c #{header.inspect} 2>&1`
+	`rm /tmp/arch_#{rnd}`
+	return o
+end
+
+def arch_command(args="",nick="",chan="",rawargs="",pipeargs="")
+	pipeargs||=""
+	if !rawargs.empty? then
+		nick = "skiddie" if nick=="root"
+		if pipeargs=="" then
+			return tinycoresb(rawargs, nick.gsub(/[^0-9a-z]/i, ''))
+		else
+			code = "echo #{pipeargs.inspect} | #{rawargs}"
+			puts code
+			return tinycoresb(code,nick.gsub(/[^0-9a-z]/i, ''))
+		end
+	end
+end
+
+
 if not `which docker`.strip.chomp == "" then
 	addCommand("tinycore",:tinycore_command, "Run shell code in a Tinycore VM.")
+	addCommand("arch",:arch_command, "Run shell code in an Arch Linux VM")
 	addCommand("vm",:tinycore_command, "Run shell code in a Tinycore VM.")
 end
