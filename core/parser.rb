@@ -26,7 +26,7 @@ def help(topicorig="",nick="",chan="",rawargs="",pipeargs="")
 			"#{topic}: No such topic."
 		end
 	else
-		"To view help about a specific topic, do '#{@prefix}help <topic>'"
+		"To view help about a specific topic, do '#{@prefix}info <topic>'"
 	end
 end
 def argParser(args="",nick,chan)
@@ -207,4 +207,4 @@ addCommand("let",->(args="",nick="",chan="",rawargs="",pipeargs=""){
 		return "Missing input."
 	end
 },"Assign Values to Variables.")
-addCommand("help",:help,"Shows help on certain topics.")
+addCommand("info",:help,"Shows information on certain topics.")

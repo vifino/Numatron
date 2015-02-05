@@ -100,12 +100,20 @@ do
 		for k,v in pairs({
 			math=math,
 			table=table
-		}) do
+		})
+		do
 			sbox[k]={}
 			for n,l in pairs(v) do
 				sbox[k][n]=l
 			end
 		end
+		sbox["math"]["round"] = (function(num, idp) 
+			local mult = 10^(idp or 0) 
+			return math.floor(num * mult + 0.5) / mult 
+		end)
+		sbox["math"]["signum"] = (function(f) 
+			return f == 0 and 1 or f/math.abs(f) 
+		end)
 		for k,v in pairs(sbox) do
 			if type(v)=="table" then
 				for n,l in pairs(v) do
