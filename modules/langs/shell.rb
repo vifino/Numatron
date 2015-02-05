@@ -42,7 +42,7 @@ def tinycoresb(code, user="skiddie")
 	f.close
 	o=`cat /tmp/tinycore_#{rnd}| docker run --net="none" --rm -i zoobab/tinycore-x64 /bin/sh -c #{header.inspect} 2>&1`
 	`rm /tmp/tinycore_#{rnd}`
-	return o
+	return o.strip
 end
 
 def tinycore_command(args="",nick="",chan="",rawargs="",pipeargs="")
@@ -68,20 +68,20 @@ def arch(code, user="root",extradockeroptions="")
 	header += "exec sudo -u #{user} bash code ; "
 	rnd= ('a'..'z').to_a.shuffle[0,8].join
 	`touch /tmp/arch_#{rnd}`
-	f=File.open "/tmp/tinycore_#{rnd}","w"
+	f=File.open "/tmp/arch_#{rnd}","w"
 	f.write code
 	f.close
-	o=`cat /tmp/arch_#{rnd}| docker run #{extradockeroptions} --rm -i dock0/arch /bin/bash -c #{header.inspect} 2>&1`
+	o=`cat /tmp/arch_#{rnd}| docker run #{extradockeroptions} --rm -i dock0/arch /bin/sh -c #{header.inspect} 2>&1`
 	`rm /tmp/arch_#{rnd}`
 	return o
 end
 
 def archsb(code, user="skiddie")
 	header = ""
-	header += "echo \"\"|adduser #{user} > /dev/null ; "
+	header += "useradd #{user} -d / ; "
 	header += "cat > code ; "
 	header += "chmod 0522 /dev/random /dev/urandom ; "
-	header += "exec timeout -t 1 sudo -u #{user} bash -c 'bash < /code' ; "
+	header += "exec timeout 1s su - #{user} -c 'exec bash < /code' ; "
 	rnd= ('a'..'z').to_a.shuffle[0,8].join
 	`touch /tmp/arch_#{rnd}`
 	f=File.open "/tmp/arch_#{rnd}","w"
@@ -89,7 +89,7 @@ def archsb(code, user="skiddie")
 	f.close
 	o=`cat /tmp/arch_#{rnd}| docker run --net="none" --rm -i dock0/arch /bin/sh -c #{header.inspect} 2>&1`
 	`rm /tmp/arch_#{rnd}`
-	return o
+	return o.strip
 end
 
 def arch_command(args="",nick="",chan="",rawargs="",pipeargs="")
