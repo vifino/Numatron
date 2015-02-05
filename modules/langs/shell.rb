@@ -97,11 +97,11 @@ def arch_command(args="",nick="",chan="",rawargs="",pipeargs="")
 	if !rawargs.empty? then
 		nick = "skiddie" if nick=="root"
 		if pipeargs=="" then
-			return tinycoresb(rawargs, nick.gsub(/[^0-9a-z]/i, ''))
+			return archsb(rawargs, nick.gsub(/[^0-9a-z]/i, ''))
 		else
 			code = "echo #{pipeargs.inspect} | #{rawargs}"
 			puts code
-			return tinycoresb(code,nick.gsub(/[^0-9a-z]/i, ''))
+			return archsb(code,nick.gsub(/[^0-9a-z]/i, ''))
 		end
 	end
 end
