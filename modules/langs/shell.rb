@@ -6,10 +6,10 @@
 def tinycore(code, user="root",extradockeroptions="")
 	header = ""
 	if not user=="root" then
-		header += "echo \"\"|adduser #{user} > /dev/null ; "
+		header += "echo \"\"|adduser #{user.downcase} > /dev/null ; "
 	end
 	header += "cat > code ; "
-	header += "exec sudo -u #{user} sh code ; "
+	header += "exec sudo -u #{user.downcase} sh code ; "
 	rnd= ('a'..'z').to_a.shuffle[0,8].join
 	`touch /tmp/tinycore_#{rnd}`
 	f=File.open "/tmp/tinycore_#{rnd}","w"
@@ -25,7 +25,8 @@ def tinycoresb(code, user="skiddie")
 	["/bin/mount", "/bin/dd", "/bin/vi","/bin/dmesg"].each { |file|
 		header +="/bin/rm #{file} ; "
 	}
-	header += "echo \"\"|adduser #{user} > /dev/null ; "
+	user = "skiddie" if user=="root"
+	header += "echo \"\"|adduser #{user.downcase} > /dev/null ; "
 	header += "cat > code ; "
 	header += "chmod 0522 /dev/random /dev/urandom ; "
 	#header += "ifconfig eth0 down ; rm /sbin/ifconfig"
@@ -33,7 +34,7 @@ def tinycoresb(code, user="skiddie")
 	#header += "timeout -t 10 sh -c \'" + code.gsub(/'/,'\\\'').gsub(/\\/,'\\\\') + "\' ; "
 	#header += "timeout -t 2 \'cat > file ; sh file\' ; "
 	#header += "timeout -t 1 /bin/sh code ; "
-	header += "exec timeout -t 1 sudo -u #{user} sh -c 'sh < /code' ; "
+	header += "exec timeout -t 1 sudo -u #{user.downcase} sh -c 'sh < /code' ; "
 	#header += "exit ; "
 	rnd= ('a'..'z').to_a.shuffle[0,8].join
 	`touch /tmp/tinycore_#{rnd}`
@@ -62,10 +63,10 @@ end
 def arch(code, user="root",extradockeroptions="")
 	header = ""
 	if not user=="root" then
-		header += "echo \"\"|adduser #{user} > /dev/null ; "
+		header += "echo \"\"|adduser #{user.downcase} > /dev/null ; "
 	end
 	header += "cat > code ; "
-	header += "exec sudo -u #{user} bash code ; "
+	header += "exec sudo -u #{user.downcase} bash code ; "
 	rnd= ('a'..'z').to_a.shuffle[0,8].join
 	`touch /tmp/arch_#{rnd}`
 	f=File.open "/tmp/arch_#{rnd}","w"
@@ -78,10 +79,11 @@ end
 
 def archsb(code, user="skiddie")
 	header = ""
-	header += "useradd #{user} -d / ; "
+	user = "skiddie" if user=="root"
+	header += "useradd #{user.downcase} -d / ; "
 	header += "cat > code ; "
 	header += "chmod 0522 /dev/random /dev/urandom ; "
-	header += "exec timeout 1s su - #{user} -c 'exec bash < /code' ; "
+	header += "exec timeout 1s su - #{user.downcase} -c 'exec bash < /code' ; "
 	rnd= ('a'..'z').to_a.shuffle[0,8].join
 	`touch /tmp/arch_#{rnd}`
 	f=File.open "/tmp/arch_#{rnd}","w"
