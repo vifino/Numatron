@@ -89,7 +89,7 @@ def getHB(id="")
 		if id.length == 10 then
 			url = "http://hastebin.com/raw/"+id
 		else
-			return "Hastebin ID is wrong."
+			return "Hastebin ID is wrong. ("+id.length+")"
 		end
 		uri = URI.parse(url)
 		#Net::HTTP.get_print(uri)
@@ -120,7 +120,7 @@ def getIO(id="")
                 if id.length == 10 then
                         url = "http://pb.i0i0.me/raw/"+id
                 else
-                        return "Hastebin ID is wrong."
+                        return "Hastebin ID is wrong. ("+id.length+")"
                 end
                 uri = URI.parse(url)
                 #Net::HTTP.get_print(uri)
