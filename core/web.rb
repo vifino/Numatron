@@ -55,7 +55,7 @@ def get(id="")
 				url = "http://hastebin.com/raw/"+id
 			end
 		else
-			return "Hastebin ID is wrong."
+			return "Hastebin ID is wrong. ("+id.length+")"
 		end
 		uri = URI.parse(url)
 		#Net::HTTP.get_print(uri)
