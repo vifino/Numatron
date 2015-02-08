@@ -42,6 +42,7 @@ end
 
 
 def get(id="")
+	id = id.strip
 	if not id.empty? then
 		url2 = "http://"+(id.gsub(/http:\/\//,""))
 		puts url2
@@ -85,6 +86,7 @@ def get(id="")
 end
 
 def getHB(id="")
+	id = id.strip
 	if not id.empty? then
 		if id.length == 10 then
 			url = "http://hastebin.com/raw/"+id
@@ -116,6 +118,7 @@ def getHB(id="")
 end
 
 def getIO(id="")
+	id = id.strip
         if not id.empty? then
                 if id.length == 10 then
                         url = "http://pb.i0i0.me/raw/"+id
