@@ -35,7 +35,7 @@ if @jruby == true then
 					returnval=returnval.inspect
 				#end
 			end
-			returnval=returnval.gsub("[\r\n]+"," | ") if returnval
+			returnval=returnval.to_s.gsub("[\r\n]+"," | ") if returnval
 			returnval||="null"
 			if @jsout.empty? then
 				return returnval.gsub("[\r\n]+"," | ")
