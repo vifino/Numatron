@@ -17,7 +17,7 @@ def rb(args,nick,chan,rawargs="",pipeargs="")
 		end
 	end
 end
-addCommand(">>",:rb,"Executes Ruby code, Admin only!")
+addCommand(">>",:rb,"Executes Ruby code, Admin only!", true)
 def rb2(args,nick,chan,rawargs="",pipeargs="")
 	if isPrivileged? nick and rawargs != nil then
 		begin
