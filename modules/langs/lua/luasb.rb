@@ -70,9 +70,7 @@ do
 			type=type,
 			xpcall=xpcall,
 			setmetatable=setmetatable,
-			unpack = function(t)
-				return unpack(t)
-			end,
+			unpack = unpack,
 			rawget = rawget,
 			rawset = rawset,
 			rawequal = rawequal,
