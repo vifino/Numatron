@@ -72,6 +72,73 @@ def bfOld(insts="",input="") # not working correctly.
 		end
 	end
 end
+def bf_interp(insts = "", inp = "") # Broken, don't use.
+	tapeentry = 32768
+	tapelength = 65535
+	tape = Array.new(tapelength, 0)
+	cell = tapeentry
+	inst = 0
+	out = ""
+	inpindex = 0
+	def bf_scan(dir)
+		nest = dir
+		while dir*nest > 0 do
+			inst += dir
+			case insts[inst+dir]
+			when '['
+				nest += 1
+			when ']'
+				nest -= 1
+			end
+		end
+	end
+	while true do
+		if inst < insts.length then
+			case insts[inst]
+			when ">"
+				cell += 1
+				error("Tape index too high.") if cell >= tapelength
+			when "<"
+				cell -= 1
+				error("Tape index too low.") if cell <= 0
+			when "+"
+				if tape[cell] >= 256
+					tape[cell] = 0
+				else
+					tape[cell] += 1
+				end
+			when "-"
+				if tape[cell] <= 0
+					tape[cell] = 255
+				else
+					tape[cell] -= 1
+				end
+			when "."
+				puts tape[cell]
+				out += tape[cell].chr
+				puts tape[cell].chr
+			when ","
+				if inp[inpindex] then
+					tape[inpindex] = inp[inpindex].ord
+				else
+					tape[cell] = 0
+				end
+			when "["
+				if tape[cell] >= 0 then
+					bf_scan(1)
+				end
+			when "]"
+				if tape[cell] != 0 then
+					bf_scan(-1)
+				end
+			end
+			inst += 1
+		else
+			break
+		end
+	end
+	return out
+end
 def bf_cmd(args="",nick="",chan="",rawargs="",pipeargs="")
 		begin
   		Timeout::timeout(2) do
