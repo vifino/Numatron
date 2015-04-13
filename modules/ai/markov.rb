@@ -3,9 +3,9 @@
 class Markov
 	attr_reader :parts,:startParts
 	def initialize()
-    @parts = Hash.new # Storage for data
+		@parts = Hash.new # Storage for data
 		@startParts = Array.new
-  end
+	end
 	def learn(str="")
 		input=str.split(" ")
 		if input[1] then

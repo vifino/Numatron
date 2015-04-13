@@ -95,9 +95,13 @@ end
 def cmd_rdns(args,nick,chan,rawargs="",pipeargs="")
 	return rdnsWrapper(args)
 end
+def cmd_dnsv2(args, nick, chan, rawargs="", pipeargs="")
+	type, argsnew = args.split(' ', 2)
+	return dnsWrapper(argsnew, type.upcase)
+end
 addCommand("dns_all",:cmd_dnsall,"Show every DNS info of a domain.")
 addCommand("dns_mx",:cmd_dnsmx,"Shows the MX record of a domain.")
-# $commands["dns_type"] = :cmd_dnst doesnt work :/
 addCommand("dns",:cmd_dnsa,"Shows the A Record of a domain.")
 addCommand("dns_a",:cmd_dnsa,"Shows the A Record of a domain.")
 addCommand("rdns",:cmd_rdns,"Lookup the domain of an IP.")
+addCommand("dnsv2", :cmd_dnsv2, "Like dns, but specify types of result.")
