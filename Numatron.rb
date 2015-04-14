@@ -125,6 +125,8 @@ def setup
 	trap("INT"){ @bot.quit; abort }
 	trap("TERM"){ @bot.quit; abort }
 	@bot = IRC.new(@server,@port,@ssl,@nick,@username,@realname,@password)
+	@password = nil
+	@settings["password"] = nil
 	if @afternick then
 		@bot.chnick @afternick
 	end
