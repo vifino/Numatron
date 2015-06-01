@@ -8,3 +8,4 @@ modules/other/cookie.rb
 *.save
 *~
 *.aiml
+.ruby_version

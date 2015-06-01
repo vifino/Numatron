@@ -97,6 +97,9 @@ def cmd_rdns(args,nick,chan,rawargs="",pipeargs="")
 end
 def cmd_dnsv2(args, nick, chan, rawargs="", pipeargs="")
 	type, argsnew = args.split(' ', 2)
+	if type == nil or argsnew == nil then
+		return dnsWrapper(argsnew, "A")
+	end
 	return dnsWrapper(argsnew, type.upcase)
 end
 addCommand("dns_all",:cmd_dnsall,"Show every DNS info of a domain.")
