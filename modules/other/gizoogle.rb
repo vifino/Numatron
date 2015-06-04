@@ -13,3 +13,4 @@ def gizoogle(text="",nick="",chan="",rawargs="",pipeargs="")
 	end
 end
 addCommand("gizoogle",:gizoogle,"Gangsta-ify input, yo!")
+addCommand("gangsta",:gizoogle,"Gangsta-ify input, yo!")
