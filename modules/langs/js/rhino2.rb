@@ -1,6 +1,6 @@
 # Adds an js interpreter
 # Made by vifino
-if @jruby == true then
+if defined? JRuby
 	require 'rhino' # No comment.
 	@jsout = []
 	def jsinit

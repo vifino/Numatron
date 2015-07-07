@@ -1,6 +1,6 @@
 # Adds an js interpreter
 # Made by vifino
-if @jruby != true then
+if !defined? JRuby then
 	require 'v8' # Rawr! Fancy!
 	@jsvm = V8::Context.new timeout: 700 # Vrooom! Vrooooom! And stop.
 	@jsout = []
