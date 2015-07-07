@@ -4,7 +4,7 @@ if defined? JRuby then
 	gem 'therubyrhino'
 else
 	gem "therubyracer", '~> 0.12.1' # For js modules
-	gem 'ruby-lua', :git => 'git://github.com/shagabutdinov/ruby-lua.git'
+	gem 'ruby-lua', :git => 'git://github.com/vifino/ruby-lua.git'
 end
 gem 'rufus-lua', '~> 1.1.1' # For Lua Modules
 gem 'whatlanguage' # For other/language.rb
