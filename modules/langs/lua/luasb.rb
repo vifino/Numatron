@@ -242,7 +242,8 @@ do
 		}
 		for k,v in pairs({
 			math=math,
-			table=table
+			table=table,
+			bit32=bit32
 		})
 		do
 			sbox[k]={}
