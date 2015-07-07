@@ -188,7 +188,6 @@ do
 				end
 				return res
 			end,
-			getmetatable=getmetatable,
 			ipairs=ipairs,
 			loadstring=function(txt,name)
 				if txt:sub(1,1)=="\27" then
@@ -214,7 +213,19 @@ do
 			tostring=tostring,
 			type=type,
 			xpcall=xpcall,
-			setmetatable=setmetatable,
+			getmetatable=function(x)
+				if not type(x) == "string" then
+					return getmetatable(x)
+				else
+					error("Not allowed.")
+				end
+			end,
+			setmetatable=function(i, x)
+				if i == _G then
+					error("Not allowed.")
+				end
+				setmetatable(i, x)
+			end,
 			unpack = unpack,
 			rawget = rawget,
 			rawset = rawset,
