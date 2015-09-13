@@ -342,8 +342,8 @@ end
 			end
 		end
 	end
-	addCommand("lua", :luasb, "Run Lua code in a Sandbox.")
-	addCommand(@luasb.var("_VERSION").to_s().downcase().delete(' ') ,:luasb,"Run Lua code in a Sandbox.")
+	addCommand("lua", :luasb, "Run Lua code in a Sandbox.", true)
+	addCommand(@luasb.var("_VERSION").to_s().downcase().delete(' ') ,:luasb,"Run Lua code in a Sandbox.", true)
 	addCommand("resetlua", :luasb_reset, "Resets the Lua Sandbox.")
 	addCommand("reset"+@luasb.var("_VERSION").to_s().downcase().delete(' '), :luasb_reset, "Resets the Lua Sandbox.")
 end
