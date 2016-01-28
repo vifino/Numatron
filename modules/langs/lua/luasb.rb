@@ -65,7 +65,7 @@ do
 			select=select,
 			setfenv=function(func,env)
 				if tsbox[func] then
-					return false,no()
+					return false,"Nope."
 				end
 				return setfenv(func,env)
 			end,
@@ -189,11 +189,8 @@ do
 				return res
 			end,
 			ipairs=ipairs,
-			loadstring=function(txt,name)
-				if txt:sub(1,1)=="\27" then
-					return false,"Nope."
-				end
-				local func,err=loadstring(txt,name)
+			load=function(txt,name)
+				local func,err=load(txt,name)
 				if func then
 					setfenv(func,sbox)
 				end
@@ -221,7 +218,7 @@ do
 				end
 			end,
 			setmetatable=function(i, x)
-				if i == _G then
+				if i == _ENV or i == _G then
 					error("Not allowed.")
 				end
 				setmetatable(i, x)
