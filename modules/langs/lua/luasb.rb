@@ -73,7 +73,12 @@ do
 			tostring=tostring,
 			type=type,
 			xpcall=xpcall,
-			setmetatable=setmetatable,
+			setmetatable=function(i, x)
+				if i == sbox or i == _G then
+					error("Not allowed.")
+				end
+				setmetatable(i, x)
+			end,
 			unpack = unpack,
 			rawget = rawget,
 			rawset = rawset,
@@ -218,7 +223,7 @@ do
 				end
 			end,
 			setmetatable=function(i, x)
-				if i == _ENV or i == _G then
+				if i == sbox or i == _ENV then
 					error("Not allowed.")
 				end
 				setmetatable(i, x)
@@ -278,6 +283,7 @@ do
 			end
 		end
 		sbox._G=sbox
+		sbox._ENV=sbox
 	end
 	rst()
 	lua=function(ths,txt)
