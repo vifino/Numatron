@@ -104,7 +104,6 @@ def cmd_dnsv2(args, nick, chan, rawargs="", pipeargs="")
 end
 addCommand("dns_all",:cmd_dnsall,"Show every DNS info of a domain.")
 addCommand("dns_mx",:cmd_dnsmx,"Shows the MX record of a domain.")
-addCommand("dns",:cmd_dnsa,"Shows the A Record of a domain.")
 addCommand("dns_a",:cmd_dnsa,"Shows the A Record of a domain.")
 addCommand("rdns",:cmd_rdns,"Lookup the domain of an IP.")
-addCommand("dnsv2", :cmd_dnsv2, "Like dns, but specify types of result.")
+addCommand("dns", :cmd_dnsv2, "Usage: dns RECORDTYPE DOMAIN")
