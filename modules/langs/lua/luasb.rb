@@ -80,6 +80,7 @@ do
 				setmetatable(i, x)
 			end,
 			unpack = unpack,
+			unicode = unicode,
 			rawget = rawget,
 			rawset = rawset,
 			rawequal = rawequal,
