@@ -222,7 +222,7 @@ do
 				if i == sbox or i == _ENV then
 					error("Not allowed.")
 				end
-				setmetatable(i, x)
+				return setmetatable(i, x)
 			end,
 			unpack = unpack,
 			rawget = rawget,
