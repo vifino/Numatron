@@ -194,19 +194,15 @@ do
 				return res
 			end,
 			ipairs=ipairs,
-			load=function(txt,name)
-				local func,err=load(txt,name)
-				if func then
-					setfenv(func,sbox)
-				end
-				return func,err
+			load=function(ld,source,mode,env)
+				return load(ld,source,"t",env or sbox)
 			end,
 			next=next,
 			pairs=pairs,
 			print=function(...)
-				local newt = {}
-				for k,v in pairs({...}) do
-					newt[k] = tostring(v)
+				local newt = table.pack(...)
+				for i=1,newt.n do
+					newt[i] = tostring(newt[i])
 				end
 				out=out ..tostring(table.concat(newt," ")).."\n"
 			end,
@@ -226,7 +222,7 @@ do
 				if i == sbox or i == _ENV then
 					error("Not allowed.")
 				end
-				setmetatable(i, x)
+				return setmetatable(i, x)
 			end,
 			unpack = unpack,
 			rawget = rawget,
@@ -291,9 +287,9 @@ do
 		sbox["this"]=ths
 		sbox["nick"]=nick
 		sbox["channel"]=channel
-		local func,err=load("return "..txt, "lua", "bt", sbox)
+		local func,err=load("return "..txt, "lua", "t", sbox)
 		if not func then
-			func,err=load(txt, "lua", "bt", sbox)
+			func,err=load(txt, "lua", "t", sbox)
 			if not func then
 				return err:gsub("^[\r\n]+",""):gsub("[\r\n]+$",""):gsub("[\r\n]+"," | "):sub(1,440)
 			end
@@ -306,9 +302,9 @@ do
 			end,"",1)
 			error("Error: Took too long.",0)
 		end,"",20000)
-		local res={coroutine.resume(func)}
+		local res=table.pack(coroutine.resume(func))
 		local o
-		for l1=2,maxval(res) do
+		for l1=2,res.n do
 			o=(o or "")..tostring(res[l1]).."\n"
 		end
 		return (out..(o or "nil")):gsub("^[\r\n]+",""):gsub("[\r\n]+^",""):gsub("[\r\n]+$",""):gsub("[\r\n]+"," | ")
