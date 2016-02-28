@@ -16,3 +16,6 @@ gem 'programr'
 gem 'htmlentities'
 gem 'hpricot'
 gem 'wikipedia'
+
+# Because (╯°□°）╯︵ ┻━┻ everytime when exception happens.
+gem 'table_flipper'
