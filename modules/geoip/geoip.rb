@@ -8,10 +8,10 @@ if not (File.exists?(geoipdb) and File.exists?(geoipdb))
 else
 	@geoipdb = GeoIP.new(geoipdb)
 	@geocitydb = GeoIP.new(geocitydb)
-	addCommand("geoip_country",:geoip_countryWrapper,"Geolocate URLs and IPs.")
-	addCommand("geoip_city",:geoip_cityWrapper,"Geolocate URLs and IPs.")
-	addCommand("geoip",:geoip_cityWrapper,"Geolocate URLs and IPs.")
-	addCommand("geomaps",:geomapsWrapper,"Geolocate URLs and IPs.")
+	addCommand("geoip_country",:geoip_countryWrapper,"Geolocate Domains and IPs.")
+	addCommand("geoip_city",:geoip_cityWrapper,"Geolocate Domains and IPs.")
+	addCommand("geoip",:geoip_cityWrapper,"Geolocate Domains and IPs.")
+	addCommand("geomaps",:geomapsWrapper,"Geolocate Domains and IPs.")
 end
 def geoip_country(addr)
 	if not addr.empty? then
@@ -19,7 +19,7 @@ def geoip_country(addr)
 			res = @geoipdb.country(addr)
 			return "Country: "+(res.country_name or "Unknown")+", '"+(res.country_code3 or "Unknown")+"'"
 		rescue => exception
-			return "Invalid URL or URL not found in Database!"
+			return "Invalid IP or IP not found in Database!"
 		end
 	else
 		return "Can't locate nothing!"
@@ -36,7 +36,7 @@ def geoip_city(addr)
 			end
 			return city+", "+(res.country_name or "Unknown")
 		rescue => exception
-			return "Invalid URL or URL not found in Database!"
+			return "Invalid IP or IP not found in Database!"
 		end
 	else
 		return "Can't locate nothing!"
@@ -49,14 +49,13 @@ def geomaps(addr)
 			lat = res.latitude
 			long= res.longitude
 			if lat and long then
-				url = "http://maps.google.com/maps?z=12&t=m&q=loc:"+lat.to_s+"+"+long.to_s
-				return url
+				return "http://maps.google.com/maps?z=12&t=m&q=loc:"+lat.to_s+"+"+long.to_s
 			else
 				return "Position data incomplete."
 			end
 		rescue => exception
 			puts exception
-			return "Invalid URL or URL not found in Database!"
+			return "Invalid IP or IP not found in Database!"
 		end
 	else
 			return "Can't locate nothing!"
