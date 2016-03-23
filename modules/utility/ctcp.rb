@@ -35,6 +35,9 @@ def ctcpping(usr)
 end
 def ping(args="",nick="",chan="",rawargs="",pipeargs="")
 	if not args.empty? then
+		if args.include? "\#" then
+			return "Only users allowed, no channels."
+		end
 		ctcpping(args.split(" ").first)
 	else
 		ctcpping(nick)
