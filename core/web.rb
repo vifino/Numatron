@@ -28,7 +28,7 @@ def putIO(code="")
                 request = Net::HTTP::Post.new(uri.request_uri)
                 request['c']=code
                 response = http.request(request)
-                if data["key"] then
+                if response.body then
                         return response.body
                 else
                         return "Error getting data!"
