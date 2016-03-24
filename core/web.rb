@@ -163,8 +163,8 @@ def putio_cmd(args,nick,channel,rawargs="",pipeargs="")
         putIO args.to_s
 end
 
-addCommand("geti0",:getio_cmd,"Get the IOIO.me Paste with the id, specified in the input.")
-addCommand("puti0",:putio_cmd,"Puts the input in a I0I0.me Paste, and returns the url.")
+addCommand("getio",:getio_cmd,"Get the IOIO.me Paste with the id, specified in the input.")
+addCommand("putio",:putio_cmd,"Puts the input in a I0I0.me Paste, and returns the url.")
 addCommand("gethb",:gethb_cmd,"Get the hastebin with the id, specified in the input.")
 addCommand("puthb",:puthb_cmd,"Puts the input in a hastebin, and returns the url.")
 addCommand("get",:getio_cmd,"Get the IOIO.me Paste with the id, specified in the input.")
