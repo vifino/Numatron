@@ -23,7 +23,7 @@ end
 
 def putIO(code="")
         if not code.empty? then
-                uri = URI.parse("http://pb.i0i0.me/documents")
+                uri = URI.parse("http://pb.i0i0.me")
                 http = Net::HTTP.new(uri.host, uri.port)
                 request = Net::HTTP::Post.new(uri.request_uri)
                 request['c']=code
@@ -119,7 +119,7 @@ def getIO(id="")
 	id = id.strip
         if not id.empty? then
                 if id.length == 8 then
-                        url = "http://pb.i0i0.me/raw/"+id
+                        url = "http://pb.i0i0.me/p/raw/"+id
                 else
                         return "pb.i0i0.me ID is wrong: Too long. (#{id.length})"
                 end
