@@ -26,7 +26,7 @@ def putIO(code="")
                 uri = URI.parse("http://pb.i0i0.me")
                 http = Net::HTTP.new(uri.host, uri.port)
                 request = Net::HTTP::Post.new(uri.request_uri)
-                request['c']=code
+                request.set_form_data({"c" => code})
                 response = http.request(request)
                 if response.code != 400 and not (response.body.include? "<head><title>400 Request Header or Cookie Too Large</title></head>") then
                         return response.body
