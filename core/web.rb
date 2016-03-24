@@ -28,10 +28,10 @@ def putIO(code="")
                 request = Net::HTTP::Post.new(uri.request_uri)
                 request['c']=code
                 response = http.request(request)
-                if response.body then
+                if response.code != 400 then
                         return response.body
                 else
-                        return "Error getting data!"
+                        return "400 Bad Request. Probably too big of a paste?"
                 end
         else
                 return "No content given."
