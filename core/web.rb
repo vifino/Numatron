@@ -28,7 +28,7 @@ def putIO(code="")
                 request = Net::HTTP::Post.new(uri.request_uri)
                 request['c']=code
                 response = http.request(request)
-                if response.code != 400 and not (response.body.include? "<head><title>400 Request Header or Cookie Too Large</title></head>"") then
+                if response.code != 400 and not (response.body.include? "<head><title>400 Request Header or Cookie Too Large</title></head>") then
                         return response.body
                 else
                         return "400 Bad Request. Probably too big of a paste for cloudflare?"
@@ -66,7 +66,7 @@ def get(id="")
 					return dat["message"]
 				end
 			end
-		rescue => e
+		rescue => _
 			begin
 				http = Net::HTTP.new(uri.host, uri.port)
 				response = http.request(Net::HTTP::Get.new(uri.request_uri))
@@ -101,7 +101,7 @@ def getHB(id="")
 					return dat["message"]
 				end
 			end
-		rescue => e
+		rescue => _
 			begin
 				http = Net::HTTP.new(uri.host, uri.port)
 				response = http.request(Net::HTTP::Get.new(uri.request_uri))
