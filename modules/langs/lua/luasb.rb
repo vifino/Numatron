@@ -167,15 +167,6 @@ end
 		else
 			@luasb.eval '
 do
-	function maxval(tbl)
-		local mx=0
-		for k,v in pairs(tbl) do
-			if type(k)=="number" then
-				mx=math.max(k,mx)
-			end
-		end
-		return mx
-	end
 	local sbox,usr,out
 	local function rst()
 		local tsbox={}
@@ -212,7 +203,7 @@ do
 			type=type,
 			xpcall=xpcall,
 			getmetatable=function(x)
-				if not type(x) == "string" then
+				if not (type(x) == "string") then
 					return getmetatable(x)
 				else
 					error("Not allowed.")
