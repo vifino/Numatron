@@ -26,12 +26,10 @@ def putIO(code="")
                 uri = URI.parse("http://pb.i0i0.me/documents")
                 http = Net::HTTP.new(uri.host, uri.port)
                 request = Net::HTTP::Post.new(uri.request_uri)
-                request.body=code
+                request['c']=code
                 response = http.request(request)
-                data = JSON.parse(response.body)
-                puts data['key']
                 if data["key"] then
-                        return "http://pb.i0i0.me/"+data['key']
+                        return response.body
                 else
                         return "Error getting data!"
                 end
@@ -120,31 +118,16 @@ end
 def getIO(id="")
 	id = id.strip
         if not id.empty? then
-                if id.length == 10 then
+                if id.length == 8 then
                         url = "http://pb.i0i0.me/raw/"+id
                 else
-                        return "Hastebin ID is wrong. (#{id.length})"
+                        return "pb.i0i0.me ID is wrong: Too long. (#{id.length})"
                 end
                 uri = URI.parse(url)
                 #Net::HTTP.get_print(uri)
                 http = Net::HTTP.new(uri.host, uri.port)
                 response = http.request(Net::HTTP::Get.new(uri.request_uri))
-                begin
-                        if dat=JSON.parse(response.body) then
-                                if dat["message"] then
-                                        return dat["message"]
-                                end
-                        end
-                rescue => e
-                        begin
-                                http = Net::HTTP.new(uri.host, uri.port)
-                                response = http.request(Net::HTTP::Get.new(uri.request_uri))
-                                return response.body
-                        rescue => e2
-                                return e2
-                        end
-                end
-                return data
+                return response.body
         end
         return "Can't get nothing!"
 end
