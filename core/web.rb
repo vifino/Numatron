@@ -28,10 +28,10 @@ def putIO(code="")
                 request = Net::HTTP::Post.new(uri.request_uri)
                 request['c']=code
                 response = http.request(request)
-                if response.code != 400 then
+                if response.code != 400 and not (response.body.include? "<head><title>400 Request Header or Cookie Too Large</title></head>"") then
                         return response.body
                 else
-                        return "400 Bad Request. Probably too big of a paste?"
+                        return "400 Bad Request. Probably too big of a paste for cloudflare?"
                 end
         else
                 return "No content given."
