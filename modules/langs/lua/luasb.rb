@@ -225,7 +225,7 @@ do
 				end
 			end,
 			setmetatable=function(i, x)
-				if i == sbox or i == _ENV or i == _G then
+				if i == sbox or i == _ENV then
 					error("Not allowed.")
 				end
 				if x.__gc then
