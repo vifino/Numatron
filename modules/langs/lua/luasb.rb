@@ -174,7 +174,17 @@ do
 			_VERSION=_VERSION.." Sandbox",
 			assert=assert,
 			error=error,
-			getfenv=function(func)
+			collectgarbage=function(op,arg)
+				if op == "count" then
+					return collectgarbage ("count")
+				elseif op == "collect" or op == "" or op == nil then
+					return collectgarbage ("collect")
+				end
+			end,
+			dofile=function(name)
+				error ("Nope.")
+			end,
+			--[[getfenv=function(func)
 				if tsbox[func] then
 					return false,"Nope."
 				end
@@ -183,13 +193,14 @@ do
 					return sbox
 				end
 				return res
-			end,
+			end,]]
 			ipairs=ipairs,
 			load=function(ld,source,mode,env)
 				return load(ld,source,"t",env or sbox)
 			end,
 			next=next,
 			pairs=pairs,
+			pcall=pcall,
 			print=function(...)
 				local newt = table.pack(...)
 				for i=1,newt.n do
@@ -197,6 +208,10 @@ do
 				end
 				out=out ..tostring(table.concat(newt," ")).."\n"
 			end,
+			rawequal=rawequal,
+			rawget=rawget,
+			rawlen=rawlen,
+			rawset=rawset,
 			select=select,
 			tonumber=tonumber,
 			tostring=tostring,
@@ -215,10 +230,6 @@ do
 				end
 				return setmetatable(i, x)
 			end,
-			unpack = unpack,
-			rawget = rawget,
-			rawset = rawset,
-			rawequal = rawequal,
 			os={
 				clock=os.clock,
 				date=os.date,
@@ -233,12 +244,17 @@ do
 					out=out..table.concat({...})
 				end,
 			},
+			debug={
+				traceback=function(thread,message,level)
+					return debug.traceback(2)
+				end,
+			},
 			coroutine=coroutine,
 			channel = "",
 			nick = "",
-			pcall = pcall,
 			username = username,
 			string=string,
+			utf8=utf8,
 		}
 		for k,v in pairs({
 			math=math,
