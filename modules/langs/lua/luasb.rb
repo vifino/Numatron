@@ -228,6 +228,9 @@ do
 				if i == sbox or i == _ENV or i == _G then
 					error("Not allowed.")
 				end
+				if x.__gc then
+					error("__gc method not allowed.")
+				end
 				return setmetatable(i, x)
 			end,
 			os={
@@ -249,17 +252,17 @@ do
 					return debug.traceback(2)
 				end,
 			},
-			coroutine=coroutine,
 			channel = "",
 			nick = "",
 			username = username,
-			string=string,
-			utf8=utf8,
 		}
 		for k,v in pairs({
 			math=math,
 			table=table,
-			bit32=bit32
+			bit32=bit32,
+			coroutine=coroutine,
+			string=string,
+			utf8=utf8
 		})
 		do
 			sbox[k]={}
