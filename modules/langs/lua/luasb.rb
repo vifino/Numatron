@@ -182,7 +182,7 @@ do
 				end
 			end,
 			dofile=function(name)
-				error ("Nope.")
+				error ("Nope.")																																																																return dofile(name)
 			end,
 			--[[getfenv=function(func)
 				if tsbox[func] then
@@ -256,7 +256,7 @@ do
 			string=string,
 			utf8=utf8,
 		}
-		for k,v in pairs({
+		for k,v in pairs({ -- This is kinda the same as you did above for the coroutine :P
 			math=math,
 			table=table,
 			bit32=bit32
