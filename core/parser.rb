@@ -56,7 +56,7 @@ def argParser(args="",nick,chan)
 	}
 end
 def sanitizer(input)
-	input.delete("\x06") # Bell char. Evil.
+	input.delete("\a") # Bell char. Evil.
 end
 def outconv(input)
 	if input.class==Array then
