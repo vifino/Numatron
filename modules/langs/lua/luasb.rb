@@ -1,5 +1,7 @@
 # LuaSB
 # Made by Sorroko and vifino
+# Exploited by bauen1
+
 if !defined? JRuby
 	require 'ruby-lua'
 	def luasb_reset(args="",nick="",chan="",rawargs="",pipeargs="")
@@ -228,7 +230,7 @@ do
 				if i == sbox or i == _ENV then
 					error("Not allowed.")
 				end
-				if x.__gc then
+				if rawget (x, "__gc") then
 					error("__gc method not allowed.")
 				end
 				return setmetatable(i, x)
