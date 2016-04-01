@@ -1,5 +1,7 @@
 # LuaSB
 # Made by Sorroko and vifino
+# Exploited by bauen1
+
 if !defined? JRuby
 	require 'ruby-lua'
 	def luasb_reset(args="",nick="",chan="",rawargs="",pipeargs="")
@@ -179,21 +181,13 @@ do
 					return collectgarbage ("count")
 				elseif op == "collect" or op == "" or op == nil then
 					return collectgarbage ("collect")
+				elseif op == "isrunning" then
+					return collectgarbage ("isrunning")
 				end
 			end,
 			dofile=function(name)
 				error ("Nope.")
 			end,
-			--[[getfenv=function(func)
-				if tsbox[func] then
-					return false,"Nope."
-				end
-				local res=getfenv(func)
-				if res==_G then
-					return sbox
-				end
-				return res
-			end,]]
 			ipairs=ipairs,
 			load=function(ld,source,mode,env)
 				return load(ld,source,"t",env or sbox)
@@ -228,9 +222,7 @@ do
 				if i == sbox or i == _ENV then
 					error("Not allowed.")
 				end
-				if x.__gc then
-					error("__gc method not allowed.")
-				end
+				assert (not rawget (x, "__gc"), "__gc method not allowed.")
 				return setmetatable(i, x)
 			end,
 			os={
@@ -246,10 +238,13 @@ do
 				write=function(...)
 					out=out..table.concat({...})
 				end,
+				type=function(obj)
+					return io.type (obj)
+				end,
 			},
 			debug={
 				traceback=function(thread,message,level)
-					return debug.traceback(2)
+					return debug.traceback(message, 2+level)
 				end,
 			},
 			channel = "",
@@ -292,6 +287,9 @@ do
 		sbox._ENV=sbox
 	end
 	rst()
+	local function sanitizer (msg)
+		return msg:gsub("^[\r\n]+",""):gsub("[\r\n]+$",""):gsub("[\r\n]+"," | ")
+	end
 	lua=function(ths,txt)
 		out=""
 		sbox["this"]=ths
@@ -301,7 +299,7 @@ do
 		if not func then
 			func,err=load(txt, "lua", "t", sbox)
 			if not func then
-				return err:gsub("^[\r\n]+",""):gsub("[\r\n]+$",""):gsub("[\r\n]+"," | "):sub(1,440)
+				return sanitizer(err):sub(1,440)
 			end
 		end
 		local func=coroutine.create(func)
@@ -317,7 +315,7 @@ do
 		for l1=2,res.n do
 			o=(o or "")..tostring(res[l1]).."\n"
 		end
-		return (out..(o or "nil")):gsub("^[\r\n]+",""):gsub("[\r\n]+^",""):gsub("[\r\n]+$",""):gsub("[\r\n]+"," | ")
+		return sanitizer (out..(o or "nil"))
 	end
 end
 '
