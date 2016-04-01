@@ -47,18 +47,7 @@ def loadSettings(file = "settings.rb")
 		@afternick = @settings["nickname"]
 	end
 end
-def init_fifos # not used anymore...
-	@fifopassive = open("pipes/passive","w+")
-	@fifopassive.flush
-	@fifoauth = open("pipes/auth","w+")
-	@fifoauth.flush
-end
-def sendfifos(raw) # This is not used too.
-	@fifopassive.puts raw
-	@fifopassive.flush
-	@fifoauth.puts raw
-	@fifoauth.flush
-end
+
 @rawhooks = []
 loadSettings
 $commands ||= Hash.new()
